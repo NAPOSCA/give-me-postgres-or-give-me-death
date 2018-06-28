@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pantry+</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="/css/layout.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/animation.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/slide-toggle.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/shopping.media-queries.css"/>
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon"/>
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon"/>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+	<script type="text/javascript" src="/js/shopping.js"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		const cartId = /*[[${cart.id}]]*/;
+		/*]]>*/
+	</script>
+</head>
+<body onload="initialize()">
+	<div class="container shopping">
+		<header>
+			<nav>
+				<ul>
+					<li class="previous">
+						<h2>Form</h2>
+					</li>
+					<li class="current">
+						<h2>Shopping</h2>
+					</li>
+					<li>
+						<h2>
+							<a th:href="'/carts/' + ${cart.getId()}">Cart</a>
+						</h2>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		<div class="aside-main">
+			<aside>
+				<img th:replace="user-form :: img.logo"/>
+				<div th:replace="user-form :: div.address"/>
+				<div class="stats">
+					<p class="meat-stats">
+						<span>Meat: </span>
+						<span class="meat-used" th:text="${cart.getMeatPoundsUsed()}"/>
+						<span>/</span>
+						<span th:text="${cart.getUser().calculateMeatLimit()}"/>
+						<span>lbs.</span>
+					</p>
+					<p class="coupon-stats">
+						<span>Choice Points: </span>
+						<span class="coupon-used" th:text="${cart.getCouponsUsed()}"/>
+						<span>/</span>
+						<span class="coupon-total" th:text="${cart.getUser().calculateCouponLimit()}"/>
+					</p>
+					<a class="button" th:href="'/carts/' + ${cart.getId()}">
+						Go to Cart
+					</a>
+				</div>
+			</aside>
+			<main>
+				<div th:each="category : ${categories}" class="category-items" th:unless="${category.name == 'After School Snacks' and cart.user.schoolAgeChildren == 0}">
+					<section class="category">
+						<h2 th:text="${category.name}"/>
+						<p class="indicator visible">+</p>
+						<p class="indicator hidden">-</p>
+					</section>
+					<ul class="items hidden">
+						<li class="item" th:each="product : ${category.products}" th:unless="${product.name == 'Diapers' and cart.user.hasInfants() == false}">
+							<img class="product-image" th:src="${product.image}" draggable="false"/>
+							<h3 th:text="${product.name}"/>
+							<div th:id="'product-'+${product.id}" th:switch="true" class="switch">
+								<div th:case="${category.name == 'Choice Items'}" class="case">
+									<div th:replace="fragments/interfaces :: .coupon"/>
+								</div>
+								<div th:case="${category.name == 'Meat'}" class="case">
+									<div th:replace="fragments/interfaces :: .meat"/>
+								</div>
+								<div th:case="true" class="case">
+									<div th:replace="fragments/interfaces :: .dichotomous"/>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</main>
+		</div>
+		<footer th:replace="user-form :: footer"/>
+	</div>
+</body>
+</html>

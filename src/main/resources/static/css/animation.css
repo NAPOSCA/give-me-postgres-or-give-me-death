@@ -1,0 +1,32 @@
+.item {
+	transition-duration: 0.5s;
+}
+
+.hidden .item {
+	height: 0;
+	font-size: 0;
+	border: none;
+	opacity: 0;
+	visibility: hidden;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+ul.hidden {
+	height: 0;
+}
+
+.hidden .item > * {
+	/*display: none;*/
+}
+
+.visible .item {
+}
+
+.hidden.indicator {
+	display: none;
+}
+
+option.hidden {
+	display: none;
+}
