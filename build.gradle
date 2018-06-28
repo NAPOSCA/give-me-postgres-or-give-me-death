@@ -42,7 +42,7 @@ dependencies {
 	compile('org.springframework.security:spring-security-oauth2-jose:5.0.5.RELEASE')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('org.postgresql:postgresql')
-	testCompile('com.h2database:h2')
+	testRuntime('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
 }
