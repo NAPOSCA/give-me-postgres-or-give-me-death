@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title th:text="'Product: ' + ${product.name}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/css/layout.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+<body>
+    <div class="container admin product">
+		<header>
+			<a th:href="@{'/admin/categories/' + ${product.category.id}}">Go Back</a>
+			<h1 th:text="${product.name}" />
+		</header>
+        <p>
+			<span>Product Name:</span>
+			<span th:text="${product.name}" />
+		</p>
+		<p>
+			<span>Image Path:</span>
+			<span th:text="${product.image}" />
+		</p>
+		<p>
+			<span>Maximum Quantity:</span>
+			<span th:text="${product.maximumQuantity}" />
+		</p>
+		<p>
+			<span>Price:</span>
+			<span th:text="${product.price}" />
+		</p>
+    </div>
+</body>
+</html>
