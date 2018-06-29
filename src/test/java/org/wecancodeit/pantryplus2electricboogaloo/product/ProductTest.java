@@ -25,4 +25,12 @@ public class ProductTest {
 		String actualName = underTest.getName();
 		assertThat(actualName, is(name));
 	}
+	
+	@Test
+	public void shouldSaveCategoryCans() {
+		Category category = new Category("Cans");
+		Product underTest = new Product("Product", category);
+		Category actual = underTest.getCategory();
+		assertThat(actual, is(category));
+	}
 }
