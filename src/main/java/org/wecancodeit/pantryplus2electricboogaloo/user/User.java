@@ -1,14 +1,19 @@
 package org.wecancodeit.pantryplus2electricboogaloo.user;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class User {
 
 	@Id
+	@GeneratedValue
 	private long id;
 	private int familySize;
+
+	public User() {
+	}
 
 	public User(String firstName, String lastName, int familySize, int schoolAgeChildren, boolean hasInfants,
 			String pickupDate, String zipCode, String address, String birthdate) {
@@ -16,8 +21,7 @@ public class User {
 	}
 
 	public long getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	public int calculateCouponLimit() {
@@ -37,10 +41,10 @@ public class User {
 	}
 
 	public int calculateMeatLimit() {
-		if(familySize > 5) {
+		if (familySize > 5) {
 			return 8;
 		}
-		if(familySize > 2) {
+		if (familySize > 2) {
 			return 6;
 		}
 		return 4;
