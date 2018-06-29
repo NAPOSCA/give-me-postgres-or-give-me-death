@@ -36,4 +36,14 @@ public class User {
 		return 10;
 	}
 
+	public int calculateMeatLimit() {
+		if(familySize > 5) {
+			return 8;
+		}
+		if(familySize > 2) {
+			return 6;
+		}
+		return 4;
+	}
+
 }
