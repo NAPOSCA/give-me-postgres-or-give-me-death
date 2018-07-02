@@ -6,4 +6,8 @@ public class PantryController {
 		return "user-form";
 	}
 
+	public String displayShopping() {
+		return "shopping";
+	}
+
 }

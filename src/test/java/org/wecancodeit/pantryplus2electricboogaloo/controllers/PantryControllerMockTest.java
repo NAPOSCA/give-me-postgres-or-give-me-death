@@ -24,4 +24,11 @@ public class PantryControllerMockTest {
 		String actual = underTest.displayUserForm();
 		assertThat(actual, is(templateName));
 	}
+	
+	@Test
+	public void shouldHaveDisplayShoppingReturnShopping() {
+		String templateName = "shopping";
+		String actual = underTest.displayShopping();
+		assertThat(actual, is(templateName));
+	}
 }
