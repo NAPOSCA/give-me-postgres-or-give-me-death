@@ -6,6 +6,9 @@ public class LimitedProduct extends Product {
 
 	private int maximumQuantity;
 
+	public LimitedProduct() {
+	}
+
 	public LimitedProduct(String name, Category category, int maximumQuantity) {
 		super(name, category);
 		this.maximumQuantity = maximumQuantity;
