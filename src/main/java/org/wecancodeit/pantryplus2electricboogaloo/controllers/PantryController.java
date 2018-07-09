@@ -3,13 +3,15 @@ package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 import javax.annotation.Resource;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 
 public class PantryController {
 	
 	@Resource
 	private CategoryRepository categoryRepo;
-
+	
+	@RequestMapping("/")
 	public String displayUserForm() {
 		return "user-form";
 	}
