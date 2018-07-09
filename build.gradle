@@ -41,7 +41,6 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.cloud:spring-cloud-starter-oauth2')
 	compile('org.springframework.cloud:spring-cloud-starter-security')
-	compile('org.springframework.data:spring-data-rest-hal-browser')
 	compile('javax.xml.bind:jaxb-api:2.3.0')
 	compile('org.springframework.security:spring-security-oauth2-client:5.0.5.RELEASE')
 	compile('org.springframework.security:spring-security-oauth2-jose:5.0.5.RELEASE')
