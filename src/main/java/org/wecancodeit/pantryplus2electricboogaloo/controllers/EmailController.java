@@ -17,4 +17,9 @@ public class EmailController {
 
 	}
 
+	void setBody(String html, MimeMessageHelper helper) throws MessagingException {
+		helper.setText(html, true);
+
+	}
+
 }

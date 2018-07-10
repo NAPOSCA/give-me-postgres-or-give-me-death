@@ -57,4 +57,11 @@ public class EmailControllerMockTest {
 		verify(helper).setSubject(subject);
 	}
 
+	@Test
+	public void shouldSetBodyOfMimeMessageHelper() throws MessagingException {
+		String html = "<p>Hello World</p>";
+		controller.setBody(html, helper);
+		verify(helper).setText(html, true);
+	}
+
 }
