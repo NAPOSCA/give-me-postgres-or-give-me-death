@@ -139,4 +139,13 @@ public class PantryControllerMockTest {
 		underTest.displayCart(model, token);
 		verify(model).addAttribute("lineItems", lineItems);
 	}
+	
+	@Test
+	public void shouldHaveDisplayCartAttachCountedLineItemsAndNoLineItems() {
+		Collection<LineItem> allLineItems = asList(lineItem, anotherLineItem, countedLineItem);
+		Collection<CountedLineItem> countedLineItems = asList(countedLineItem);
+		when(cart.getLineItems()).thenReturn(allLineItems);
+		underTest.displayCart(model, token);
+		verify(model).addAttribute("countedLineItems", countedLineItems);
+	}
 }
