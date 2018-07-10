@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.Model;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.user.User;
+import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 public class PantryControllerMockTest {
 
@@ -42,14 +45,16 @@ public class PantryControllerMockTest {
 
 	@Mock
 	private OAuth2User authenticatedUser;
+	
+	@Mock
+	private UserRepository userRepo;
+	
+	@Mock
+	private User user;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		when(token.getPrincipal()).thenReturn(authenticatedUser);
-		Map<String, Object> attributes = new HashMap<>();
-		attributes.put("sub", "12345");
-		when(authenticatedUser.getAttributes()).thenReturn(attributes);
 	}
 
 	@Test
@@ -68,6 +73,14 @@ public class PantryControllerMockTest {
 
 	@Test
 	public void shouldHaveDisplayCartReturnCart() {
+		String googleName = "12345";
+		when(token.getPrincipal()).thenReturn(authenticatedUser);
+		Map<String, Object> attributes = new HashMap<>();
+		attributes.put("sub", googleName);
+		when(authenticatedUser.getAttributes()).thenReturn(attributes);
+		Optional<User> potentialUser = Optional.of(user);
+		when(userRepo.findByGoogleName(googleName)).thenReturn(potentialUser);
+		
 		String templateName = "cart";
 		String actual = underTest.displayCart(model, token);
 		assertThat(actual, is(templateName));
