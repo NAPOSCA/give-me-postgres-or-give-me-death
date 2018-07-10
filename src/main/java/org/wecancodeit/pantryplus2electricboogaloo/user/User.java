@@ -3,6 +3,9 @@ package org.wecancodeit.pantryplus2electricboogaloo.user;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 
 @Entity
 public class User {
@@ -11,13 +14,20 @@ public class User {
 	@GeneratedValue
 	private long id;
 	private int familySize;
+	@OneToOne(mappedBy = "user")
+	private Cart cart;
+	private String googleName;
 
 	public User() {
 	}
 
-	public User(String firstName, String lastName, int familySize, int schoolAgeChildren, boolean hasInfants,
-			String pickupDate, String zipCode, String address, String birthdate) {
-		this.familySize = familySize;
+//	public User(String firstName, String lastName, int familySize, int schoolAgeChildren, boolean hasInfants,
+//			String pickupDate, String zipCode, String address, String birthdate) {
+//		this.familySize = familySize;
+//	}
+	
+	public User(String googleName) {
+		this.googleName = googleName;
 	}
 
 	public long getId() {
@@ -48,6 +58,18 @@ public class User {
 			return 6;
 		}
 		return 4;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void updateFamilySize(int familySize) {
+		this.familySize = familySize;
+	}
+	
+	public String getGoogleName() {
+		return googleName;
 	}
 
 }

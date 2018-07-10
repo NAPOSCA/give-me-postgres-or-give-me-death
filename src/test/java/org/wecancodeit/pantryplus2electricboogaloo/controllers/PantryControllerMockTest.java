@@ -6,11 +6,16 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.Model;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
@@ -32,9 +37,19 @@ public class PantryControllerMockTest {
 	@Mock
 	private Model model;
 
+	@Mock
+	private OAuth2AuthenticationToken token;
+
+	@Mock
+	private OAuth2User authenticatedUser;
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
+		when(token.getPrincipal()).thenReturn(authenticatedUser);
+		Map<String, Object> attributes = new HashMap<>();
+		attributes.put("sub", "12345");
+		when(authenticatedUser.getAttributes()).thenReturn(attributes);
 	}
 
 	@Test
@@ -54,7 +69,7 @@ public class PantryControllerMockTest {
 	@Test
 	public void shouldHaveDisplayCartReturnCart() {
 		String templateName = "cart";
-		String actual = underTest.displayCart();
+		String actual = underTest.displayCart(model, token);
 		assertThat(actual, is(templateName));
 	}
 

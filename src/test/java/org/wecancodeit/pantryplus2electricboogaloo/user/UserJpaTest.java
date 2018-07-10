@@ -23,29 +23,18 @@ public class UserJpaTest {
 
 	@Test
 	public void shouldSaveAndLoadUser() {
-		String firstName = "Alex";
-		String lastName = "Malcolm";
-		int familySize = 1;
-		int schoolAgeChildren = 0;
-		boolean hasInfants = false;
-		String pickupDate = "2018-04-04";
-		String zipCode = "00000";
-		String address = "1234 Main St";
-		String birthdate = "January 1st, 1969";
-		User user = new User(firstName, lastName, familySize, schoolAgeChildren, hasInfants, pickupDate, zipCode, address, birthdate);
-		user = userRepo.save(user);
+		String googleName = "12345";
+		User user = userRepo.save(new User(googleName));
 		long id = user.getId();
-		
 		entityManager.flush();
 		entityManager.clear();
-		
 		boolean isPresent = userRepo.findById(id).isPresent();
 		assertThat(isPresent, is(true));
 	}
 	
 	@Test
 	public void shouldSaveTwoUsers() {
-		userRepo.save(new User("", "", 1, 0, false, "2018-04-04", "", "", ""));
-		userRepo.save(new User("", "", 1, 0, false, "2018-04-04", "", "", ""));
+		userRepo.save(new User("12345"));
+		userRepo.save(new User("54321"));
 	}
 }
