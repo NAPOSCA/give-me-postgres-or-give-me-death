@@ -1,5 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
@@ -62,6 +64,12 @@ public class EmailControllerMockTest {
 		String html = "<p>Hello World</p>";
 		controller.setBody(html, helper);
 		verify(helper).setText(html, true);
+	}
+
+	@Test
+	public void shouldReturnEmailFailureView() {
+		String actual = controller.emailFailure("error", springModel);
+		assertThat(actual, is("email-failure"));
 	}
 
 }
