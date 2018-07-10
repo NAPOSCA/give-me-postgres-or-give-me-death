@@ -3,6 +3,7 @@ package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
@@ -83,6 +84,13 @@ public class EmailControllerMockTest {
 	public void shouldSendEmail() {
 		controller.sendEmail(message);
 		verify(sender).send(message);
+	}
+
+	@Test
+	public void shouldGetANewMimeMessageFromTheJavaMailSender() {
+		when(sender.createMimeMessage()).thenReturn(message);
+		MimeMessage actual = controller.createMimeMessage();
+		assertThat(actual, is(message));
 	}
 
 }

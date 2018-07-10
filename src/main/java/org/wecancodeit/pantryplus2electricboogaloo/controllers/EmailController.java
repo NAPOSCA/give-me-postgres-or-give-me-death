@@ -43,4 +43,9 @@ public class EmailController {
 		sender.send(message);
 	}
 
+	public MimeMessage createMimeMessage() {
+		MimeMessage message = sender.createMimeMessage();
+		return message;
+	}
+
 }
