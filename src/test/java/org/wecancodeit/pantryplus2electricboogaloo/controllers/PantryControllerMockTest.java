@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +22,8 @@ import org.springframework.ui.Model;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
@@ -58,16 +61,25 @@ public class PantryControllerMockTest {
 
 	String googleName;
 
+	@Mock
+	private LineItem lineItem;
+
+	@Mock
+	private LineItem anotherLineItem;
+
+	@Mock
+	private CountedLineItem countedLineItem;
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		googleName = "12345";
 		when(token.getPrincipal()).thenReturn(authenticatedUser);
 		Map<String, Object> attributes = new HashMap<>();
+		googleName = "12345";
 		attributes.put("sub", googleName);
 		when(authenticatedUser.getAttributes()).thenReturn(attributes);
-		Optional<User> potentialUser = Optional.of(user);
-		when(userRepo.findByGoogleName(googleName)).thenReturn(potentialUser);
+		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
+		when(user.getCart()).thenReturn(cart);
 	}
 
 	@Test
@@ -87,6 +99,9 @@ public class PantryControllerMockTest {
 	@Test
 	public void shouldHaveDisplayCartReturnCart() {
 		String templateName = "cart";
+		when(user.getCart()).thenReturn(cart);
+		Collection<LineItem> lineItems = asList(lineItem, anotherLineItem, countedLineItem);
+		when(cart.getLineItems()).thenReturn(lineItems);
 		String actual = underTest.displayCart(model, token);
 		assertThat(actual, is(templateName));
 	}
@@ -114,5 +129,14 @@ public class PantryControllerMockTest {
 		String templateName = "about-us";
 		String actual = underTest.displayAboutUs();
 		assertThat(actual, is(templateName));
+	}
+	
+	@Test
+	public void shouldHaveDisplayCartAttachLineItemsAndNoCountedLineItems() {
+		Collection<LineItem> allLineItems = asList(lineItem, anotherLineItem, countedLineItem);
+		Collection<LineItem> lineItems = asList(lineItem, anotherLineItem);
+		when(cart.getLineItems()).thenReturn(allLineItems);
+		underTest.displayCart(model, token);
+		verify(model).addAttribute("lineItems", lineItems);
 	}
 }

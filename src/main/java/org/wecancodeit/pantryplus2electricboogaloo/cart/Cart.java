@@ -1,10 +1,13 @@
 package org.wecancodeit.pantryplus2electricboogaloo.cart;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 
 @Entity
@@ -47,6 +50,11 @@ public class Cart {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public Collection<LineItem> getLineItems() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

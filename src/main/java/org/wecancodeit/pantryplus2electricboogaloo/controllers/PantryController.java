@@ -1,5 +1,8 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
@@ -50,6 +55,9 @@ public class PantryController {
 		User user = getUser(token);
 		Cart cart = user.getCart();
 		model.addAttribute("cart", cart);
+		Collection<LineItem> allLineItems = cart.getLineItems();
+		Collection<LineItem> lineItems = allLineItems.stream().filter(item -> !(item instanceof CountedLineItem)).collect(toList());
+		model.addAttribute("lineItems", lineItems);
 		return "cart";
 	}
 
