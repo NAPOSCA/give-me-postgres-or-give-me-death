@@ -65,4 +65,8 @@ public class PantryController {
 		});
 	}
 
+	public String displayAboutUs() {
+		return "about-us";
+	}
+
 }

@@ -108,4 +108,11 @@ public class PantryControllerMockTest {
 		underTest.displayShopping(model, token);
 		verify(model).addAttribute("cart", cart);
 	}
+
+	@Test
+	public void shouldReturnTemplateNameForAboutUs() {
+		String templateName = "about-us";
+		String actual = underTest.displayAboutUs();
+		assertThat(actual, is(templateName));
+	}
 }
