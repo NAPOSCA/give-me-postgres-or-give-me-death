@@ -5,8 +5,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -33,8 +31,6 @@ public class EmailControllerMockTest {
 
 	@Mock
 	private MimeMessageHelper helper;
-
-	private Map<String, Object> cartModel;
 
 	private MimeMessage message;
 

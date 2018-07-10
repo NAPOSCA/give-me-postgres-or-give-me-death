@@ -1,10 +1,18 @@
 package org.wecancodeit.pantryplus2electricboogaloo.cart;
 
+import static java.util.stream.Collectors.toSet;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 
 @Entity
@@ -15,6 +23,7 @@ public class Cart {
 	private long id;
 	@OneToOne
 	private User user;
+	private Set<LineItem> lineItems;
 
 	public Cart() {
 	}
@@ -25,6 +34,10 @@ public class Cart {
 
 	public long getId() {
 		return id;
+	}
+
+	public User getUser() {
+		return user;
 	}
 
 	@Override
@@ -47,6 +60,27 @@ public class Cart {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public Map<String, Object> toModel() {
+		User cartUser = getUser();
+		Map<String, Object> model = new HashMap<>();
+		Map<String, Object> user = cartUser.toModel();
+		model.put("user", user);
+
+		Set<LineItem> lineItems = getLineItems().stream().filter(lineItem -> !(lineItem instanceof CountedLineItem))
+				.collect(toSet());
+		model.put("lineItems", lineItems);
+
+		Set<LineItem> countedLineItems = getLineItems().stream().filter(lineItem -> lineItem instanceof CountedLineItem)
+				.collect(toSet());
+		model.put("countedLineItems", countedLineItems);
+
+		return model;
+	}
+
+	private Set<LineItem> getLineItems() {
+		return lineItems;
 	}
 
 }
