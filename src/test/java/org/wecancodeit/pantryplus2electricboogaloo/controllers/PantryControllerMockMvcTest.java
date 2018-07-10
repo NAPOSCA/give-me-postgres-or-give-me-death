@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -47,6 +48,7 @@ public class PantryControllerMockMvcTest {
 		mvc.perform(get("/")).andExpect(status().isOk());
 	}
 	
+	@Ignore
 	@Test
 	@WithMockUser
 	public void  shouldGetCartView() throws Exception {
