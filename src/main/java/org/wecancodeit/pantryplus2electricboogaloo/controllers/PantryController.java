@@ -36,6 +36,7 @@ public class PantryController {
 		return "user-form";
 	}
 
+	@RequestMapping("/shopping")
 	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("categories", categoryRepo.findAll());
 		User user = getUser(token);
