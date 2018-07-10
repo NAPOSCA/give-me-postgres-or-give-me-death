@@ -66,6 +66,7 @@ public class PantryController {
 		});
 	}
 
+	@RequestMapping("/about-us")
 	public String displayAboutUs() {
 		return "about-us";
 	}
