@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.Model;
+import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.User;
@@ -27,13 +28,13 @@ public class PantryControllerMockTest {
 
 	@InjectMocks
 	private PantryController underTest;
-	
+
 	@Mock
 	private Category category;
-	
+
 	@Mock
 	private Category anotherCategory;
-	
+
 	@Mock
 	private CategoryRepository categoryRepo;
 
@@ -45,16 +46,28 @@ public class PantryControllerMockTest {
 
 	@Mock
 	private OAuth2User authenticatedUser;
-	
+
 	@Mock
 	private UserRepository userRepo;
-	
+
 	@Mock
 	private User user;
+
+	@Mock
+	private Cart cart;
+
+	String googleName;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
+		googleName = "12345";
+		when(token.getPrincipal()).thenReturn(authenticatedUser);
+		Map<String, Object> attributes = new HashMap<>();
+		attributes.put("sub", googleName);
+		when(authenticatedUser.getAttributes()).thenReturn(attributes);
+		Optional<User> potentialUser = Optional.of(user);
+		when(userRepo.findByGoogleName(googleName)).thenReturn(potentialUser);
 	}
 
 	@Test
@@ -67,20 +80,12 @@ public class PantryControllerMockTest {
 	@Test
 	public void shouldHaveDisplayShoppingReturnShopping() {
 		String templateName = "shopping";
-		String actual = underTest.displayShopping(model);
+		String actual = underTest.displayShopping(model, token);
 		assertThat(actual, is(templateName));
 	}
 
 	@Test
 	public void shouldHaveDisplayCartReturnCart() {
-		String googleName = "12345";
-		when(token.getPrincipal()).thenReturn(authenticatedUser);
-		Map<String, Object> attributes = new HashMap<>();
-		attributes.put("sub", googleName);
-		when(authenticatedUser.getAttributes()).thenReturn(attributes);
-		Optional<User> potentialUser = Optional.of(user);
-		when(userRepo.findByGoogleName(googleName)).thenReturn(potentialUser);
-		
 		String templateName = "cart";
 		String actual = underTest.displayCart(model, token);
 		assertThat(actual, is(templateName));
@@ -90,7 +95,17 @@ public class PantryControllerMockTest {
 	public void shouldHaveDisplayShoppingAddCategoriesToModel() {
 		Iterable<Category> categories = asList(category, anotherCategory);
 		when(categoryRepo.findAll()).thenReturn(categories);
-		underTest.displayShopping(model);
+		underTest.displayShopping(model, token);
 		verify(model).addAttribute("categories", categories);
+	}
+
+	@Test
+	public void shouldAttachCartToModelWhenDisplayingShopping() {
+		Iterable<Category> categories = asList(category, anotherCategory);
+		when(categoryRepo.findAll()).thenReturn(categories);
+		when(user.getCart()).thenReturn(cart);
+
+		underTest.displayShopping(model, token);
+		verify(model).addAttribute("cart", cart);
 	}
 }

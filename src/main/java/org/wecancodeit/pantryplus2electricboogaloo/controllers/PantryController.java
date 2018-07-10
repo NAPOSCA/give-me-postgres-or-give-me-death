@@ -18,26 +18,29 @@ import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
 public class PantryController {
-	
+
 	@Resource
 	private CategoryRepository categoryRepo;
-	
+
 	@Resource
 	private UserRepository userRepo;
-	
+
 	@Resource
 	private CartRepository cartRepo;
 
 	@Resource
 	private EntityManager entityManager;
-	
+
 	@RequestMapping("/")
 	public String displayUserForm() {
 		return "user-form";
 	}
 
-	public String displayShopping(Model model) {
+	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("categories", categoryRepo.findAll());
+		User user = getUser(token);
+		Cart cart = user.getCart();
+		model.addAttribute("cart", cart);
 		return "shopping";
 	}
 
@@ -48,8 +51,8 @@ public class PantryController {
 		model.addAttribute("cart", cart);
 		return "cart";
 	}
-	
-	private User getUser(OAuth2AuthenticationToken token) {
+
+	public User getUser(OAuth2AuthenticationToken token) {
 		OAuth2User authenticatedUser = token.getPrincipal();
 		Map<String, Object> principalAttributes = authenticatedUser.getAttributes();
 		String googleName = (String) principalAttributes.get("sub");
