@@ -3,13 +3,11 @@ package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,8 +49,7 @@ public class PantryController {
 
 	@RequestMapping("/cart")
 	public String displayCart(Model model, OAuth2AuthenticationToken token) {
-		User user = getUser(token);
-		Cart cart = user.getCart();
+		Cart cart = getUser(token).getCart();
 		model.addAttribute("cart", cart);
 		Collection<LineItem> allLineItems = cart.getLineItems();
 		Collection<LineItem> lineItems = allLineItems.stream().filter(item -> !(item instanceof CountedLineItem)).collect(toList());
@@ -68,12 +65,9 @@ public class PantryController {
 	}
 
 	public User getUser(OAuth2AuthenticationToken token) {
-		OAuth2User authenticatedUser = token.getPrincipal();
-		Map<String, Object> principalAttributes = authenticatedUser.getAttributes();
-		String googleName = (String) principalAttributes.get("sub");
+		String googleName = (String) token.getPrincipal().getAttributes().get("sub");
 		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
-			User other = new User(googleName);
-			userRepo.save(other);
+			userRepo.save(new User(googleName));
 			entityManager.flush();
 			entityManager.clear();
 			return userRepo.findByGoogleName(googleName).get();
