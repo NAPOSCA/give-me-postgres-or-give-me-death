@@ -53,6 +53,11 @@ public class PantryController {
 		return "cart";
 	}
 
+	@RequestMapping("/about-us")
+	public String displayAboutUs() {
+		return "about-us";
+	}
+
 	public User getUser(OAuth2AuthenticationToken token) {
 		OAuth2User authenticatedUser = token.getPrincipal();
 		Map<String, Object> principalAttributes = authenticatedUser.getAttributes();
@@ -64,11 +69,6 @@ public class PantryController {
 			entityManager.clear();
 			return userRepo.findByGoogleName(googleName).get();
 		});
-	}
-
-	@RequestMapping("/about-us")
-	public String displayAboutUs() {
-		return "about-us";
 	}
 
 }
