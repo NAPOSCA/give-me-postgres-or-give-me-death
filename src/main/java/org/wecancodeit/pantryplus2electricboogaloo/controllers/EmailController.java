@@ -12,4 +12,9 @@ public class EmailController {
 		helper.setTo(RECIPIENT);
 	}
 
+	void setSubject(String subject, MimeMessageHelper helper) throws MessagingException {
+		helper.setSubject(subject);
+
+	}
+
 }

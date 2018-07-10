@@ -50,4 +50,11 @@ public class EmailControllerMockTest {
 		verify(helper).setTo(address);
 	}
 
+	@Test
+	public void shouldSetSubjectOfMimeMessageHelper() throws MessagingException {
+		String subject = "subject";
+		controller.setSubject(subject, helper);
+		verify(helper).setSubject(subject);
+	}
+
 }
