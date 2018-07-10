@@ -72,4 +72,17 @@ public class EmailControllerMockTest {
 		assertThat(actual, is("email-failure"));
 	}
 
+	@Test
+	public void shouldAttachTheErrorToTheModel() {
+		String error = "Off by 1";
+		controller.emailFailure(error, springModel);
+		verify(springModel).addAttribute("error", error);
+	}
+
+	@Test
+	public void shouldSendEmail() {
+		controller.sendEmail(message);
+		verify(sender).send(message);
+	}
+
 }
