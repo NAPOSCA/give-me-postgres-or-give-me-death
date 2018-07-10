@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
@@ -23,6 +24,7 @@ public class Cart {
 	private long id;
 	@OneToOne
 	private User user;
+	@OneToMany(mappedBy = "cart", orphanRemoval = true)
 	private Set<LineItem> lineItems;
 
 	public Cart() {
