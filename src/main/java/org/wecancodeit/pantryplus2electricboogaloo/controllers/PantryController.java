@@ -35,7 +35,8 @@ public class PantryController {
 	private EntityManager entityManager;
 
 	@RequestMapping("/")
-	public String displayUserForm() {
+	public String displayUserForm(Model model, OAuth2AuthenticationToken token) {
+		model.addAttribute("user", getUser(token));
 		return "user-form";
 	}
 

@@ -85,7 +85,7 @@ public class PantryControllerMockTest {
 	@Test
 	public void shouldHaveDisplayUserFormReturnUserForm() {
 		String templateName = "user-form";
-		String actual = underTest.displayUserForm();
+		String actual = underTest.displayUserForm(model, token);
 		assertThat(actual, is(templateName));
 	}
 
@@ -147,5 +147,11 @@ public class PantryControllerMockTest {
 		when(cart.getLineItems()).thenReturn(allLineItems);
 		underTest.displayCart(model, token);
 		verify(model).addAttribute("countedLineItems", countedLineItems);
+	}
+	
+	@Test
+	public void shouldHaveDisplayUserFormAttachUserToModel() {
+		underTest.displayUserForm(model, token);
+		verify(model).addAttribute("user", user);
 	}
 }
