@@ -81,7 +81,7 @@ public class Cart {
 		return model;
 	}
 
-	private Set<LineItem> getLineItems() {
+	public Set<LineItem> getLineItems() {
 		return lineItems;
 	}
 

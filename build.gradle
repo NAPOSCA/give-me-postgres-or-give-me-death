@@ -27,6 +27,16 @@ test {
 	if(System.env["JDBC_DATABASE_URL"] == null) {
 		environment "JDBC_DATABASE_URL", DATABASE_URL
 	}
+	if(System.env["CLIENT_ID"] == null) {
+		environment "CLIENT_ID", CLIENT_ID
+	}
+	if(System.env["CLIENT_SECRET"] == null) {
+		environment "CLIENT_SECRET", CLIENT_SECRET
+	}
+	testLogging {
+		events "failed"
+		exceptionFormat "short"
+	}
 }
 
 ext {
@@ -34,6 +44,7 @@ ext {
 }
 
 dependencies {
+	compile group: 'net.minidev', name: 'json-smart', version: '2.3'
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-mail')
 	compile('org.springframework.boot:spring-boot-starter-security')
