@@ -34,8 +34,7 @@ public class Category {
 	}
 
 	public long getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	public Collection<Product> getProducts() {
