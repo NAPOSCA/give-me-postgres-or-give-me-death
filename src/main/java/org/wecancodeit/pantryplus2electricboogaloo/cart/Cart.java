@@ -1,6 +1,5 @@
 package org.wecancodeit.pantryplus2electricboogaloo.cart;
 
-import java.util.Collection;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.HashMap;
@@ -82,7 +81,7 @@ public class Cart {
 		return model;
 	}
 
-	private Set<LineItem> getLineItems() {
+	public Set<LineItem> getLineItems() {
 		return lineItems;
 	}
 
