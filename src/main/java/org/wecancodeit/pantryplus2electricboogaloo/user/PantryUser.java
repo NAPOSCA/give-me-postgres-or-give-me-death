@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 
 @Entity
-public class User {
+public class PantryUser {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -29,7 +29,7 @@ public class User {
 	private String address;
 	private int schoolAgeChildren;
 
-	public User() {
+	public PantryUser() {
 	}
 
 	// public User(String firstName, String lastName, int familySize, int
@@ -38,7 +38,7 @@ public class User {
 	// this.familySize = familySize;
 	// }
 
-	public User(String googleName) {
+	public PantryUser(String googleName) {
 		this.googleName = googleName;
 	}
 
