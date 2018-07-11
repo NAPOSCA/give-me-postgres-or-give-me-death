@@ -52,7 +52,8 @@ public class PantryController {
 		Cart cart = getUser(token).getCart();
 		model.addAttribute("cart", cart);
 		Collection<LineItem> allLineItems = cart.getLineItems();
-		Collection<LineItem> lineItems = allLineItems.stream().filter(item -> !isCountedLineItem(item)).collect(toList());
+		Collection<LineItem> lineItems = allLineItems.stream().filter(item -> !isCountedLineItem(item))
+				.collect(toList());
 		model.addAttribute("lineItems", lineItems);
 		Collection<CountedLineItem> countedLineItems = allLineItems.stream().filter(item -> isCountedLineItem(item))
 				.map(item -> (CountedLineItem) item).collect(toList());
