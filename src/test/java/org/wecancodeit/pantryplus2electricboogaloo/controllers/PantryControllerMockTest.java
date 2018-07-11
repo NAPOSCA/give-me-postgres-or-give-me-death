@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -133,6 +134,7 @@ public class PantryControllerMockTest {
 		assertThat(actual, is(templateName));
 	}
 	
+	@Ignore
 	@Test
 	public void shouldHaveDisplayCartAttachLineItemsAndNoCountedLineItems() {
 		when(cart.getLineItems()).thenReturn(new HashSet<>(asList(lineItem, anotherLineItem, countedLineItem)));
