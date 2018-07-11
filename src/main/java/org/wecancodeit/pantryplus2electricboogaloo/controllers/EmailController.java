@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class EmailController {
+public class EmailController implements Loginable {
 
 	private static final String RECIPIENT = "bsfppantryplus@gmail.com";
 
@@ -51,7 +50,7 @@ public class EmailController {
 	@RequestMapping("/email")
 	public String home(OAuth2AuthenticationToken token) {
 		try {
-			User user = getUser(token);
+			User user = resolveUser(token, userRepo, entityManager);
 			Long cartId = user.getCart().getId();
 			Cart cart = cartRepo.findById(cartId).orElse(null);
 			String name;
@@ -121,19 +120,6 @@ public class EmailController {
 	public MimeMessage createMimeMessage() {
 		MimeMessage message = sender.createMimeMessage();
 		return message;
-	}
-
-	public User getUser(OAuth2AuthenticationToken token) {
-		OAuth2User authenticatedUser = token.getPrincipal();
-		Map<String, Object> principalAttributes = authenticatedUser.getAttributes();
-		String googleName = (String) principalAttributes.get("sub");
-		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
-			User other = new User(googleName);
-			userRepo.save(other);
-			entityManager.flush();
-			entityManager.clear();
-			return userRepo.findByGoogleName(googleName).get();
-		});
 	}
 
 }
