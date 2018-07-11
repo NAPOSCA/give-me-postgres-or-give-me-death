@@ -2,8 +2,10 @@ package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
+import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
 public class AdminMockMvcTest {
 	
@@ -31,6 +35,12 @@ public class AdminMockMvcTest {
 	@Mock
 	private Category category2;
 	
+	@Mock
+	private ProductRepository productRepo;
+	
+	@Mock
+	private Product product;
+	
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -48,5 +58,26 @@ public class AdminMockMvcTest {
 		when(categoryRepo.findAll()).thenReturn(categories);
 		adminController.displayAdminCategoriesView(model);
 		verify(model).addAttribute("categories", categories);
+	}
+	
+	@Test
+	public void shouldReturnAdminCategoryView() {
+		String actualName = adminController.displayAdminCategoryView(model, 1L);
+		assertEquals(actualName, "admin/category");		
+	}
+	
+	@Test
+	public void shouldAttachOneCategoryToModel() {
+		when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
+		adminController.displayAdminCategoryView(model, 1L);
+		verify(model).addAttribute("category", category);
+	}
+	
+	@Test
+	public void shouldDisplayAdminProductView() {
+		when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
+		when(productRepo.findById(1L)).thenReturn(Optional.of(product));
+		String actualName = adminController.displayAdminProductView(model, 1L, 1L);
+		assertEquals(actualName, "admin/product");
 	}
 }
