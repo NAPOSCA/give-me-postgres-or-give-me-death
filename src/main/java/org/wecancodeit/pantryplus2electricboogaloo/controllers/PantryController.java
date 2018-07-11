@@ -61,13 +61,13 @@ public class PantryController {
 		return "cart";
 	}
 
-	private boolean isCountedLineItem(LineItem item) {
-		return item instanceof CountedLineItem;
-	}
-
 	@RequestMapping("/about-us")
 	public String displayAboutUs() {
 		return "about-us";
+	}
+
+	private boolean isCountedLineItem(LineItem item) {
+		return item instanceof CountedLineItem;
 	}
 
 	private User getUser(OAuth2AuthenticationToken token) {
