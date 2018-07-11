@@ -53,11 +53,16 @@ public class PantryController {
 		Cart cart = getUser(token).getCart();
 		model.addAttribute("cart", cart);
 		Stream<LineItem> allLineItems = cart.getLineItems().stream();
-		Collection<LineItem> lineItems = allLineItems.filter(item -> !(item instanceof CountedLineItem)).collect(toList());
+		Collection<LineItem> lineItems = allLineItems.filter(item -> !isCountedLineItem(item)).collect(toList());
 		model.addAttribute("lineItems", lineItems);
-		Collection<CountedLineItem> countedLineItems = allLineItems.filter(item -> item instanceof CountedLineItem).map(item -> (CountedLineItem) item).collect(toList());
+		Collection<CountedLineItem> countedLineItems = allLineItems.filter(item -> isCountedLineItem(item))
+				.map(item -> (CountedLineItem) item).collect(toList());
 		model.addAttribute("countedLineItems", countedLineItems);
 		return "cart";
+	}
+
+	private boolean isCountedLineItem(LineItem item) {
+		return item instanceof CountedLineItem;
 	}
 
 	@RequestMapping("/about-us")
