@@ -1,6 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.cart;
 
 import static java.util.stream.Collectors.toSet;
+import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 public class Cart {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	@OneToOne
 	private User user;

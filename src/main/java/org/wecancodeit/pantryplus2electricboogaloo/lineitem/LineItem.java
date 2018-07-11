@@ -1,5 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.lineitem;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +13,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 public class LineItem {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	@ManyToOne
 	private Cart cart;

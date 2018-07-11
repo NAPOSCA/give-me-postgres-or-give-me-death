@@ -1,5 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.product;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +13,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 public class Product {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	private String name;
 	
