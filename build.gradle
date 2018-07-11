@@ -33,6 +33,10 @@ test {
 	if(System.env["CLIENT_SECRET"] == null) {
 		environment "CLIENT_SECRET", CLIENT_SECRET
 	}
+	testLogging {
+		events "failed"
+		exceptionFormat "short"
+	}
 }
 
 ext {
