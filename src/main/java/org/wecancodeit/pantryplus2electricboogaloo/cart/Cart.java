@@ -65,19 +65,13 @@ public class Cart {
 	}
 
 	public Map<String, Object> toModel() {
-		User cartUser = getUser();
 		Map<String, Object> model = new HashMap<>();
-		Map<String, Object> user = cartUser.toModel();
+		Map<String, Object> user = getUser().toModel();
 		model.put("user", user);
-
-		Set<LineItem> lineItems = getAllLineItems().stream().filter(lineItem -> !(lineItem instanceof CountedLineItem))
-				.collect(toSet());
-		model.put("lineItems", lineItems);
-
-		Set<LineItem> countedLineItems = getAllLineItems().stream().filter(lineItem -> lineItem instanceof CountedLineItem)
-				.collect(toSet());
-		model.put("countedLineItems", countedLineItems);
-
+		model.put("lineItems", getLineItems());
+		model.put("countedLineItems", getCountedLineItems());
+		
+		
 		return model;
 	}
 
@@ -86,13 +80,15 @@ public class Cart {
 	}
 
 	public Set<LineItem> getLineItems() {
-		// TODO Auto-generated method stub
-		return null;
+		return lineItems.stream().filter(item -> !isCountedLineItem(item)).collect(toSet());
 	}
 
 	public Set<CountedLineItem> getCountedLineItems() {
-		// TODO Auto-generated method stub
-		return null;
+		return lineItems.stream().filter(item -> isCountedLineItem(item)).map(item -> (CountedLineItem) item).collect(toSet());
+	}
+
+	private boolean isCountedLineItem(LineItem item) {
+		return item instanceof CountedLineItem;
 	}
 
 }
