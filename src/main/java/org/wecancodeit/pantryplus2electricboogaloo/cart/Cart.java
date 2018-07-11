@@ -70,19 +70,29 @@ public class Cart {
 		Map<String, Object> user = cartUser.toModel();
 		model.put("user", user);
 
-		Set<LineItem> lineItems = getLineItems().stream().filter(lineItem -> !(lineItem instanceof CountedLineItem))
+		Set<LineItem> lineItems = getAllLineItems().stream().filter(lineItem -> !(lineItem instanceof CountedLineItem))
 				.collect(toSet());
 		model.put("lineItems", lineItems);
 
-		Set<LineItem> countedLineItems = getLineItems().stream().filter(lineItem -> lineItem instanceof CountedLineItem)
+		Set<LineItem> countedLineItems = getAllLineItems().stream().filter(lineItem -> lineItem instanceof CountedLineItem)
 				.collect(toSet());
 		model.put("countedLineItems", countedLineItems);
 
 		return model;
 	}
 
-	public Set<LineItem> getLineItems() {
+	public Set<LineItem> getAllLineItems() {
 		return lineItems;
+	}
+
+	public Set<LineItem> getLineItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<CountedLineItem> getCountedLineItems() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
