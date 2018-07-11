@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
-public abstract class Loginable {
+public abstract class LoginController {
 	
 	@Resource
 	private UserRepository userRepo;

@@ -22,7 +22,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class EmailController extends Loginable {
+public class EmailController extends LoginController {
 
 	private static final String RECIPIENT = "bsfppantryplus@gmail.com";
 

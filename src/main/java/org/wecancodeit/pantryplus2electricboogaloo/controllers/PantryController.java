@@ -20,7 +20,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class PantryController extends Loginable {
+public class PantryController extends LoginController {
 
 	@Resource
 	private CategoryRepository categoryRepo;
