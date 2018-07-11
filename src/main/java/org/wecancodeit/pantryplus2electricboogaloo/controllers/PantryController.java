@@ -3,6 +3,7 @@ package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -51,7 +52,7 @@ public class PantryController {
 	public String displayCart(Model model, OAuth2AuthenticationToken token) {
 		Cart cart = getUser(token).getCart();
 		model.addAttribute("cart", cart);
-		Collection<LineItem> allLineItems = cart.getLineItems();
+		Set<LineItem> allLineItems = cart.getLineItems();
 		Collection<LineItem> lineItems = allLineItems.stream().filter(item -> !isCountedLineItem(item))
 				.collect(toList());
 		model.addAttribute("lineItems", lineItems);

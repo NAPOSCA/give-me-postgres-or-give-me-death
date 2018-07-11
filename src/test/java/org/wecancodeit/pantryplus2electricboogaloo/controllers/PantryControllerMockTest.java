@@ -6,10 +6,11 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -100,7 +101,8 @@ public class PantryControllerMockTest {
 	public void shouldHaveDisplayCartReturnCart() {
 		String templateName = "cart";
 		when(user.getCart()).thenReturn(cart);
-		Collection<LineItem> lineItems = asList(lineItem, anotherLineItem, countedLineItem);
+		Set<LineItem> lineItems = new HashSet<>();
+		lineItems.addAll(asList(lineItem, anotherLineItem, countedLineItem));
 		when(cart.getLineItems()).thenReturn(lineItems);
 		String actual = underTest.displayCart(model, token);
 		assertThat(actual, is(templateName));
@@ -130,25 +132,25 @@ public class PantryControllerMockTest {
 		String actual = underTest.displayAboutUs();
 		assertThat(actual, is(templateName));
 	}
-	
+
 	@Test
 	public void shouldHaveDisplayCartAttachLineItemsAndNoCountedLineItems() {
-		Collection<LineItem> allLineItems = asList(lineItem, anotherLineItem, countedLineItem);
-		Collection<LineItem> lineItems = asList(lineItem, anotherLineItem);
+		Set<LineItem> allLineItems = new HashSet<>();
+		allLineItems.addAll(asList(lineItem, anotherLineItem, countedLineItem));
 		when(cart.getLineItems()).thenReturn(allLineItems);
 		underTest.displayCart(model, token);
-		verify(model).addAttribute("lineItems", lineItems);
+		verify(model).addAttribute("lineItems", asList(lineItem, anotherLineItem));
 	}
-	
+
 	@Test
 	public void shouldHaveDisplayCartAttachCountedLineItemsAndNoLineItems() {
-		Collection<LineItem> allLineItems = asList(lineItem, anotherLineItem, countedLineItem);
-		Collection<CountedLineItem> countedLineItems = asList(countedLineItem);
+		Set<LineItem> allLineItems = new HashSet<>();
+		allLineItems.addAll(asList(lineItem, anotherLineItem, countedLineItem));
 		when(cart.getLineItems()).thenReturn(allLineItems);
 		underTest.displayCart(model, token);
-		verify(model).addAttribute("countedLineItems", countedLineItems);
+		verify(model).addAttribute("countedLineItems", asList(countedLineItem));
 	}
-	
+
 	@Test
 	public void shouldHaveDisplayUserFormAttachUserToModel() {
 		underTest.displayUserForm(model, token);
