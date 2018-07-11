@@ -70,7 +70,7 @@ public class PantryController {
 		return "about-us";
 	}
 
-	public User getUser(OAuth2AuthenticationToken token) {
+	private User getUser(OAuth2AuthenticationToken token) {
 		String googleName = (String) token.getPrincipal().getAttributes().get("sub");
 		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
 			userRepo.save(new User(googleName));
