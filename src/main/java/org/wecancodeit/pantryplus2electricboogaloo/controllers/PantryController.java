@@ -42,8 +42,7 @@ public class PantryController {
 	@RequestMapping("/shopping")
 	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("categories", categoryRepo.findAll());
-		Cart cart = getUser(token).getCart();
-		model.addAttribute("cart", cart);
+		model.addAttribute("cart", getUser(token).getCart());
 		return "shopping";
 	}
 
