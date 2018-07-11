@@ -17,11 +17,10 @@ import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
-import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class PantryController {
+public class PantryController implements Loginable {
 
 	@Resource
 	private CategoryRepository categoryRepo;
@@ -37,20 +36,20 @@ public class PantryController {
 
 	@RequestMapping("/")
 	public String displayUserForm(Model model, OAuth2AuthenticationToken token) {
-		model.addAttribute("user", getUser(token));
+		model.addAttribute("user", resolveUser(token, userRepo, entityManager));
 		return "user-form";
 	}
 
 	@RequestMapping("/shopping")
 	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("categories", categoryRepo.findAll());
-		model.addAttribute("cart", getUser(token).getCart());
+		model.addAttribute("cart", resolveUser(token, userRepo, entityManager).getCart());
 		return "shopping";
 	}
 
 	@RequestMapping("/cart")
 	public String displayCart(Model model, OAuth2AuthenticationToken token) {
-		Cart cart = getUser(token).getCart();
+		Cart cart = resolveUser(token, userRepo, entityManager).getCart();
 		model.addAttribute("cart", cart);
 		Set<LineItem> allLineItems = cart.getLineItems();
 		Collection<LineItem> lineItems = allLineItems.stream().filter(item -> !isCountedLineItem(item))
@@ -69,16 +68,6 @@ public class PantryController {
 
 	private boolean isCountedLineItem(LineItem item) {
 		return item instanceof CountedLineItem;
-	}
-
-	private User getUser(OAuth2AuthenticationToken token) {
-		String googleName = (String) token.getPrincipal().getAttributes().get("sub");
-		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
-			userRepo.save(new User(googleName));
-			entityManager.flush();
-			entityManager.clear();
-			return userRepo.findByGoogleName(googleName).get();
-		});
 	}
 
 }
