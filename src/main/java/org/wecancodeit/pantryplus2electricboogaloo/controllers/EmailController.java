@@ -22,7 +22,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class EmailController implements Loginable {
+public class EmailController extends Loginable {
 
 	private static final String RECIPIENT = "bsfppantryplus@gmail.com";
 
@@ -50,7 +50,7 @@ public class EmailController implements Loginable {
 	@RequestMapping("/email")
 	public String home(OAuth2AuthenticationToken token) {
 		try {
-			User user = resolveUser(token, userRepo, entityManager);
+			User user = resolveUser(token);
 			Long cartId = user.getCart().getId();
 			Cart cart = cartRepo.findById(cartId).orElse(null);
 			String name;

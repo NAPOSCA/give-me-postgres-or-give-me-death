@@ -1,21 +1,32 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
-public interface Loginable {
+public abstract class Loginable {
 	
-	public default User resolveUser(OAuth2AuthenticationToken token, UserRepository userRepo, EntityManager entityManager) {
-		String googleName = (String) token.getPrincipal().getAttributes().get("sub");
+	@Resource
+	private UserRepository userRepo;
+	
+	@Resource
+	private EntityManager entityManager;
+	
+	public User resolveUser(OAuth2AuthenticationToken token) {
+		String googleName = getGoogleNameFrom(token);
 		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
 			userRepo.save(new User(googleName));
 			entityManager.flush();
 			entityManager.clear();
 			return userRepo.findByGoogleName(googleName).get();
 		});
+	}
+
+	private String getGoogleNameFrom(OAuth2AuthenticationToken token) {
+		return (String) token.getPrincipal().getAttributes().get("sub");
 	}
 	
 }
