@@ -35,7 +35,7 @@ test {
 	}
 	testLogging {
 		events "failed"
-		exceptionFormat "long"
+		exceptionFormat "full"
 	}
 }
 
