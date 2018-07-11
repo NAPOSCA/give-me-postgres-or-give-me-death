@@ -132,21 +132,17 @@ public class PantryControllerMockTest {
 		String actual = underTest.displayAboutUs();
 		assertThat(actual, is(templateName));
 	}
-
+	
 	@Test
 	public void shouldHaveDisplayCartAttachLineItemsAndNoCountedLineItems() {
-		Set<LineItem> allLineItems = new HashSet<>();
-		allLineItems.addAll(asList(lineItem, anotherLineItem, countedLineItem));
-		when(cart.getLineItems()).thenReturn(allLineItems);
+		when(cart.getLineItems()).thenReturn(new HashSet<>(asList(lineItem, anotherLineItem, countedLineItem)));
 		underTest.displayCart(model, token);
 		verify(model).addAttribute("lineItems", asList(lineItem, anotherLineItem));
 	}
 
 	@Test
 	public void shouldHaveDisplayCartAttachCountedLineItemsAndNoLineItems() {
-		Set<LineItem> allLineItems = new HashSet<>();
-		allLineItems.addAll(asList(lineItem, anotherLineItem, countedLineItem));
-		when(cart.getLineItems()).thenReturn(allLineItems);
+		when(cart.getLineItems()).thenReturn(new HashSet<>(asList(lineItem, anotherLineItem, countedLineItem)));
 		underTest.displayCart(model, token);
 		verify(model).addAttribute("countedLineItems", asList(countedLineItem));
 	}
