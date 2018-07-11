@@ -1,10 +1,5 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.Collection;
-import java.util.Set;
-
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
@@ -15,12 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
-import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
-import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class PantryController implements Loginable {
+public class PantryController extends LoginController {
 
 	@Resource
 	private CategoryRepository categoryRepo;
@@ -36,38 +29,29 @@ public class PantryController implements Loginable {
 
 	@RequestMapping("/")
 	public String displayUserForm(Model model, OAuth2AuthenticationToken token) {
-		model.addAttribute("user", resolveUser(token, userRepo, entityManager));
+		model.addAttribute("user", resolveUser(token));
 		return "user-form";
 	}
 
 	@RequestMapping("/shopping")
 	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("categories", categoryRepo.findAll());
-		model.addAttribute("cart", resolveUser(token, userRepo, entityManager).getCart());
+		model.addAttribute("cart", resolveUser(token).getCart());
 		return "shopping";
 	}
 
 	@RequestMapping("/cart")
 	public String displayCart(Model model, OAuth2AuthenticationToken token) {
-		Cart cart = resolveUser(token, userRepo, entityManager).getCart();
+		Cart cart = resolveUser(token).getCart();
 		model.addAttribute("cart", cart);
-		Set<LineItem> allLineItems = cart.getLineItems();
-		Collection<LineItem> lineItems = allLineItems.stream().filter(item -> !isCountedLineItem(item))
-				.collect(toList());
-		model.addAttribute("lineItems", lineItems);
-		Collection<CountedLineItem> countedLineItems = allLineItems.stream().filter(item -> isCountedLineItem(item))
-				.map(item -> (CountedLineItem) item).collect(toList());
-		model.addAttribute("countedLineItems", countedLineItems);
+		model.addAttribute("lineItems", cart.getLineItems());
+		model.addAttribute("countedLineItems", cart.getCountedLineItems());
 		return "cart";
 	}
 
 	@RequestMapping("/about-us")
 	public String displayAboutUs() {
 		return "about-us";
-	}
-
-	private boolean isCountedLineItem(LineItem item) {
-		return item instanceof CountedLineItem;
 	}
 
 }

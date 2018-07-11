@@ -1,10 +1,13 @@
 package org.wecancodeit.pantryplus2electricboogaloo.cart;
 
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.util.Optional;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -13,6 +16,9 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItemRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
@@ -28,6 +34,9 @@ public class CartJpaTest {
 
 	@Resource
 	private UserRepository userRepo;
+	
+	@Resource
+	private LineItemRepository lineItemRepo;
 
 	User user;
 	Cart cart;
@@ -82,5 +91,45 @@ public class CartJpaTest {
 		Optional<Cart> potentialAnotherCart = cartRepo.findById(anotherCartId);
 		assertThat(potentialCart.isPresent(), is(true));
 		assertThat(potentialAnotherCart.isPresent(), is(true));
+	}
+	
+	@Test
+	public void shouldSaveLineItemToCart() {
+		User user = userRepo.save(new User("12345"));
+		Cart cart = cartRepo.save(new Cart(user));
+		long cartId = cart.getId();
+		LineItem lineItem = lineItemRepo.save(new LineItem(cart));
+		entityManager.flush();
+		entityManager.clear();
+		cart = cartRepo.findById(cartId).get();
+		Set<LineItem> actual = cart.getLineItems();
+		assertThat(actual, contains(lineItem));
+	}
+	
+	@Test
+	public void shouldSaveCountedLineItemToCart() {
+		User user = userRepo.save(new User("12345"));
+		Cart cart = cartRepo.save(new Cart(user));
+		long cartId = cart.getId();
+		CountedLineItem countedLineItem = lineItemRepo.save(new CountedLineItem(cart));
+		entityManager.flush();
+		entityManager.clear();
+		cart = cartRepo.findById(cartId).get();
+		Set<CountedLineItem> actual = cart.getCountedLineItems();
+		assertThat(actual, hasItem(countedLineItem));
+	}
+	
+	@Test
+	public void shouldSaveLineItemAndCountedLineItemToCartButOnlyReturnLineItem() {
+		User user = userRepo.save(new User("12345"));
+		Cart cart = cartRepo.save(new Cart(user));
+		long cartId = cart.getId();
+		LineItem lineItem = lineItemRepo.save(new LineItem(cart));
+		lineItemRepo.save(new CountedLineItem(cart));
+		entityManager.flush();
+		entityManager.clear();
+		cart = cartRepo.findById(cartId).get();
+		Set<LineItem> actual = cart.getLineItems();
+		assertThat(actual, contains(lineItem));
 	}
 }
