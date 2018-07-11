@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -47,6 +48,7 @@ public class EmailController extends LoginController {
 		return "email-failure";
 	}
 
+	@Transactional
 	@RequestMapping("/email")
 	public String home(OAuth2AuthenticationToken token) {
 		try {

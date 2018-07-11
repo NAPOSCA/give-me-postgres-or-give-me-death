@@ -2,6 +2,7 @@ package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -27,12 +28,14 @@ public class PantryController extends LoginController {
 	@Resource
 	private EntityManager entityManager;
 
+	@Transactional
 	@RequestMapping("/")
 	public String displayUserForm(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("user", resolveUser(token));
 		return "user-form";
 	}
 
+	@Transactional
 	@RequestMapping("/shopping")
 	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("categories", categoryRepo.findAll());
@@ -40,6 +43,7 @@ public class PantryController extends LoginController {
 		return "shopping";
 	}
 
+	@Transactional
 	@RequestMapping("/cart")
 	public String displayCart(Model model, OAuth2AuthenticationToken token) {
 		Cart cart = resolveUser(token).getCart();
