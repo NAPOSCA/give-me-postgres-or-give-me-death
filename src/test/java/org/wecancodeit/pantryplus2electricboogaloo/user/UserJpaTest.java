@@ -24,7 +24,7 @@ public class UserJpaTest {
 	@Test
 	public void shouldSaveAndLoadUser() {
 		String googleName = "12345";
-		User user = userRepo.save(new User(googleName));
+		PantryUser user = userRepo.save(new PantryUser(googleName));
 		long id = user.getId();
 		entityManager.flush();
 		entityManager.clear();
@@ -34,7 +34,7 @@ public class UserJpaTest {
 	
 	@Test
 	public void shouldSaveTwoUsers() {
-		userRepo.save(new User("12345"));
-		userRepo.save(new User("54321"));
+		userRepo.save(new PantryUser("12345"));
+		userRepo.save(new PantryUser("54321"));
 	}
 }

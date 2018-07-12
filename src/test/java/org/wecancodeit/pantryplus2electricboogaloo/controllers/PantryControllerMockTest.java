@@ -25,7 +25,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
-import org.wecancodeit.pantryplus2electricboogaloo.user.User;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 public class PantryControllerMockTest {
@@ -55,7 +55,7 @@ public class PantryControllerMockTest {
 	private UserRepository userRepo;
 
 	@Mock
-	private User user;
+	private PantryUser user;
 
 	@Mock
 	private Cart cart;

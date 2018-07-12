@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -18,7 +19,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
-import org.wecancodeit.pantryplus2electricboogaloo.user.User;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
@@ -47,10 +48,11 @@ public class EmailController extends LoginController {
 		return "email-failure";
 	}
 
+	@Transactional
 	@RequestMapping("/email")
 	public String home(OAuth2AuthenticationToken token) {
 		try {
-			User user = resolveUser(token);
+			PantryUser user = resolveUser(token);
 			Long cartId = user.getCart().getId();
 			Cart cart = cartRepo.findById(cartId).orElse(null);
 			String name;

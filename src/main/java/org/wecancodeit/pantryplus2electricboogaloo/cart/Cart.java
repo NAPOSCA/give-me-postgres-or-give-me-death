@@ -1,6 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.cart;
 
 import static java.util.stream.Collectors.toSet;
+import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,23 +15,23 @@ import javax.persistence.OneToOne;
 
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
-import org.wecancodeit.pantryplus2electricboogaloo.user.User;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Entity
 public class Cart {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	@OneToOne
-	private User user;
+	private PantryUser user;
 	@OneToMany(mappedBy = "cart", orphanRemoval = true)
 	private Set<LineItem> lineItems;
 
 	public Cart() {
 	}
 
-	public Cart(User user) {
+	public Cart(PantryUser user) {
 		this.user = user;
 	}
 
@@ -38,7 +39,7 @@ public class Cart {
 		return id;
 	}
 
-	public User getUser() {
+	public PantryUser getUser() {
 		return user;
 	}
 
