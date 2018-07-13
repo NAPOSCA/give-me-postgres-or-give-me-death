@@ -58,20 +58,20 @@ public class UserRestControllerMockTest {
 	}
 
 	@Test
-	public void shouldHaveUpdateUsersFirstNameUpdateFirstName() {
-		underTest.updateUsersFirstName(token, firstName);
+	public void shouldUpdateFirstNameWhenReceivingPatchOnFirstName() {
+		underTest.receivePatchForFirstName(token, firstName);
 		verify(user).updateFirstName(firstName);
 	}
 
 	@Test
-	public void shouldHaveUpdateUsersLastNameUpdateLastName() {
-		underTest.updateUsersLastName(token, lastName);
+	public void shouldUpdateLastNameWhenReceivingPatchOnLastName() {
+		underTest.receivePatchForLastName(token, lastName);
 		verify(user).updateLastName(lastName);
 	}
 
 	@Test
-	public void shouldHaveUpdateUsersAddressUpdateAddress() {
-		underTest.updateUsersAddress(token, address);
+	public void shouldUpdateAddressWhenReceivingPatchOnAddress() {
+		underTest.receivePatchForAddress(token, address);
 		verify(user).updateAddress(address);
 	}
 }
