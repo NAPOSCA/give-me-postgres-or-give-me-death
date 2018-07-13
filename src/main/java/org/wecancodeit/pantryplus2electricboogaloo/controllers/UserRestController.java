@@ -10,4 +10,9 @@ public class UserRestController extends LoginController {
 		user.updateFirstName(firstName);
 	}
 
+	public void updateUsersLastName(OAuth2AuthenticationToken token, String lastName) {
+		PantryUser user = resolveUser(token);
+		user.updateLastName(lastName);
+	}
+
 }

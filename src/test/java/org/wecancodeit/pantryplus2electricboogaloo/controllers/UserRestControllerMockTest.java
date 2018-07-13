@@ -40,6 +40,8 @@ public class UserRestControllerMockTest {
 	@Mock
 	private UserRepository userRepo;
 
+	private String lastName;
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -49,11 +51,18 @@ public class UserRestControllerMockTest {
 		when(attributes.get("sub")).thenReturn(googleName);
 		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
 		firstName = "Scooby";
+		lastName = "Doo";
 	}
 
 	@Test
 	public void shouldHaveUpdateUsersFirstNameUpdateFirstName() {
 		underTest.updateUsersFirstName(token, firstName);
 		verify(user).updateFirstName(firstName);
+	}
+	
+	@Test
+	public void shouldHaveUpdateUsersLastNameUpdateLastName() {
+		underTest.updateUsersLastName(token, lastName);
+		verify(user).updateLastName(lastName);
 	}
 }
