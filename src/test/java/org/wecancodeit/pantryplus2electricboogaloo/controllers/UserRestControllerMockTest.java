@@ -1,5 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -73,9 +75,21 @@ public class UserRestControllerMockTest {
 	}
 
 	@Test
+	public void shouldReturnFirstNameWhenReceivingPatchOnFirstName() {
+		String actual = underTest.receivePatchForFirstName(token, firstName);
+		assertThat(actual, is(firstName));
+	}
+
+	@Test
 	public void shouldUpdateLastNameWhenReceivingPatchOnLastName() {
 		underTest.receivePatchForLastName(token, lastName);
 		verify(user).updateLastName(lastName);
+	}
+
+	@Test
+	public void shouldReturnLastNameWhenReceivingPatchOnLastName() {
+		String actual = underTest.receivePatchForLastName(token, lastName);
+		assertThat(actual, is(lastName));
 	}
 
 	@Test
@@ -85,9 +99,21 @@ public class UserRestControllerMockTest {
 	}
 
 	@Test
+	public void shouldReturnAddressWhenReceivingPatchOnAddress() {
+		String actual = underTest.receivePatchForAddress(token, address);
+		assertThat(actual, is(address));
+	}
+
+	@Test
 	public void shouldUpdateFamilySizeWhenReceivingPatchOnFamilySize() {
 		underTest.receivePatchForFamilySize(token, familySize);
 		verify(user).updateFamilySize(familySize);
+	}
+
+	@Test
+	public void shouldReturnFamilySizeWhenReceivingPatchOnFamilySize() {
+		int actual = underTest.receivePatchForFamilySize(token, familySize);
+		assertThat(actual, is(familySize));
 	}
 
 	@Test
@@ -97,9 +123,21 @@ public class UserRestControllerMockTest {
 	}
 
 	@Test
+	public void shouldReturnBirthDateWhenReceivingPatchOnBirthDate() {
+		String actual = underTest.receivePatchForBirthDate(token, birthDate);
+		assertThat(actual, is(birthDate));
+	}
+
+	@Test
 	public void shouldUpdateSchoolAgeChildrenWhenReceivingPatchOnSchoolAgeChildren() {
 		underTest.receivePatchForSchoolAgeChildren(token, schoolAgeChildren);
 		verify(user).updateSchoolAgeChildren(schoolAgeChildren);
+	}
+
+	@Test
+	public void shouldReturnSchoolAgeChildrenWhenReceivingPatchOnSchoolAgeChildren() {
+		int actual = underTest.receivePatchForSchoolAgeChildren(token, schoolAgeChildren);
+		assertThat(actual, is(schoolAgeChildren));
 	}
 
 }
