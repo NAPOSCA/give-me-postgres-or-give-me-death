@@ -44,6 +44,8 @@ public class UserRestControllerMockTest {
 
 	private String address;
 
+	private int familySize;
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -55,6 +57,7 @@ public class UserRestControllerMockTest {
 		firstName = "Scooby";
 		lastName = "Doo";
 		address = "Mystery Van";
+		familySize = 5;
 	}
 
 	@Test
@@ -73,5 +76,11 @@ public class UserRestControllerMockTest {
 	public void shouldUpdateAddressWhenReceivingPatchOnAddress() {
 		underTest.receivePatchForAddress(token, address);
 		verify(user).updateAddress(address);
+	}
+	
+	@Test
+	public void shouldUpdateFamilySizeWhenReceivingPatchOnFamilySize() {
+		underTest.receivePatchForFamilySize(token, familySize);
+		verify(user).updateFamilySize(familySize);
 	}
 }

@@ -1,30 +1,36 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
-import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
-
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
+@RestController
 public class UserRestController extends LoginController {
 
-	@RequestMapping(path = "/update-user-info", params = "firstName", method = PATCH)
+	@PatchMapping(path = "/update-user-info", params = "firstName")
 	public void receivePatchForFirstName(OAuth2AuthenticationToken token, @RequestParam String firstName) {
 		PantryUser user = resolveUser(token);
 		user.updateFirstName(firstName);
 	}
 
-	@RequestMapping(path = "/update-user-info", params = "lastName", method = PATCH)
+	@PatchMapping(path = "/update-user-info", params = "lastName")
 	public void receivePatchForLastName(OAuth2AuthenticationToken token, @RequestParam String lastName) {
 		PantryUser user = resolveUser(token);
 		user.updateLastName(lastName);
 	}
 
-	@RequestMapping(path = "/update-user-info", params = "address", method = PATCH)
+	@PatchMapping(path = "/update-user-info", params = "address")
 	public void receivePatchForAddress(OAuth2AuthenticationToken token, @RequestParam String address) {
 		PantryUser user = resolveUser(token);
 		user.updateAddress(address);
+	}
+
+	@PatchMapping(path = "/update-user-info", params = "familySize")
+	public void receivePatchForFamilySize(OAuth2AuthenticationToken token, @RequestParam int familySize) {
+		PantryUser user = resolveUser(token);
+		user.updateFamilySize(familySize);
 	}
 
 }
