@@ -163,4 +163,11 @@ public class PantryControllerMockTest {
 		underTest.displayCart(model, token);
 		verify(model).addAttribute("cart", cart);
 	}
+
+	@Test
+	public void shouldHaveDisplayWelcomePageReturnWelcome() {
+		String templateName = underTest.displayWelcomeView();
+		assertThat(templateName, is("welcome"));
+	}
+
 }

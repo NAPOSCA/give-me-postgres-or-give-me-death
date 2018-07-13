@@ -29,7 +29,7 @@ public class PantryController extends LoginController {
 	private EntityManager entityManager;
 
 	@Transactional
-	@RequestMapping("/")
+	@RequestMapping("/settings")
 	public String displayUserForm(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("user", resolveUser(token));
 		return "user-form";
@@ -56,6 +56,11 @@ public class PantryController extends LoginController {
 	@RequestMapping("/about-us")
 	public String displayAboutUs() {
 		return "about-us";
+	}
+
+	@RequestMapping("/")
+	public String displayWelcomeView() {
+		return "welcome";
 	}
 
 }
