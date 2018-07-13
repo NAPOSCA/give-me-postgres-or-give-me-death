@@ -32,12 +32,6 @@ public class PantryUser {
 	public PantryUser() {
 	}
 
-	// public User(String firstName, String lastName, int familySize, int
-	// schoolAgeChildren, boolean hasInfants,
-	// String pickupDate, String zipCode, String address, String birthdate) {
-	// this.familySize = familySize;
-	// }
-
 	public PantryUser(String googleName) {
 		this.googleName = googleName;
 	}
