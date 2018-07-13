@@ -46,6 +46,10 @@ public class UserRestControllerMockTest {
 
 	private int familySize;
 
+	private String birthDate;
+
+	private int schoolAgeChildren;
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -58,6 +62,8 @@ public class UserRestControllerMockTest {
 		lastName = "Doo";
 		address = "Mystery Van";
 		familySize = 5;
+		birthDate = "September 13, 1969";
+		schoolAgeChildren = 0;
 	}
 
 	@Test
@@ -77,10 +83,23 @@ public class UserRestControllerMockTest {
 		underTest.receivePatchForAddress(token, address);
 		verify(user).updateAddress(address);
 	}
-	
+
 	@Test
 	public void shouldUpdateFamilySizeWhenReceivingPatchOnFamilySize() {
 		underTest.receivePatchForFamilySize(token, familySize);
 		verify(user).updateFamilySize(familySize);
 	}
+
+	@Test
+	public void shouldUpdateBirthDateWhenReceivingPatchOnBirthDate() {
+		underTest.receivePatchForBirthDate(token, birthDate);
+		verify(user).updateBirthDate(birthDate);
+	}
+
+	@Test
+	public void shouldUpdateSchoolAgeChildrenWhenReceivingPatchOnSchoolAgeChildren() {
+		underTest.receivePatchForSchoolAgeChildren(token, schoolAgeChildren);
+		verify(user).updateSchoolAgeChildren(schoolAgeChildren);
+	}
+
 }

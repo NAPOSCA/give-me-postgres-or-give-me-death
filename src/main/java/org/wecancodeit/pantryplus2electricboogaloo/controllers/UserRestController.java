@@ -33,4 +33,16 @@ public class UserRestController extends LoginController {
 		user.updateFamilySize(familySize);
 	}
 
+	@PatchMapping(path = "/update-user-info", params = "birthDate")
+	public void receivePatchForBirthDate(OAuth2AuthenticationToken token, @RequestParam String birthDate) {
+		PantryUser user = resolveUser(token);
+		user.updateBirthDate(birthDate);
+	}
+
+	@PatchMapping(path = "/update-user-info", params = "schoolAgeChildren")
+	public void receivePatchForSchoolAgeChildren(OAuth2AuthenticationToken token, @RequestParam int schoolAgeChildren) {
+		PantryUser user = resolveUser(token);
+		user.updateSchoolAgeChildren(schoolAgeChildren);
+	}
+
 }
