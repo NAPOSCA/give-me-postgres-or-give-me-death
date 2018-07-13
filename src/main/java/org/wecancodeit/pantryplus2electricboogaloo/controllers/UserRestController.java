@@ -15,4 +15,9 @@ public class UserRestController extends LoginController {
 		user.updateLastName(lastName);
 	}
 
+	public void updateUsersAddress(OAuth2AuthenticationToken token, String address) {
+		PantryUser user = resolveUser(token);
+		user.updateAddress(address);
+	}
+
 }

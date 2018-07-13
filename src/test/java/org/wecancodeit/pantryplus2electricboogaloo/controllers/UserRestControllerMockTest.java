@@ -36,11 +36,13 @@ public class UserRestControllerMockTest {
 	private Map<String, Object> attributes;
 
 	private String googleName;
-	
+
 	@Mock
 	private UserRepository userRepo;
 
 	private String lastName;
+
+	private String address;
 
 	@Before
 	public void setup() {
@@ -52,6 +54,7 @@ public class UserRestControllerMockTest {
 		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
 		firstName = "Scooby";
 		lastName = "Doo";
+		address = "Mystery Van";
 	}
 
 	@Test
@@ -59,10 +62,16 @@ public class UserRestControllerMockTest {
 		underTest.updateUsersFirstName(token, firstName);
 		verify(user).updateFirstName(firstName);
 	}
-	
+
 	@Test
 	public void shouldHaveUpdateUsersLastNameUpdateLastName() {
 		underTest.updateUsersLastName(token, lastName);
 		verify(user).updateLastName(lastName);
+	}
+
+	@Test
+	public void shouldHaveUpdateUsersAddressUpdateAddress() {
+		underTest.updateUsersAddress(token, address);
+		verify(user).updateAddress(address);
 	}
 }
