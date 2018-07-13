@@ -142,11 +142,6 @@ div.stats {
 	width: 13.4rem;
 }
 
-h2 a {
-	text-decoration-line: none;
-	color: black;
-}
-
 div.container.cart div.aside-main aside div.stats {
 	position: static;
 }
