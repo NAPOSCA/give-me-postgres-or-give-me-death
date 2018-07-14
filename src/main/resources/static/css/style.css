@@ -179,3 +179,12 @@ p.address {
 	width: 12rem;
 	margin-left: auto;
 }
+
+.container.welcome main {
+	border-radius: var(--border-radius);
+	position: relative;
+}
+
+a {
+	color: #46a8d0;
+}
