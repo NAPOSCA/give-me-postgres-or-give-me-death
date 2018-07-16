@@ -12,7 +12,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http //
 				.authorizeRequests() //
 				.antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll() //
-				.anyRequest().authenticated();
+				.anyRequest().authenticated() //
+				.and() //
+				.oauth2Login().loginPage("/oauth2/authorization/google");
 	}
 
 }
