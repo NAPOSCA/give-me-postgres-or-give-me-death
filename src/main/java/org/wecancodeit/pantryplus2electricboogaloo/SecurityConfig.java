@@ -11,7 +11,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http //
 				.authorizeRequests() //
-				.antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll() //
+				.antMatchers("/", "/css/**", "/images/**", "/js/**", "/oauth2/authorization/google").permitAll() //
 				.anyRequest().authenticated() //
 				.and() //
 				.oauth2Login().loginPage("/oauth2/authorization/google");
