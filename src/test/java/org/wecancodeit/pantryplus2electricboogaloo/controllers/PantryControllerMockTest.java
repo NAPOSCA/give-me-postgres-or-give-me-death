@@ -166,8 +166,15 @@ public class PantryControllerMockTest {
 
 	@Test
 	public void shouldHaveDisplayWelcomePageReturnWelcome() {
-		String templateName = underTest.displayWelcomeView();
+		String templateName = underTest.displayWelcomeView(model, token);
 		assertThat(templateName, is("welcome"));
+	}
+
+	@Test
+	public void shouldAttachAuthenticatedAsTrueToModelIfUserIsSignedIn() {
+		when(token.isAuthenticated()).thenReturn(true);
+		underTest.displayWelcomeView(model, token);
+		verify(model).addAttribute("authenticated", true);
 	}
 
 }
