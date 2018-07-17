@@ -165,7 +165,8 @@ public class PantryControllerMockTest {
 	}
 
 	@Test
-	public void shouldHaveDisplayWelcomePageReturnWelcome() {
+	public void shouldHaveDisplayWelcomePageReturnWelcomeWhenUserIsValid() {
+		when(user.isValid()).thenReturn(true);
 		String templateName = underTest.displayWelcomeView(model, token);
 		assertThat(templateName, is("welcome"));
 	}
@@ -183,11 +184,19 @@ public class PantryControllerMockTest {
 		underTest.displayWelcomeView(model, token);
 		verify(model).addAttribute("authenticated", false);
 	}
-	
+
 	@Test
-	public void shouldAttachUserIfAuthenticated() {
+	public void shouldAttachUserIfAuthenticatedAndUserIsValid() {
+		when(user.isValid()).thenReturn(true);
 		underTest.displayWelcomeView(model, token);
 		verify(model).addAttribute("user", user);
+	}
+
+	@Test
+	public void shouldRedirectToTheSettingsPageIfUserIsNotValid() {
+		when(user.isValid()).thenReturn(false);
+		String templateName = underTest.displayWelcomeView(model, token);
+		assertThat(templateName, is("redirect:/settings"));
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
@@ -63,7 +64,11 @@ public class PantryController extends LoginController {
 		boolean isAuthenticated = token != null;
 		model.addAttribute("authenticated", isAuthenticated);
 		if (isAuthenticated) {
-			model.addAttribute("user", resolveUser(token));
+			PantryUser user = resolveUser(token);
+			if(!user.isValid()) {
+				return "redirect:/settings";
+			}
+			model.addAttribute("user", user);
 		}
 		return "welcome";
 	}
