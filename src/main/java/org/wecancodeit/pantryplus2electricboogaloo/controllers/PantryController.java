@@ -60,7 +60,8 @@ public class PantryController extends LoginController {
 
 	@RequestMapping("/")
 	public String displayWelcomeView(Model model, OAuth2AuthenticationToken token) {
-		model.addAttribute("authenticated", token.isAuthenticated());
+		boolean isAuthenticated = token != null;
+		model.addAttribute("authenticated", isAuthenticated);
 		return "welcome";
 	}
 
