@@ -94,7 +94,8 @@ public class PantryControllerMockTest {
 	}
 
 	@Test
-	public void shouldHaveDisplayShoppingReturnShopping() {
+	public void shouldHaveDisplayShoppingReturnShoppingWhenUserIsValid() {
+		when(user.isValid()).thenReturn(true);
 		String templateName = "shopping";
 		String actual = underTest.displayShopping(model, token);
 		assertThat(actual, is(templateName));
@@ -120,7 +121,8 @@ public class PantryControllerMockTest {
 	}
 
 	@Test
-	public void shouldAttachCartToModelWhenDisplayingShopping() {
+	public void shouldAttachCartToModelWhenDisplayingShoppingAndWhenUserIsValid() {
+		when(user.isValid()).thenReturn(true);
 		Iterable<Category> categories = asList(category, anotherCategory);
 		when(categoryRepo.findAll()).thenReturn(categories);
 		when(user.getCart()).thenReturn(cart);
@@ -193,9 +195,16 @@ public class PantryControllerMockTest {
 	}
 
 	@Test
-	public void shouldRedirectToTheSettingsPageIfUserIsNotValid() {
+	public void shouldRedirectFromTheWelcomeViewToTheSettingsPageIfUserIsNotValid() {
 		when(user.isValid()).thenReturn(false);
 		String templateName = underTest.displayWelcomeView(model, token);
+		assertThat(templateName, is("redirect:/settings"));
+	}
+	
+	@Test
+	public void shouldRedirectFromTheShoppingViewToTheSettingsPageIfUserIsNotValid() {
+		when(user.isValid()).thenReturn(false);
+		String templateName = underTest.displayShopping(model, token);
 		assertThat(templateName, is("redirect:/settings"));
 	}
 

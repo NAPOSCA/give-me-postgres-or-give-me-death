@@ -40,7 +40,12 @@ public class PantryController extends LoginController {
 	@RequestMapping("/shopping")
 	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("categories", categoryRepo.findAll());
-		model.addAttribute("cart", resolveUser(token).getCart());
+		PantryUser user = resolveUser(token);
+		if(!user.isValid()) {
+			return "redirect:/settings";
+		}
+		model.addAttribute("cart", user.getCart());
+		
 		return "shopping";
 	}
 
