@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to BSFP</title>
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+	<link rel="stylesheet" type="text/css" href="/css/layout.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/animation.css"/>
+	<!-- <link rel="stylesheet" type="text/css" href="/css/user-form.media-queries.css"/> -->
+	<link rel="shortcut icon" href="images\favicon.ico" type="image/x-icon"/>
+	<link rel="icon" href="images\favicon.ico" type="image/x-icon"/>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+	<!-- <script type="text/javascript" src="/js/user-form.js"></script> -->
+</head>
+<body>
+	<div class="container welcome">
+		<header>
+			<nav>
+				<ul>
+					<li class="current">
+						<h2>Welcome</h2>
+					</li>
+					<li>
+						<h2 th:if="${authenticated}">
+							<a href="/settings">Settings</a>
+						</h2>
+						<h2 th:unless="${authenticated}">Settings</h2>
+					</li>
+					<li>
+						<h2 th:if="${authenticated}">
+							<a href="/shopping">Shopping</a>
+						</h2>
+						<h2 th:unless="${authenticated}">Shopping</h2>
+					</li>
+					<li>
+						<h2>Cart</h2>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		<main>
+			<p th:if="${authenticated}">
+				Hello <span th:text="${user.firstName}"/>, welcome to the Broad Street Food Pantry.
+			</p>
+			<p th:unless="${authenticated}">
+				Hello, welcome to the Broad Street Food Pantry.
+			</p>
+			<a th:unless="${authenticated}" href="/oauth2/authorization/google">
+				<img src="/images/google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png" alt="Google Signin button">
+			</a>
+		</main>
+		<footer th:replace="user-form :: footer"/>
+	</div>
+</body>
+</html>

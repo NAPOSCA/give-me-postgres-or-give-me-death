@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
@@ -29,7 +30,7 @@ public class PantryController extends LoginController {
 	private EntityManager entityManager;
 
 	@Transactional
-	@RequestMapping("/")
+	@RequestMapping("/settings")
 	public String displayUserForm(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("user", resolveUser(token));
 		return "user-form";
@@ -39,7 +40,12 @@ public class PantryController extends LoginController {
 	@RequestMapping("/shopping")
 	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
 		model.addAttribute("categories", categoryRepo.findAll());
-		model.addAttribute("cart", resolveUser(token).getCart());
+		PantryUser user = resolveUser(token);
+		if(!user.isValid()) {
+			return "redirect:/settings";
+		}
+		model.addAttribute("cart", user.getCart());
+		
 		return "shopping";
 	}
 
@@ -56,6 +62,20 @@ public class PantryController extends LoginController {
 	@RequestMapping("/about-us")
 	public String displayAboutUs() {
 		return "about-us";
+	}
+
+	@RequestMapping("/")
+	public String displayWelcomeView(Model model, OAuth2AuthenticationToken token) {
+		boolean isAuthenticated = token != null;
+		model.addAttribute("authenticated", isAuthenticated);
+		if (isAuthenticated) {
+			PantryUser user = resolveUser(token);
+			if(!user.isValid()) {
+				return "redirect:/settings";
+			}
+			model.addAttribute("user", user);
+		}
+		return "welcome";
 	}
 
 }
