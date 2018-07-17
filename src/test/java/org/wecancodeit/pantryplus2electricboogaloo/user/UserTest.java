@@ -145,4 +145,154 @@ public class UserTest {
 		assertThat(meatLimit, is(8));
 	}
 
+	@Test
+	public void shouldBeValidUserIfAllInformationIsPresent() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(true));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfAddressIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfBirthDateIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfFamilySizeIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfFirstNameIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfLastNameIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfSchoolAgeChildrenIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfAddressIsBlank() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfBirthDateIsBlank() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfFamilySizeIsZero() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(0);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfFirstNameIsBlank() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfLastNameIsBlank() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
 }

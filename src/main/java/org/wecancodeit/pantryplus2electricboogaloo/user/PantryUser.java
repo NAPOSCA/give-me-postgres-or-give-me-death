@@ -34,6 +34,7 @@ public class PantryUser {
 
 	public PantryUser(String googleName) {
 		this.googleName = googleName;
+		this.schoolAgeChildren = -1;
 	}
 
 	public long getId() {
@@ -131,6 +132,40 @@ public class PantryUser {
 		model.put("address", getAddress());
 		model.put("SchoolAgeChildren", getSchoolAgeChildren());
 		return model;
+	}
+
+	public boolean isValid() {
+		if (getAddress() == null) {
+			return false;
+		}
+		if (getBirthDate() == null) {
+			return false;
+		}
+		if (getFamilySize() == 0) {
+			return false;
+		}
+		if (getFirstName() == null) {
+			return false;
+		}
+		if (getLastName() == null) {
+			return false;
+		}
+		if (getSchoolAgeChildren() == -1) {
+			return false;
+		}
+		if (getAddress().equals("")) {
+			return false;
+		}
+		if (getBirthDate().equals("")) {
+			return false;
+		}
+		if (getFirstName().equals("")) {
+			return false;
+		}
+		if (getLastName().equals("")) {
+			return false;
+		}
+		return true;
 	}
 
 }
