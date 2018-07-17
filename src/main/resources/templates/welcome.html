@@ -24,14 +24,16 @@
 						<h2>Welcome</h2>
 					</li>
 					<li>
-						<h2>
+						<h2 th:if="${authenticated}">
 							<a href="/settings">Settings</a>
 						</h2>
+						<h2 th:unless="${authenticated}">Settings</h2>
 					</li>
 					<li>
-						<h2>
+						<h2 th:if="${authenticated}">
 							<a href="/shopping">Shopping</a>
 						</h2>
+						<h2 th:unless="${authenticated}">Shopping</h2>
 					</li>
 					<li>
 						<h2>Cart</h2>
