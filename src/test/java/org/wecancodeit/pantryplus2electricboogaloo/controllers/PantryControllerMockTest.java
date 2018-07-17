@@ -183,5 +183,11 @@ public class PantryControllerMockTest {
 		underTest.displayWelcomeView(model, token);
 		verify(model).addAttribute("authenticated", false);
 	}
+	
+	@Test
+	public void shouldAttachUserIfAuthenticated() {
+		underTest.displayWelcomeView(model, token);
+		verify(model).addAttribute("user", user);
+	}
 
 }

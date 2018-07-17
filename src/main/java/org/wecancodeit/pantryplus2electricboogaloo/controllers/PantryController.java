@@ -62,6 +62,9 @@ public class PantryController extends LoginController {
 	public String displayWelcomeView(Model model, OAuth2AuthenticationToken token) {
 		boolean isAuthenticated = token != null;
 		model.addAttribute("authenticated", isAuthenticated);
+		if (isAuthenticated) {
+			model.addAttribute("user", resolveUser(token));
+		}
 		return "welcome";
 	}
 
