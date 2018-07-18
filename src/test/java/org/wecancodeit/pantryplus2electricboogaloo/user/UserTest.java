@@ -334,5 +334,23 @@ public class UserTest {
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
+	
+	@Test
+	public void shouldHaveInfantsBeTrue() {
+		boolean check = true;
+		PantryUser user = new PantryUser(googleName);
+		user.updateHasInfants(check);
+		boolean actual = user.getHasInfants();
+		assertThat(actual, is(check));
+	}
+	
+	@Test
+	public void shouldHaveInfantsBeFalse() {
+		boolean check = false;
+		PantryUser user = new PantryUser(googleName);
+		user.updateHasInfants(check);
+		boolean actual = user.getHasInfants();
+		assertThat(actual, is(check));
+	}
 
 }

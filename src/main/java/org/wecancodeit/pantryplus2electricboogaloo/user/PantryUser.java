@@ -30,6 +30,7 @@ public class PantryUser {
 	private int schoolAgeChildren;
 	private String zipCode;
 	private String referral;
+	private boolean hasInfants;
 
 	public PantryUser() {
 	}
@@ -190,6 +191,14 @@ public class PantryUser {
 
 	public void updateReferral(String referral) {
 		this.referral = referral;
+	}
+
+	public void updateHasInfants(boolean hasInfants) {
+		this.hasInfants = hasInfants;
+	}
+
+	public boolean getHasInfants() {
+		return hasInfants;
 	}
 
 }
