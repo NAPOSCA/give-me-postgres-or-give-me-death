@@ -45,6 +45,8 @@
 				<h1>Welcome to Broad Street Food Pantry</h1>
 				<h3>Please enter your information</h3>
 				<form action="/user", method="POST" th:object=${user}>
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
 					<label for="first-name">First name:</label>
 					<input type="text" th:field="*{firstName}" maxlength="20" autofocus="true" required="true"/>
 
