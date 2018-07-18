@@ -46,25 +46,30 @@
 				<h3>Please enter your information</h3>
 				<form action="/user", method="POST">
 					<label for="first-name">First name:</label>
-					<input type="text" name="firstName" maxlength="20" id="first-name" autofocus="true" required="true"/>
+					<!-- <input type="text" name="firstName" maxlength="20" id="first-name" autofocus="true" required="true" th:value="${user.firstName}"/> -->
+					<input type="text" th:field="${user.firstName}" maxlength="20" autofocus="true" required="true"/>
 
 					<br />
 
 					<label for="last-name">Last name:</label>
-					<input type="text" name="lastName" maxlength="20" id="last-name" required="true"/>
+					<!-- <input type="text" name="lastName" maxlength="20" id="last-name" required="true" th:value="${user.lastname}"/> -->
+					<input type="text" th:field="${user.lastName}" maxlength="20" required="true"/>
 
 					<br />
 
 					<label for="birthdate">Birthdate:</label>
-					<input type="date" name="birthdate" id="birthdate" required="true"/>
+					<!-- <input type="date" name="birthdate" id="birthdate" required="true" th:value="${user.birthdate}"/> -->
+					<!-- <input type="text" th:field="${user.birthdate}" required="true"/> -->
+					<input type="date" th:field="${user.birthdate}" required="true"/>
 
 					<br />
 
 					<label for="address">Address:</label>
-					<input type="text" name="address" id="address" required="true"/>
+					<!-- <input type="text" name="address" id="address" required="true" th:value="${user.address}"/> -->
+					<input type="text" th:field="${user.address}" required="true"/>
 
 					<p>Zip code:</p>
-					<select name="zipCode" required="true">
+					<!-- <select name="zipCode" required="true">
 						<option selected="true" disabled="true" hidden="true" value="">Select...</option>
 						<option value="43203">43203</option>
 						<option value="43205">43205</option>
@@ -73,10 +78,19 @@
 						<option value="43215">43215</option>
 						<option value="Partnership">I am a partner</option>
 						<option value="Other">Other</option>
+					</select> -->
+					<input type="text" th:field="${user.zipCode}" size="5" maxlength="5" pattern="\d{5}"/>
+
+					<p>Were you referred to this food pantry by one of the following: CELC, BSA, or COMPASS?</p>
+					<select th:field="${user.referral}" required="true">
+						<option value="no referral">Not Referred</option>
+						<option value="CELC">CELC</option>
+						<option value="BSA">BSA</option>
+						<option value="COMPASS">COMPASS</option>
 					</select>
 
 					<p>Total family size:</p>
-					<select class="familySizeMenu" name="familySize" required="true">
+					<!-- <select class="familySizeMenu" name="familySize" required="true">
 						<option selected="true" disabled="true" hidden="true" value="">Select...</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -87,16 +101,18 @@
 						<option value="7">7</option>
 						<option value="8">8</option>
 						<option value="9">9+</option>
-					</select>
-					
+					</select> -->
+					<input type="number" th:field="${user.familySize}" min="1" max="9"/>
+
 					<p>Children age 3 or younger:</p>
-					<input id="yes" type="radio" name="infants" value="true"/>
+					<!-- <input id="yes" type="radio" name="infants" value="true"/>
 					<label for="yes">Yes</label>
 					<input id="no" type="radio" name="infants" value="" checked="true"/>
-					<label for="no">No</label>
+					<label for="no">No</label> -->
+					<input type="checkbox" th:field="${user.infants}"/>
 					
 					<p>Children between the ages of 4 and 17:</p>
-					<select class="schoolKidsMenu" name="schoolkidsCount" required="true">
+					<!-- <select class="schoolKidsMenu" name="schoolkidsCount" required="true">
 						<option selected="true" disabled="true" hidden="true" value="">Select...</option>
 						<option value="0">0</option>
 						<option value="1" class="hidden">1</option>
@@ -108,16 +124,18 @@
 						<option value="7" class="hidden">7</option>
 						<option value="8" class="hidden">8</option>
 						<option value="9" class="hidden">9+</option>
-					</select>
+					</select> -->
+					<input type="number" th:field="${user.schoolAgeChildren}" min="0" max="9"/>
 
 
-					<p>Pick up date:</p>
+					<!-- <p>Pick up date:</p>
 					<select name="pickUpDate" required="true">
 						<option selected="true" disabled="true" hidden="true" value="">Select...</option>
 						<option value="2018-04-17">04/17/2018</option>
-					</select>	
+					</select> -->
 
-					<p><input type="submit" value="Start Shopping"/></p>
+
+					<p><input type="submit" value="Update Information"/></p>
 				</form> 
 			</main>
 		</div>
