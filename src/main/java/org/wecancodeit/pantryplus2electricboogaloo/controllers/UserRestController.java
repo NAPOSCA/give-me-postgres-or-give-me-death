@@ -41,7 +41,7 @@ public class UserRestController extends LoginController {
 	@PatchMapping(path = "/user", params = "birthDate")
 	public String receivePatchForBirthDate(OAuth2AuthenticationToken token, @RequestParam String birthDate) {
 		PantryUser user = resolveUser(token);
-		user.updateBirthDate(birthDate);
+		user.updateBirthdate(birthDate);
 		return birthDate;
 	}
 
@@ -55,13 +55,13 @@ public class UserRestController extends LoginController {
 	@PostMapping(path = "/user")
 	public PantryUser receivePostOnUser(OAuth2AuthenticationToken token, @RequestParam String firstName,
 			@RequestParam String lastName, @RequestParam String address, @RequestParam int familySize,
-			@RequestParam String birthDate) {
+			@RequestParam String birthdate) {
 		PantryUser user = resolveUser(token);
 		user.updateFirstName(firstName);
 		user.updateLastName(lastName);
 		user.updateAddress(address);
 		user.updateFamilySize(familySize);
-		user.updateBirthDate(birthDate);
+		user.updateBirthdate(birthdate);
 		return user;
 	}
 

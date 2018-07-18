@@ -25,7 +25,7 @@ public class PantryUser {
 	private String googleName;
 	private String firstName;
 	private String lastName;
-	private String birthDate;
+	private String birthdate;
 	private String address;
 	private int schoolAgeChildren;
 
@@ -62,7 +62,7 @@ public class PantryUser {
 	}
 
 	public String getBirthDate() {
-		return birthDate;
+		return birthdate;
 	}
 
 	public String getAddress() {
@@ -85,8 +85,8 @@ public class PantryUser {
 		this.familySize = familySize;
 	}
 
-	public void updateBirthDate(String birthDate) {
-		this.birthDate = birthDate;
+	public void updateBirthdate(String birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	public void updateAddress(String address) {

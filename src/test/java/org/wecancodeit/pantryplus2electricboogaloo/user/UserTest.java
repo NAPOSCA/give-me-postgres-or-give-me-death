@@ -149,7 +149,7 @@ public class UserTest {
 	public void shouldBeValidUserIfAllInformationIsPresent() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateLastName("Last");
@@ -161,7 +161,7 @@ public class UserTest {
 	@Test
 	public void shouldNotBeValidUserIfAddressIsMissing() {
 		PantryUser user = new PantryUser(googleName);
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateLastName("Last");
@@ -186,7 +186,7 @@ public class UserTest {
 	public void shouldNotBeValidUserIfFamilySizeIsMissing() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFirstName("First");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
@@ -198,7 +198,7 @@ public class UserTest {
 	public void shouldNotBeValidUserIfFirstNameIsMissing() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(2);
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
@@ -210,7 +210,7 @@ public class UserTest {
 	public void shouldNotBeValidUserIfLastNameIsMissing() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateSchoolAgeChildren(0);
@@ -222,7 +222,7 @@ public class UserTest {
 	public void shouldNotBeValidUserIfSchoolAgeChildrenIsMissing() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateLastName("Last");
@@ -234,7 +234,7 @@ public class UserTest {
 	public void shouldNotBeValidIfAddressIsBlank() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateLastName("Last");
@@ -247,7 +247,7 @@ public class UserTest {
 	public void shouldNotBeValidIfBirthDateIsBlank() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("");
+		user.updateBirthdate("");
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateLastName("Last");
@@ -260,7 +260,7 @@ public class UserTest {
 	public void shouldNotBeValidIfFamilySizeIsZero() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(0);
 		user.updateFirstName("First");
 		user.updateLastName("Last");
@@ -273,7 +273,7 @@ public class UserTest {
 	public void shouldNotBeValidIfFirstNameIsBlank() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(2);
 		user.updateFirstName("");
 		user.updateLastName("Last");
@@ -286,7 +286,7 @@ public class UserTest {
 	public void shouldNotBeValidIfLastNameIsBlank() {
 		PantryUser user = new PantryUser(googleName);
 		user.updateAddress("1234 Main St");
-		user.updateBirthDate("January 30th 1902");
+		user.updateBirthdate("January 30th 1902");
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateLastName("");
