@@ -139,12 +139,6 @@ public class UserRestControllerMockTest {
 		int actual = underTest.receivePatchForSchoolAgeChildren(token, schoolAgeChildren);
 		assertThat(actual, is(schoolAgeChildren));
 	}
-	
-	@Test
-	public void shouldReturnUserWhenReceivingPostOnUser() {
-		PantryUser actual = underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
-		assertThat(actual, is(user));
-	}
 
 	@Test
 	public void shouldUpdateFirstNameWhenReceivingPostOnUser() {
@@ -174,6 +168,12 @@ public class UserRestControllerMockTest {
 	public void shouldUpdateBirthDateWhenReceivingPostOnUser() {
 		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
 		verify(user).updateBirthdate(birthdate);
+	}
+	
+	@Test
+	public void shouldRedirectBackToFormWhenReceivingPostOnUser() {
+		String actual = underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
+		assertThat(actual, is("redirect:/settings"));
 	}
 
 }

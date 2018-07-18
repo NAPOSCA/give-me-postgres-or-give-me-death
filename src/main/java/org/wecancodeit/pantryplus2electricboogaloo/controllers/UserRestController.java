@@ -53,7 +53,7 @@ public class UserRestController extends LoginController {
 	}
 
 	@PostMapping(path = "/user")
-	public PantryUser receivePostOnUser(OAuth2AuthenticationToken token, @RequestParam String firstName,
+	public String receivePostOnUser(OAuth2AuthenticationToken token, @RequestParam String firstName,
 			@RequestParam String lastName, @RequestParam String address, @RequestParam int familySize,
 			@RequestParam String birthdate) {
 		PantryUser user = resolveUser(token);
@@ -62,7 +62,7 @@ public class UserRestController extends LoginController {
 		user.updateAddress(address);
 		user.updateFamilySize(familySize);
 		user.updateBirthdate(birthdate);
-		return user;
+		return "redirect:/settings";
 	}
 
 }
