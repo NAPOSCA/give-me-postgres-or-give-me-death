@@ -44,30 +44,30 @@
 			<main>
 				<h1>Welcome to Broad Street Food Pantry</h1>
 				<h3>Please enter your information</h3>
-				<form action="/user", method="POST">
+				<form action="/user", method="POST" th:object=${user}>
 					<label for="first-name">First name:</label>
-					<input type="text" th:field="${user.firstName}" maxlength="20" autofocus="true" required="true"/>
+					<input type="text" th:field="*{firstName}" maxlength="20" autofocus="true" required="true"/>
 
 					<br />
 
 					<label for="last-name">Last name:</label>
-					<input type="text" th:field="${user.lastName}" maxlength="20" required="true"/>
+					<input type="text" th:field="*{lastName}" maxlength="20" required="true"/>
 
 					<br />
 
 					<label for="birthdate">Birthdate:</label>
-					<input type="date" th:field="${user.birthdate}" required="true"/>
+					<input type="date" th:field="*{birthdate}" required="true"/>
 
 					<br />
 
 					<label for="address">Address:</label>
-					<input type="text" th:field="${user.address}" required="true"/>
+					<input type="text" th:field="*{address}" required="true"/>
 
 					<p>Zip code:</p>
-					<input type="text" th:field="${user.zipCode}" size="5" maxlength="5" pattern="\d{5}"/>
+					<input type="text" th:field="*{zipCode}" size="5" maxlength="5" pattern="\d{5}"/>
 
 					<p>Were you referred to this food pantry by one of the following: CELC, BSA, or COMPASS?</p>
-					<select th:field="${user.referral}" required="true">
+					<select th:field="*{referral}" required="true">
 						<option value="no referral">Not Referred</option>
 						<option value="CELC">CELC</option>
 						<option value="BSA">BSA</option>
@@ -75,15 +75,15 @@
 					</select>
 
 					<p>Total family size:</p>
-					<input type="number" th:field="${user.familySize}" min="1" max="9"/>
+					<input type="number" th:field="*{familySize}" min="1" max="9"/>
 
 					<p>Children age 3 or younger:</p>
-					<input type="checkbox" th:field="${user.hasInfants}"/>
+					<input type="checkbox" th:field="*{hasInfants}"/>
 					
 					<p>Children between the ages of 4 and 17:</p>
-					<input type="number" th:field="${user.schoolAgeChildren}" min="0" max="9"/>
+					<input type="number" th:field="*{schoolAgeChildren}" min="0" max="9"/>
 
-					<p><input type="submit" value="Update Information"/></p>
+					<p><input type="submit" value="Save Information"/></p>
 				</form> 
 			</main>
 		</div>
