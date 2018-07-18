@@ -29,6 +29,7 @@ public class PantryUser {
 	private String address;
 	private int schoolAgeChildren;
 	private String zipCode;
+	private String referral;
 
 	public PantryUser() {
 	}
@@ -169,7 +170,14 @@ public class PantryUser {
 		if (getZipCode() == null) {
 			return false;
 		}
+		if (getReferral() == null) {
+			return false;
+		}
 		return true;
+	}
+
+	public String getReferral() {
+		return referral;
 	}
 
 	public String getZipCode() {
@@ -178,6 +186,10 @@ public class PantryUser {
 
 	public void updateZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public void updateReferral(String referral) {
+		this.referral = referral;
 	}
 
 }
