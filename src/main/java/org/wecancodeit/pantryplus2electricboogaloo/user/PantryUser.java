@@ -61,7 +61,7 @@ public class PantryUser {
 		return familySize;
 	}
 
-	public String getBirthDate() {
+	public String getBirthdate() {
 		return birthdate;
 	}
 
@@ -128,7 +128,7 @@ public class PantryUser {
 		model.put("firstName", getFirstName());
 		model.put("lastName", getLastName());
 		model.put("familySize", getFamilySize());
-		model.put("birthDate", getBirthDate());
+		model.put("birthDate", getBirthdate());
 		model.put("address", getAddress());
 		model.put("SchoolAgeChildren", getSchoolAgeChildren());
 		return model;
@@ -138,7 +138,7 @@ public class PantryUser {
 		if (getAddress() == null) {
 			return false;
 		}
-		if (getBirthDate() == null) {
+		if (getBirthdate() == null) {
 			return false;
 		}
 		if (getFamilySize() == 0) {
@@ -156,7 +156,7 @@ public class PantryUser {
 		if (getAddress().equals("")) {
 			return false;
 		}
-		if (getBirthDate().equals("")) {
+		if (getBirthdate().equals("")) {
 			return false;
 		}
 		if (getFirstName().equals("")) {
