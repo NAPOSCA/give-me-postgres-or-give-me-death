@@ -51,4 +51,15 @@ public class UserRestController extends LoginController {
 		return schoolAgeChildren;
 	}
 
+	public PantryUser receivePostOnUser(OAuth2AuthenticationToken token, String firstName, String lastName,
+			String address, int familySize, String birthDate) {
+		PantryUser user = resolveUser(token);
+		user.updateFirstName(firstName);
+		user.updateLastName(lastName);
+		user.updateAddress(address);
+		user.updateFamilySize(familySize);
+		user.updateBirthDate(birthDate);
+		return user;
+	}
+
 }

@@ -139,5 +139,41 @@ public class UserRestControllerMockTest {
 		int actual = underTest.receivePatchForSchoolAgeChildren(token, schoolAgeChildren);
 		assertThat(actual, is(schoolAgeChildren));
 	}
+	
+	@Test
+	public void shouldReturnUserWhenReceivingPostOnUser() {
+		PantryUser actual = underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthDate);
+		assertThat(actual, is(user));
+	}
+
+	@Test
+	public void shouldUpdateFirstNameWhenReceivingPostOnUser() {
+		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthDate);
+		verify(user).updateFirstName(firstName);
+	}
+	
+	@Test
+	public void shouldUpdateLastNameWhenReceivingPostOnUser() {
+		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthDate);
+		verify(user).updateLastName(lastName);
+	}
+	
+	@Test
+	public void shouldUpdateAddressWhenReceivingPostOnUser() {
+		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthDate);
+		verify(user).updateAddress(address);
+	}
+	
+	@Test
+	public void shouldUpdateFamilySizeWhenReceivingPostOnUser() {
+		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthDate);
+		verify(user).updateFamilySize(familySize);
+	}
+	
+	@Test
+	public void shouldUpdateBirthDateWhenReceivingPostOnUser() {
+		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthDate);
+		verify(user).updateBirthDate(birthDate);
+	}
 
 }
