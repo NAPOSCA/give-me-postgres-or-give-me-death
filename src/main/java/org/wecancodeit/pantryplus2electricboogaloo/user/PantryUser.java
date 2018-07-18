@@ -28,6 +28,7 @@ public class PantryUser {
 	private String birthdate;
 	private String address;
 	private int schoolAgeChildren;
+	private String zipCode;
 
 	public PantryUser() {
 	}
@@ -165,7 +166,18 @@ public class PantryUser {
 		if (getLastName().equals("")) {
 			return false;
 		}
+		if (getZipCode() == null) {
+			return false;
+		}
 		return true;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void updateZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 }

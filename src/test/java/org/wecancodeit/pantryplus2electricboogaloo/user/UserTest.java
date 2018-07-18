@@ -154,6 +154,7 @@ public class UserTest {
 		user.updateFirstName("First");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(true));
 	}
@@ -166,6 +167,7 @@ public class UserTest {
 		user.updateFirstName("First");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -178,6 +180,7 @@ public class UserTest {
 		user.updateFirstName("First");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -190,6 +193,7 @@ public class UserTest {
 		user.updateFirstName("First");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -202,6 +206,7 @@ public class UserTest {
 		user.updateFamilySize(2);
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -214,6 +219,7 @@ public class UserTest {
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -226,6 +232,7 @@ public class UserTest {
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateLastName("Last");
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -239,6 +246,7 @@ public class UserTest {
 		user.updateFirstName("First");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -252,6 +260,7 @@ public class UserTest {
 		user.updateFirstName("First");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -265,6 +274,7 @@ public class UserTest {
 		user.updateFirstName("First");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -278,6 +288,7 @@ public class UserTest {
 		user.updateFirstName("");
 		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
@@ -290,6 +301,20 @@ public class UserTest {
 		user.updateFamilySize(2);
 		user.updateFirstName("First");
 		user.updateLastName("");
+		user.updateSchoolAgeChildren(0);
+		user.updateZipCode("12345");
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+	
+	@Test
+	public void shouldNotBeValidIfZipCodeIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthdate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
 		user.updateSchoolAgeChildren(0);
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
