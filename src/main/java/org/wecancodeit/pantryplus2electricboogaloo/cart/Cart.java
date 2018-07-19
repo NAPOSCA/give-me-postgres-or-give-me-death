@@ -1,6 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.cart;
 
 import static java.util.stream.Collectors.toSet;
+import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,23 +15,23 @@ import javax.persistence.OneToOne;
 
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
-import org.wecancodeit.pantryplus2electricboogaloo.user.User;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Entity
 public class Cart {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	@OneToOne
-	private User user;
+	private PantryUser user;
 	@OneToMany(mappedBy = "cart", orphanRemoval = true)
 	private Set<LineItem> lineItems;
 
 	public Cart() {
 	}
 
-	public Cart(User user) {
+	public Cart(PantryUser user) {
 		this.user = user;
 	}
 
@@ -38,7 +39,7 @@ public class Cart {
 		return id;
 	}
 
-	public User getUser() {
+	public PantryUser getUser() {
 		return user;
 	}
 
@@ -65,24 +66,30 @@ public class Cart {
 	}
 
 	public Map<String, Object> toModel() {
-		User cartUser = getUser();
 		Map<String, Object> model = new HashMap<>();
-		Map<String, Object> user = cartUser.toModel();
+		Map<String, Object> user = getUser().toModel();
 		model.put("user", user);
-
-		Set<LineItem> lineItems = getLineItems().stream().filter(lineItem -> !(lineItem instanceof CountedLineItem))
-				.collect(toSet());
-		model.put("lineItems", lineItems);
-
-		Set<LineItem> countedLineItems = getLineItems().stream().filter(lineItem -> lineItem instanceof CountedLineItem)
-				.collect(toSet());
-		model.put("countedLineItems", countedLineItems);
-
+		model.put("lineItems", getLineItems());
+		model.put("countedLineItems", getCountedLineItems());
+		
+		
 		return model;
 	}
 
-	private Set<LineItem> getLineItems() {
+	public Set<LineItem> getAllLineItems() {
 		return lineItems;
+	}
+
+	public Set<LineItem> getLineItems() {
+		return lineItems.stream().filter(item -> !isCountedLineItem(item)).collect(toSet());
+	}
+
+	public Set<CountedLineItem> getCountedLineItems() {
+		return lineItems.stream().filter(item -> isCountedLineItem(item)).map(item -> (CountedLineItem) item).collect(toSet());
+	}
+
+	private boolean isCountedLineItem(LineItem item) {
+		return item instanceof CountedLineItem;
 	}
 
 }

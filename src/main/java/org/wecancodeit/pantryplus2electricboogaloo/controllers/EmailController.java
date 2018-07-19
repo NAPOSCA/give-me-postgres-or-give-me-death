@@ -6,11 +6,11 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +19,11 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
-import org.wecancodeit.pantryplus2electricboogaloo.user.User;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class EmailController {
+public class EmailController extends LoginController {
 
 	private static final String RECIPIENT = "bsfppantryplus@gmail.com";
 
@@ -48,10 +48,11 @@ public class EmailController {
 		return "email-failure";
 	}
 
+	@Transactional
 	@RequestMapping("/email")
 	public String home(OAuth2AuthenticationToken token) {
 		try {
-			User user = getUser(token);
+			PantryUser user = resolveUser(token);
 			Long cartId = user.getCart().getId();
 			Cart cart = cartRepo.findById(cartId).orElse(null);
 			String name;
@@ -121,19 +122,6 @@ public class EmailController {
 	public MimeMessage createMimeMessage() {
 		MimeMessage message = sender.createMimeMessage();
 		return message;
-	}
-
-	public User getUser(OAuth2AuthenticationToken token) {
-		OAuth2User authenticatedUser = token.getPrincipal();
-		Map<String, Object> principalAttributes = authenticatedUser.getAttributes();
-		String googleName = (String) principalAttributes.get("sub");
-		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
-			User other = new User(googleName);
-			userRepo.save(other);
-			entityManager.flush();
-			entityManager.clear();
-			return userRepo.findByGoogleName(googleName).get();
-		});
 	}
 
 }

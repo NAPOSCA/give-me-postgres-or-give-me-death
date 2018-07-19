@@ -142,11 +142,6 @@ div.stats {
 	width: 13.4rem;
 }
 
-h2 a {
-	text-decoration-line: none;
-	color: black;
-}
-
 div.container.cart div.aside-main aside div.stats {
 	position: static;
 }
@@ -183,4 +178,13 @@ h1 {
 p.address {
 	width: 12rem;
 	margin-left: auto;
+}
+
+.container.welcome main {
+	border-radius: var(--border-radius);
+	position: relative;
+}
+
+a {
+	color: #46a8d0;
 }

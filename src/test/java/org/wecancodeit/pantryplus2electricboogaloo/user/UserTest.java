@@ -13,7 +13,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForOnePerson() {
 		familySize = 1;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(10));
@@ -22,7 +22,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForTwoPersonFamily() {
 		familySize = 2;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(10));
@@ -31,7 +31,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForThreePersonFamily() {
 		familySize = 3;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(20));
@@ -40,7 +40,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForFourPersonFamily() {
 		familySize = 4;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(20));
@@ -49,7 +49,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForFivePersonFamily() {
 		familySize = 5;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(25));
@@ -58,7 +58,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForSixPersonFamily() {
 		familySize = 6;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(25));
@@ -67,7 +67,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForSevenPersonFamily() {
 		familySize = 7;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(30));
@@ -76,7 +76,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForEightPersonFamily() {
 		familySize = 8;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(30));
@@ -85,7 +85,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateCouponTotalForNinePersonFamily() {
 		familySize = 9;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int couponLimit = user.calculateCouponLimit();
 		assertThat(couponLimit, is(35));
@@ -94,7 +94,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateMeatLimitForOnePerson() {
 		familySize = 1;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int meatLimit = user.calculateMeatLimit();
 		assertThat(meatLimit, is(4));
@@ -103,7 +103,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateMeatLimitForTwoPersonFamily() {
 		familySize = 2;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int meatLimit = user.calculateMeatLimit();
 		assertThat(meatLimit, is(4));
@@ -112,7 +112,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateMeatLimitForThreePersonFamily() {
 		familySize = 3;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int meatLimit = user.calculateMeatLimit();
 		assertThat(meatLimit, is(6));
@@ -121,7 +121,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateMeatLimitForFourPersonFamily() {
 		familySize = 4;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int meatLimit = user.calculateMeatLimit();
 		assertThat(meatLimit, is(6));
@@ -130,7 +130,7 @@ public class UserTest {
 	@Test
 	public void shouldCalculateMeatLimitForFivePersonFamily() {
 		familySize = 5;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int meatLimit = user.calculateMeatLimit();
 		assertThat(meatLimit, is(6));
@@ -139,10 +139,160 @@ public class UserTest {
 	@Test
 	public void shouldCalculateMeatLimitForSixPersonFamily() {
 		familySize = 6;
-		User user = new User(googleName);
+		PantryUser user = new PantryUser(googleName);
 		user.updateFamilySize(familySize);
 		int meatLimit = user.calculateMeatLimit();
 		assertThat(meatLimit, is(8));
+	}
+
+	@Test
+	public void shouldBeValidUserIfAllInformationIsPresent() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(true));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfAddressIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfBirthDateIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfFamilySizeIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfFirstNameIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfLastNameIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidUserIfSchoolAgeChildrenIsMissing() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfAddressIsBlank() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfBirthDateIsBlank() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfFamilySizeIsZero() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(0);
+		user.updateFirstName("First");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfFirstNameIsBlank() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("");
+		user.updateLastName("Last");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
+	}
+
+	@Test
+	public void shouldNotBeValidIfLastNameIsBlank() {
+		PantryUser user = new PantryUser(googleName);
+		user.updateAddress("1234 Main St");
+		user.updateBirthDate("January 30th 1902");
+		user.updateFamilySize(2);
+		user.updateFirstName("First");
+		user.updateLastName("");
+		user.updateSchoolAgeChildren(0);
+		boolean isValid = user.isValid();
+		assertThat(isValid, is(false));
 	}
 
 }

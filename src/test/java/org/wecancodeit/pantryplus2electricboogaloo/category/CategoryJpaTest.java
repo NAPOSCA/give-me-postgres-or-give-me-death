@@ -3,6 +3,8 @@ package org.wecancodeit.pantryplus2electricboogaloo.category;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.Optional;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -30,7 +32,7 @@ public class CategoryJpaTest {
 		long categoryId = underTest.getId();
 		entityManager.flush();
 		entityManager.clear();
-		underTest = categoryRepo.findById(categoryId).get();
-		assertThat(underTest.getName(), is("underTest"));
+		Optional<Category> actual = categoryRepo.findById(categoryId);
+		assertThat(actual.isPresent(), is(true));
 	}
 }

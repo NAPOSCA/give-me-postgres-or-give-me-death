@@ -1,5 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.user;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +13,10 @@ import javax.persistence.OneToOne;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 
 @Entity
-public class User {
+public class PantryUser {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	private int familySize;
 	@OneToOne(mappedBy = "user")
@@ -27,17 +29,12 @@ public class User {
 	private String address;
 	private int schoolAgeChildren;
 
-	public User() {
+	public PantryUser() {
 	}
 
-	// public User(String firstName, String lastName, int familySize, int
-	// schoolAgeChildren, boolean hasInfants,
-	// String pickupDate, String zipCode, String address, String birthdate) {
-	// this.familySize = familySize;
-	// }
-
-	public User(String googleName) {
+	public PantryUser(String googleName) {
 		this.googleName = googleName;
+		this.schoolAgeChildren = -1;
 	}
 
 	public long getId() {
@@ -52,12 +49,52 @@ public class User {
 		return lastName;
 	}
 
+	public Cart getCart() {
+		return cart;
+	}
+
+	public String getGoogleName() {
+		return googleName;
+	}
+
+	public int getFamilySize() {
+		return familySize;
+	}
+
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public int getSchoolAgeChildren() {
+		return schoolAgeChildren;
+	}
+
 	public void updateFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
 	public void updateLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public void updateFamilySize(int familySize) {
+		this.familySize = familySize;
+	}
+
+	public void updateBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public void updateAddress(String address) {
+		this.address = address;
+	}
+
+	public void updateSchoolAgeChildren(int schoolAgeChildren) {
+		this.schoolAgeChildren = schoolAgeChildren;
 	}
 
 	public int calculateCouponLimit() {
@@ -86,18 +123,6 @@ public class User {
 		return 4;
 	}
 
-	public Cart getCart() {
-		return cart;
-	}
-
-	public void updateFamilySize(int familySize) {
-		this.familySize = familySize;
-	}
-
-	public String getGoogleName() {
-		return googleName;
-	}
-
 	public Map<String, Object> toModel() {
 		Map<String, Object> model = new HashMap<>();
 		model.put("firstName", getFirstName());
@@ -109,32 +134,38 @@ public class User {
 		return model;
 	}
 
-	public int getFamilySize() {
-		return familySize;
-	}
-
-	public String getBirthDate() {
-		return birthDate;
-	}
-
-	public void updateBirthDate(String birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void updateAddress(String address) {
-		this.address = address;
-	}
-
-	public int getSchoolAgeChildren() {
-		return schoolAgeChildren;
-	}
-
-	public void updateSchoolAgeChildren(int schoolAgeChildren) {
-		this.schoolAgeChildren = schoolAgeChildren;
+	public boolean isValid() {
+		if (getAddress() == null) {
+			return false;
+		}
+		if (getBirthDate() == null) {
+			return false;
+		}
+		if (getFamilySize() == 0) {
+			return false;
+		}
+		if (getFirstName() == null) {
+			return false;
+		}
+		if (getLastName() == null) {
+			return false;
+		}
+		if (getSchoolAgeChildren() == -1) {
+			return false;
+		}
+		if (getAddress().equals("")) {
+			return false;
+		}
+		if (getBirthDate().equals("")) {
+			return false;
+		}
+		if (getFirstName().equals("")) {
+			return false;
+		}
+		if (getLastName().equals("")) {
+			return false;
+		}
+		return true;
 	}
 
 }
