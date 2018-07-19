@@ -22,8 +22,6 @@ public class UserController extends LoginController {
 			@RequestParam String referral, @RequestParam(required = false) boolean hasInfants,
 			@RequestParam String primaryPhoneNumber, @RequestParam String secondaryPhoneNumber,
 			@RequestParam String primaryEmail) {
-		System.out.println(firstName);
-		System.out.println(hasInfants);
 		PantryUser user = resolveUser(token);
 		user.updateFirstName(firstName);
 		user.updateLastName(lastName);
