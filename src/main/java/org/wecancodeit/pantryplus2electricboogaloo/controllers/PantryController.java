@@ -64,6 +64,7 @@ public class PantryController extends LoginController {
 		return "about-us";
 	}
 
+	@Transactional
 	@RequestMapping("/")
 	public String displayWelcomeView(Model model, OAuth2AuthenticationToken token) {
 		boolean isAuthenticated = token != null;
