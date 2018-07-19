@@ -48,7 +48,7 @@ public class UserRestControllerMockTest {
 
 	private int familySize;
 
-	private String birthDate;
+	private String birthdate;
 
 	private int schoolAgeChildren;
 
@@ -64,7 +64,7 @@ public class UserRestControllerMockTest {
 		lastName = "Doo";
 		address = "Mystery Van";
 		familySize = 5;
-		birthDate = "September 13, 1969";
+		birthdate = "September 13, 1969";
 		schoolAgeChildren = 0;
 	}
 
@@ -118,14 +118,14 @@ public class UserRestControllerMockTest {
 
 	@Test
 	public void shouldUpdateBirthDateWhenReceivingPatchOnBirthDate() {
-		underTest.receivePatchForBirthDate(token, birthDate);
-		verify(user).updateBirthDate(birthDate);
+		underTest.receivePatchForBirthDate(token, birthdate);
+		verify(user).updateBirthdate(birthdate);
 	}
 
 	@Test
 	public void shouldReturnBirthDateWhenReceivingPatchOnBirthDate() {
-		String actual = underTest.receivePatchForBirthDate(token, birthDate);
-		assertThat(actual, is(birthDate));
+		String actual = underTest.receivePatchForBirthDate(token, birthdate);
+		assertThat(actual, is(birthdate));
 	}
 
 	@Test

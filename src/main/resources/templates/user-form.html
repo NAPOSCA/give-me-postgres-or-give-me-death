@@ -44,80 +44,73 @@
 			<main>
 				<h1>Welcome to Broad Street Food Pantry</h1>
 				<h3>Please enter your information</h3>
-				<form action="/user-form">
-					<label for="first-name">First name:</label>
-					<input type="text" name="firstName" maxlength="20" id="first-name" autofocus="true" required="true"/>
+				<form action="/user" th:object=${user}>
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+					<label for="firstName">First name:</label>
+					<input type="text" th:field="*{firstName}" maxlength="20" autofocus="true" required="true"/>
 
 					<br />
 
-					<label for="last-name">Last name:</label>
-					<input type="text" name="lastName" maxlength="20" id="last-name" required="true"/>
+					<label for="lastName">Last name:</label>
+					<input type="text" th:field="*{lastName}" maxlength="20" required="true"/>
 
 					<br />
 
 					<label for="birthdate">Birthdate:</label>
-					<input type="date" name="birthdate" id="birthdate" required="true"/>
+					<input type="date" th:field="*{birthdate}" required="true"/>
 
 					<br />
 
 					<label for="address">Address:</label>
-					<input type="text" name="address" id="address" required="true"/>
+					<input type="text" th:field="*{address}" required="true"/>
 
-					<p>Zip code:</p>
-					<select name="zipCode" required="true">
-						<option selected="true" disabled="true" hidden="true" value="">Select...</option>
-						<option value="43203">43203</option>
-						<option value="43205">43205</option>
-						<option value="43209">43209</option>
-						<option value="43213">43213</option>
-						<option value="43215">43215</option>
-						<option value="Partnership">I am a partner</option>
-						<option value="Other">Other</option>
+					<br />
+
+					<label for="zipCode">ZIP code:</label>
+					<input type="text" th:field="*{zipCode}" size="5" maxlength="5" pattern="\d{5}"/>
+
+					<br />
+
+					<label for="referral">Were you referred to this food pantry by one of the following: CELC, BSA, or COMPASS?</label>
+					<select th:field="*{referral}" required="true">
+						<option value="none">Not Referred</option>
+						<option value="CELC">CELC</option>
+						<option value="BSA">BSA</option>
+						<option value="COMPASS">COMPASS</option>
 					</select>
 
-					<p>Total family size:</p>
-					<select class="familySizeMenu" name="familySize" required="true">
-						<option selected="true" disabled="true" hidden="true" value="">Select...</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9+</option>
-					</select>
+					<br />
+
+					<label for="familySize">Total family size:</label>
+					<input type="number" th:field="*{familySize}" min="1" max="9"/>
+
+					<br />
+
+					<label for="hasInfants">Children age 3 or younger:</label>
+					<input type="checkbox" th:field="*{hasInfants}"/>
+
+					<br />
 					
-					<p>Children age 3 or younger:</p>
-					<input id="yes" type="radio" name="infants" value="true"/>
-					<label for="yes">Yes</label>
-					<input id="no" type="radio" name="infants" value="" checked="true"/>
-					<label for="no">No</label>
-					
-					<p>Children between the ages of 4 and 17:</p>
-					<select class="schoolKidsMenu" name="schoolkidsCount" required="true">
-						<option selected="true" disabled="true" hidden="true" value="">Select...</option>
-						<option value="0">0</option>
-						<option value="1" class="hidden">1</option>
-						<option value="2" class="hidden">2</option>
-						<option value="3" class="hidden">3</option>
-						<option value="4" class="hidden">4</option>
-						<option value="5" class="hidden">5</option>
-						<option value="6" class="hidden">6</option>
-						<option value="7" class="hidden">7</option>
-						<option value="8" class="hidden">8</option>
-						<option value="9" class="hidden">9+</option>
-					</select>
+					<label for="schoolAgeChildren">Children between the ages of 4 and 17:</label>
+					<input type="number" th:field="*{schoolAgeChildren}" min="0" max="9"/>
 
+					<br />
 
-					<p>Pick up date:</p>
-					<select name="pickUpDate" required="true">
-						<option selected="true" disabled="true" hidden="true" value="">Select...</option>
-						<option value="2018-04-17">04/17/2018</option>
-					</select>	
+					<label for="primaryEmail">Your email address:</label>
+					<input type="tel" th:field="*{primaryEmail}" required/>
 
-					<p><input type="submit" value="Start Shopping"/></p>
+					<br />
+
+					<label for="primaryPhoneNumber">Your primary phone number:</label>
+					<input type="tel" th:field="*{primaryPhoneNumber}" pattern="[0-9]{10}" required/>
+
+					<br />
+
+					<label for="secondaryPhoneNumber">Your secondary phone number:</label>
+					<input type="tel" th:field="*{secondaryPhoneNumber}" pattern="[0-9]{10}"/>
+
+					<p><input type="submit" value="Save Information"/></p>
 				</form> 
 			</main>
 		</div>

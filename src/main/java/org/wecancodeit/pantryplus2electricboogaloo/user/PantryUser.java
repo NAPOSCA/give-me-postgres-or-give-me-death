@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 
 @Entity
@@ -18,23 +19,33 @@ public class PantryUser {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
-	private int familySize;
 	@OneToOne(mappedBy = "user")
 	private Cart cart;
-
 	private String googleName;
+	private String googleEmail;
+	private int familySize;
 	private String firstName;
 	private String lastName;
-	private String birthDate;
+	private String birthdate;
 	private String address;
 	private int schoolAgeChildren;
+	private String zipCode;
+	private String referral;
+	private boolean hasInfants;
+	private String primaryPhoneNumber;
+	private String primaryEmail;
+	private String secondaryPhoneNumber;
 
 	public PantryUser() {
 	}
 
-	public PantryUser(String googleName) {
-		this.googleName = googleName;
-		this.schoolAgeChildren = -1;
+	public PantryUser(OAuth2User googleId) {
+		Map<String, Object> attributes = googleId.getAttributes();
+		googleName = (String) attributes.get("sub");
+		firstName = (String) attributes.get("given_name");
+		lastName = (String) attributes.get("family_name");
+		googleEmail = (String) attributes.get("email");
+		primaryEmail = this.googleEmail;
 	}
 
 	public long getId() {
@@ -61,8 +72,8 @@ public class PantryUser {
 		return familySize;
 	}
 
-	public String getBirthDate() {
-		return birthDate;
+	public String getBirthdate() {
+		return birthdate;
 	}
 
 	public String getAddress() {
@@ -71,6 +82,34 @@ public class PantryUser {
 
 	public int getSchoolAgeChildren() {
 		return schoolAgeChildren;
+	}
+
+	public String getPrimaryPhoneNumber() {
+		return primaryPhoneNumber;
+	}
+
+	public String getReferral() {
+		return referral;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public boolean getHasInfants() {
+		return hasInfants;
+	}
+
+	public String getGoogleEmail() {
+		return googleEmail;
+	}
+
+	public String getPrimaryEmail() {
+		return primaryEmail;
+	}
+
+	public String getSecondaryPhoneNumber() {
+		return secondaryPhoneNumber;
 	}
 
 	public void updateFirstName(String firstName) {
@@ -85,8 +124,8 @@ public class PantryUser {
 		this.familySize = familySize;
 	}
 
-	public void updateBirthDate(String birthDate) {
-		this.birthDate = birthDate;
+	public void updateBirthdate(String birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	public void updateAddress(String address) {
@@ -95,6 +134,30 @@ public class PantryUser {
 
 	public void updateSchoolAgeChildren(int schoolAgeChildren) {
 		this.schoolAgeChildren = schoolAgeChildren;
+	}
+
+	public void updateZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public void updateReferral(String referral) {
+		this.referral = referral;
+	}
+
+	public void updateHasInfants(boolean hasInfants) {
+		this.hasInfants = hasInfants;
+	}
+
+	public void updatePrimaryPhoneNumber(String primaryPhoneNumber) {
+		this.primaryPhoneNumber = primaryPhoneNumber;
+	}
+
+	public void updateSecondaryPhoneNumber(String secondaryPhoneNumber) {
+		this.secondaryPhoneNumber = secondaryPhoneNumber;
+	}
+
+	public void updatePrimaryEmail(String email) {
+		this.primaryEmail = email;
 	}
 
 	public int calculateCouponLimit() {
@@ -128,7 +191,7 @@ public class PantryUser {
 		model.put("firstName", getFirstName());
 		model.put("lastName", getLastName());
 		model.put("familySize", getFamilySize());
-		model.put("birthDate", getBirthDate());
+		model.put("birthDate", getBirthdate());
 		model.put("address", getAddress());
 		model.put("SchoolAgeChildren", getSchoolAgeChildren());
 		return model;
@@ -138,7 +201,7 @@ public class PantryUser {
 		if (getAddress() == null) {
 			return false;
 		}
-		if (getBirthDate() == null) {
+		if (getBirthdate() == null) {
 			return false;
 		}
 		if (getFamilySize() == 0) {
@@ -156,13 +219,22 @@ public class PantryUser {
 		if (getAddress().equals("")) {
 			return false;
 		}
-		if (getBirthDate().equals("")) {
+		if (getBirthdate().equals("")) {
 			return false;
 		}
 		if (getFirstName().equals("")) {
 			return false;
 		}
 		if (getLastName().equals("")) {
+			return false;
+		}
+		if (getZipCode() == null) {
+			return false;
+		}
+		if (getReferral() == null) {
+			return false;
+		}
+		if (getPrimaryPhoneNumber() == null) {
 			return false;
 		}
 		return true;
