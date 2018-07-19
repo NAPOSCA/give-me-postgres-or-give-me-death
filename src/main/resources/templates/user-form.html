@@ -95,6 +95,21 @@
 					<label for="schoolAgeChildren">Children between the ages of 4 and 17:</label>
 					<input type="number" th:field="*{schoolAgeChildren}" min="0" max="9"/>
 
+					<br />
+
+					<label for="primaryEmail">Your email address:</label>
+					<input type="tel" th:field="*{primaryEmail}" required/>
+
+					<br />
+
+					<label for="primaryPhoneNumber">Your primary phone number:</label>
+					<input type="tel" th:field="*{primaryPhoneNumber}" required/>
+
+					<br />
+
+					<label for="secondaryPhoneNumber">Your secondary phone number:</label>
+					<input type="tel" th:field="*{secondaryPhoneNumber}"/>
+
 					<p><input type="submit" value="Save Information"/></p>
 				</form> 
 			</main>
