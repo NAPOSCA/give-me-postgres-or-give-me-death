@@ -2,6 +2,7 @@ package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
@@ -15,6 +16,7 @@ public abstract class LoginController {
 	@Resource
 	private EntityManager entityManager;
 	
+	@Transactional
 	public PantryUser resolveUser(OAuth2AuthenticationToken token) {
 		String googleName = getGoogleNameFrom(token);
 		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
