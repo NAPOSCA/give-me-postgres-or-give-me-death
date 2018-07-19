@@ -6,6 +6,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
@@ -25,6 +27,9 @@ public class AdministrationController {
 	
 	@Resource
 	private CategoryRepository categoryRepo;
+	
+	@Resource
+	private EntityManager entityManager;
 	
 	@Resource
 	private ProductRepository productRepo;
@@ -64,22 +69,22 @@ public class AdministrationController {
 	@Transactional
 	@RequestMapping(value = "/admin/categories/{categoryId}/products", method = POST)
 	public String receiveAPostRequestOnACategorysProducts(Model model, @PathVariable Long categoryId,
-			@RequestParam String type, @RequestParam String productName, @RequestParam(required = false) String image,
-			@RequestParam(defaultValue = "0") int maximumQuantity, @RequestParam(defaultValue = "0") int price) {
+			@RequestParam String type, @RequestParam String productName,
+			@RequestParam(defaultValue = "0") int maximumQuantity, @RequestParam(defaultValue = "0") int cost, @RequestParam(defaultValue = "0") Currency currency) {
 		Category category = categoryRepo.findById(categoryId).get();
 		if (type.equals("Product")) {
-			Product product = new Product(productName, category, image);
+			Product product = new Product(productName, category);
 			productRepo.save(product);
 		} else if (type.equals("LimitedProduct")) {
-			LimitedProduct product = new LimitedProduct(productName, category, image, maximumQuantity);
+			LimitedProduct product = new LimitedProduct(productName, category, maximumQuantity);
 			productRepo.save(product);
 		} else if (type.equals("PricedProduct")) {
-			PricedProduct product = new PricedProduct(productName, category, image, maximumQuantity, price);
+			PricedProduct product = new PricedProduct(productName, category, maximumQuantity, currency, cost);
 			productRepo.save(product);
 		}
 		entityManager.flush();
 		entityManager.clear();
-		category = categoryRepo.findOne(categoryId);
+		category = categoryRepo.findById(categoryId).orElse(null);
 		model.addAttribute("category", category);
 		return "redirect:/admin/categories/" + categoryId;
 	}

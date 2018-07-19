@@ -40,7 +40,7 @@ public class AdminMockMvcTest {
 	
 	@Mock
 	private Product product;
-	
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -80,4 +80,11 @@ public class AdminMockMvcTest {
 		String actualName = adminController.displayAdminProductView(model, 1L, 1L);
 		assertEquals(actualName, "admin/product");
 	}
+	
+//	@Test
+//	public void shouldPostProductsForACategory() {
+//		when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
+//		when(productRepo.findById(1L)).thenReturn(Optional.of(product));
+//		String 
+//	}
 }
