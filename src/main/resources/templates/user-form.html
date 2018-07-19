@@ -103,12 +103,12 @@
 					<br />
 
 					<label for="primaryPhoneNumber">Your primary phone number:</label>
-					<input type="tel" th:field="*{primaryPhoneNumber}" required/>
+					<input type="tel" th:field="*{primaryPhoneNumber}" pattern="[0-9]{10}" required/>
 
 					<br />
 
 					<label for="secondaryPhoneNumber">Your secondary phone number:</label>
-					<input type="tel" th:field="*{secondaryPhoneNumber}"/>
+					<input type="tel" th:field="*{secondaryPhoneNumber}" pattern="[0-9]{10}"/>
 
 					<p><input type="submit" value="Save Information"/></p>
 				</form> 
