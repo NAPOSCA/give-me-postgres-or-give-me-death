@@ -434,4 +434,31 @@ public class UserTest {
 		assertThat(primary, is(google));
 	}
 	
+	@Test
+	public void shouldSetOneAsSecondaryPhoneNumber() {
+		String secondaryPhoneNumber = "1";
+		PantryUser user = new PantryUser(googleId);
+		user.updateSecondaryPhoneNumber(secondaryPhoneNumber);
+		String actual = user.getSecondaryPhoneNumber();
+		assertThat(actual, is(secondaryPhoneNumber));
+	}
+	
+	@Test
+	public void shouldSetTwoAsSecondaryPhoneNumber() {
+		String secondaryPhoneNumber = "2";
+		PantryUser user = new PantryUser(googleId);
+		user.updateSecondaryPhoneNumber(secondaryPhoneNumber);
+		String actual = user.getSecondaryPhoneNumber();
+		assertThat(actual, is(secondaryPhoneNumber));
+	}
+	
+	@Test
+	public void shouldUpdatePrimaryEmailToAlpha() {
+		String email = "Alpha";
+		PantryUser user = new PantryUser(googleId);
+		user.updatePrimaryEmail(email);
+		String actual = user.getPrimaryEmail();
+		assertThat(actual, is(email));
+	}
+	
 }

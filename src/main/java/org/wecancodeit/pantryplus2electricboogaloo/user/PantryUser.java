@@ -19,11 +19,11 @@ public class PantryUser {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
-	private int familySize;
 	@OneToOne(mappedBy = "user")
 	private Cart cart;
-
 	private String googleName;
+	private String googleEmail;
+	private int familySize;
 	private String firstName;
 	private String lastName;
 	private String birthdate;
@@ -34,7 +34,7 @@ public class PantryUser {
 	private boolean hasInfants;
 	private String primaryPhoneNumber;
 	private String primaryEmail;
-	private String googleEmail;
+	private String secondaryPhoneNumber;
 
 	public PantryUser() {
 	}
@@ -109,6 +109,10 @@ public class PantryUser {
 		return primaryEmail;
 	}
 
+	public String getSecondaryPhoneNumber() {
+		return secondaryPhoneNumber;
+	}
+
 	public void updateFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -147,6 +151,14 @@ public class PantryUser {
 
 	public void updatePrimaryPhoneNumber(String primaryPhoneNumber) {
 		this.primaryPhoneNumber = primaryPhoneNumber;
+	}
+
+	public void updateSecondaryPhoneNumber(String secondaryPhoneNumber) {
+		this.secondaryPhoneNumber = secondaryPhoneNumber;
+	}
+
+	public void updatePrimaryEmail(String email) {
+		this.primaryEmail = email;
 	}
 
 	public int calculateCouponLimit() {
