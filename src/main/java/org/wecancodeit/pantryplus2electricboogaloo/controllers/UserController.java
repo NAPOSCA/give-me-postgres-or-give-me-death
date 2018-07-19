@@ -20,7 +20,8 @@ public class UserController extends LoginController {
 			@RequestParam String lastName, @RequestParam String address, @RequestParam int familySize,
 			@RequestParam String birthdate, @RequestParam int schoolAgeChildren, @RequestParam String zipCode,
 			@RequestParam String referral, @RequestParam(required = false) boolean hasInfants,
-			@RequestParam String primaryPhoneNumber) {
+			@RequestParam String primaryPhoneNumber, @RequestParam String secondaryPhoneNumber,
+			@RequestParam String primaryEmail) {
 		System.out.println(firstName);
 		System.out.println(hasInfants);
 		PantryUser user = resolveUser(token);
@@ -36,6 +37,8 @@ public class UserController extends LoginController {
 		user.updateReferral(referral);
 		user.updateHasInfants(hasInfants);
 		user.updatePrimaryPhoneNumber(primaryPhoneNumber);
+		user.updateSecondaryPhoneNumber(secondaryPhoneNumber);
+		user.updatePrimaryEmail(primaryEmail);
 		userRepo.save(user);
 		return "redirect:/settings";
 	}
