@@ -46,7 +46,6 @@ public class PantryUser {
 		lastName = (String) attributes.get("family_name");
 		googleEmail = (String) attributes.get("email");
 		primaryEmail = this.googleEmail;
-		schoolAgeChildren = -1;
 	}
 
 	public long getId() {
