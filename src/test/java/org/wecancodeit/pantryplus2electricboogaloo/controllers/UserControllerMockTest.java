@@ -123,7 +123,8 @@ public class UserControllerMockTest {
 	@Test
 	public void shouldRedirectBackToFormWhenReceivingPostOnUser() {
 		String actual = underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate,
-				schoolAgeChildren, zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+				schoolAgeChildren, zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber,
+				primaryEmail);
 		assertThat(actual, is("redirect:/settings"));
 	}
 

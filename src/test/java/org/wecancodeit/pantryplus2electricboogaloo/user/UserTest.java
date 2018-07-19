@@ -16,13 +16,13 @@ public class UserTest {
 
 	int familySize;
 	String googleName = "12345";
-	
+
 	@Mock
 	private OAuth2User googleId;
-	
+
 	@Mock
 	private Map<String, Object> googleAttributes;
-	
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -354,7 +354,7 @@ public class UserTest {
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
-	
+
 	@Test
 	public void shouldHaveInfantsBeTrue() {
 		boolean check = true;
@@ -363,7 +363,7 @@ public class UserTest {
 		boolean actual = user.getHasInfants();
 		assertThat(actual, is(check));
 	}
-	
+
 	@Test
 	public void shouldHaveInfantsBeFalse() {
 		boolean check = false;
@@ -372,7 +372,7 @@ public class UserTest {
 		boolean actual = user.getHasInfants();
 		assertThat(actual, is(check));
 	}
-	
+
 	@Test
 	public void shouldNotBeValidIfPhoneNumberIsMissing() {
 		PantryUser user = new PantryUser(googleId);
@@ -387,7 +387,7 @@ public class UserTest {
 		boolean isValid = user.isValid();
 		assertThat(isValid, is(false));
 	}
-	
+
 	@Test
 	public void shouldInitializeFirstNameFromGoogleIdAsPhil() {
 		String name = "Phil";
@@ -396,7 +396,7 @@ public class UserTest {
 		String actual = user.getFirstName();
 		assertThat(actual, is(name));
 	}
-	
+
 	@Test
 	public void shouldInitializeLastNameFromGoogleIdAsCollins() {
 		String name = "Collins";
@@ -405,7 +405,7 @@ public class UserTest {
 		String actual = user.getLastName();
 		assertThat(actual, is(name));
 	}
-	
+
 	@Test
 	public void shouldInitializeGoogleEmailFromGoogleId() {
 		String email = "coolguy69@geemail.net";
@@ -414,7 +414,7 @@ public class UserTest {
 		String actual = user.getGoogleEmail();
 		assertThat(actual, is(email));
 	}
-	
+
 	@Test
 	public void shouldInitializePrimaryEmailFromGoogleId() {
 		String email = "12345@6789.com";
@@ -423,7 +423,7 @@ public class UserTest {
 		String actual = user.getPrimaryEmail();
 		assertThat(actual, is(email));
 	}
-	
+
 	@Test
 	public void shouldHaveGoogleEmailAndPrimaryEmailBeTheSameInitially() {
 		String email = "a@b.c";
@@ -433,7 +433,7 @@ public class UserTest {
 		String google = user.getGoogleEmail();
 		assertThat(primary, is(google));
 	}
-	
+
 	@Test
 	public void shouldSetOneAsSecondaryPhoneNumber() {
 		String secondaryPhoneNumber = "1";
@@ -442,7 +442,7 @@ public class UserTest {
 		String actual = user.getSecondaryPhoneNumber();
 		assertThat(actual, is(secondaryPhoneNumber));
 	}
-	
+
 	@Test
 	public void shouldSetTwoAsSecondaryPhoneNumber() {
 		String secondaryPhoneNumber = "2";
@@ -451,7 +451,7 @@ public class UserTest {
 		String actual = user.getSecondaryPhoneNumber();
 		assertThat(actual, is(secondaryPhoneNumber));
 	}
-	
+
 	@Test
 	public void shouldUpdatePrimaryEmailToAlpha() {
 		String email = "Alpha";
@@ -460,5 +460,5 @@ public class UserTest {
 		String actual = user.getPrimaryEmail();
 		assertThat(actual, is(email));
 	}
-	
+
 }
