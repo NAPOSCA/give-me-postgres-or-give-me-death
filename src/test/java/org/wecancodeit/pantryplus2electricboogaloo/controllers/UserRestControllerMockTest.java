@@ -140,40 +140,4 @@ public class UserRestControllerMockTest {
 		assertThat(actual, is(schoolAgeChildren));
 	}
 
-	@Test
-	public void shouldUpdateFirstNameWhenReceivingPostOnUser() {
-		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
-		verify(user).updateFirstName(firstName);
-	}
-	
-	@Test
-	public void shouldUpdateLastNameWhenReceivingPostOnUser() {
-		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
-		verify(user).updateLastName(lastName);
-	}
-	
-	@Test
-	public void shouldUpdateAddressWhenReceivingPostOnUser() {
-		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
-		verify(user).updateAddress(address);
-	}
-	
-	@Test
-	public void shouldUpdateFamilySizeWhenReceivingPostOnUser() {
-		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
-		verify(user).updateFamilySize(familySize);
-	}
-	
-	@Test
-	public void shouldUpdateBirthDateWhenReceivingPostOnUser() {
-		underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
-		verify(user).updateBirthdate(birthdate);
-	}
-	
-	@Test
-	public void shouldRedirectBackToFormWhenReceivingPostOnUser() {
-		String actual = underTest.receivePostOnUser(token, firstName, lastName, address, familySize, birthdate);
-		assertThat(actual, is("redirect:/settings"));
-	}
-
 }

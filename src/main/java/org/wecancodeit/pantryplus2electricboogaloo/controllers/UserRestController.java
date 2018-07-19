@@ -52,17 +52,4 @@ public class UserRestController extends LoginController {
 		return schoolAgeChildren;
 	}
 
-	@PostMapping(path = "/user")
-	public String receivePostOnUser(OAuth2AuthenticationToken token, @RequestParam String firstName,
-			@RequestParam String lastName, @RequestParam String address, @RequestParam int familySize,
-			@RequestParam String birthdate) {
-		PantryUser user = resolveUser(token);
-		user.updateFirstName(firstName);
-		user.updateLastName(lastName);
-		user.updateAddress(address);
-		user.updateFamilySize(familySize);
-		user.updateBirthdate(birthdate);
-		return "redirect:/settings";
-	}
-
 }
