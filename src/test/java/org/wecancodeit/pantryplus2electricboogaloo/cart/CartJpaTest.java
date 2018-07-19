@@ -13,8 +13,10 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
@@ -44,9 +46,12 @@ public class CartJpaTest {
 	long cartId;
 	String googleName = "12345";
 
+	@Mock
+	private OAuth2User googleId;
+
 	@Test
 	public void shouldSaveAndLoadCart() {
-		user = new PantryUser(googleName);
+		user = new PantryUser(googleId);
 		cart = new Cart(user);
 		user = userRepo.save(user);
 		userId = user.getId();
@@ -61,7 +66,7 @@ public class CartJpaTest {
 
 	@Test
 	public void shouldSaveAndLoadCartByUser() {
-		user = new PantryUser(googleName);
+		user = new PantryUser(googleId);
 		user = userRepo.save(user);
 		userId = user.getId();
 		cart = cartRepo.save(new Cart(user));
@@ -79,10 +84,10 @@ public class CartJpaTest {
 
 	@Test
 	public void shouldSaveTwoCarts() {
-		PantryUser user = userRepo.save(new PantryUser("12345"));
+		PantryUser user = userRepo.save(new PantryUser(googleId));
 		Cart cart = cartRepo.save(new Cart(user));
 		long cartId = cart.getId();
-		PantryUser anotherUser = userRepo.save(new PantryUser("54321"));
+		PantryUser anotherUser = userRepo.save(new PantryUser(googleId));
 		Cart anotherCart = cartRepo.save(new Cart(anotherUser));
 		long anotherCartId = anotherCart.getId();
 		entityManager.flush();
@@ -95,7 +100,7 @@ public class CartJpaTest {
 	
 	@Test
 	public void shouldSaveLineItemToCart() {
-		PantryUser user = userRepo.save(new PantryUser("12345"));
+		PantryUser user = userRepo.save(new PantryUser(googleId));
 		Cart cart = cartRepo.save(new Cart(user));
 		long cartId = cart.getId();
 		LineItem lineItem = lineItemRepo.save(new LineItem(cart));
@@ -108,7 +113,7 @@ public class CartJpaTest {
 	
 	@Test
 	public void shouldSaveCountedLineItemToCart() {
-		PantryUser user = userRepo.save(new PantryUser("12345"));
+		PantryUser user = userRepo.save(new PantryUser(googleId));
 		Cart cart = cartRepo.save(new Cart(user));
 		long cartId = cart.getId();
 		CountedLineItem countedLineItem = lineItemRepo.save(new CountedLineItem(cart));
@@ -121,7 +126,7 @@ public class CartJpaTest {
 	
 	@Test
 	public void shouldSaveLineItemAndCountedLineItemToCartButOnlyReturnLineItem() {
-		PantryUser user = userRepo.save(new PantryUser("12345"));
+		PantryUser user = userRepo.save(new PantryUser(googleId));
 		Cart cart = cartRepo.save(new Cart(user));
 		long cartId = cart.getId();
 		LineItem lineItem = lineItemRepo.save(new LineItem(cart));

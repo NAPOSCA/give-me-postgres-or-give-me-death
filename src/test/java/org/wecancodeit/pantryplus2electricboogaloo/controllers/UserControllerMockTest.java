@@ -59,6 +59,8 @@ public class UserControllerMockTest {
 
 	private boolean hasInfants;
 
+	private String phoneNumber;
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -76,82 +78,83 @@ public class UserControllerMockTest {
 		zipCode = "54321";
 		referral = "COMPASS";
 		hasInfants = false;
+		phoneNumber = "1234567890";
 	}
 
 	@Test
 	public void shouldUpdateFirstNameWhenReceivingPostOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateFirstName(firstName);
 	}
 
 	@Test
 	public void shouldUpdateLastNameWhenReceivingPostOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateLastName(lastName);
 	}
 
 	@Test
 	public void shouldUpdateAddressWhenReceivingPostOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateAddress(address);
 	}
 
 	@Test
 	public void shouldUpdateFamilySizeWhenReceivingPostOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateFamilySize(familySize);
 	}
 
 	@Test
 	public void shouldUpdateBirthDateWhenReceivingPostOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateBirthdate(birthdate);
 	}
 
 	@Test
 	public void shouldRedirectBackToFormWhenReceivingPostOnUser() {
 		String actual = underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate,
-				schoolAgeChildren, zipCode, referral, hasInfants);
+				schoolAgeChildren, zipCode, referral, hasInfants, phoneNumber);
 		assertThat(actual, is("redirect:/settings"));
 	}
 
 	@Test
 	public void shouldUpateSchoolAgeChildrenWhenReceivingRequestOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateSchoolAgeChildren(schoolAgeChildren);
 	}
 
 	@Test
 	public void shouldSaveUserAfterUpdatingWhenReceivingRequestOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(userRepo).save(user);
 	}
 
 	@Test
 	public void shouldUpdateZipCodeWhenReceivingRequestOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateZipCode(zipCode);
 	}
 
 	@Test
 	public void shouldUpdateReferralWhenReceivingRequestOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateReferral(referral);
 	}
 
 	@Test
 	public void shouldUpdateHasInfantsWhenReceivingRequestOnUser() {
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user).updateHasInfants(hasInfants);
 	}
 
@@ -160,7 +163,15 @@ public class UserControllerMockTest {
 		familySize = 4;
 		schoolAgeChildren = 5;
 		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants);
+				zipCode, referral, hasInfants, phoneNumber);
 		verify(user, never()).updateSchoolAgeChildren(schoolAgeChildren);
 	}
+
+	@Test
+	public void shouldUpdatePrimaryPhoneNumberWhenReceivingRequestOnUser() {
+		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
+				zipCode, referral, hasInfants, phoneNumber);
+		verify(user).updatePrimaryPhoneNumber(phoneNumber);
+	}
+
 }

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 
 @Entity
@@ -31,12 +32,16 @@ public class PantryUser {
 	private String zipCode;
 	private String referral;
 	private boolean hasInfants;
+	private String primaryPhoneNumber;
 
 	public PantryUser() {
 	}
 
-	public PantryUser(String googleName) {
-		this.googleName = googleName;
+	public PantryUser(OAuth2User googleId) {
+		Map<String, Object> attributes = googleId.getAttributes();
+		this.googleName = (String) attributes.get("sub");
+		this.firstName = (String) attributes.get("given_name");
+		this.lastName = (String) attributes.get("family_name");
 		this.schoolAgeChildren = -1;
 	}
 
@@ -174,7 +179,14 @@ public class PantryUser {
 		if (getReferral() == null) {
 			return false;
 		}
+		if (getPrimaryPhoneNumber() == null) {
+			return false;
+		}
 		return true;
+	}
+
+	public String getPrimaryPhoneNumber() {
+		return primaryPhoneNumber;
 	}
 
 	public String getReferral() {
@@ -199,6 +211,14 @@ public class PantryUser {
 
 	public boolean getHasInfants() {
 		return hasInfants;
+	}
+
+	public String getGoogleEmail() {
+		return "coolguy69@geemail.net";
+	}
+
+	public void updatePrimaryPhoneNumber(String primaryPhoneNumber) {
+		this.primaryPhoneNumber = primaryPhoneNumber;
 	}
 
 }

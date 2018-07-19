@@ -19,7 +19,8 @@ public class UserController extends LoginController {
 	public String receiveRequestOnUser(OAuth2AuthenticationToken token, @RequestParam String firstName,
 			@RequestParam String lastName, @RequestParam String address, @RequestParam int familySize,
 			@RequestParam String birthdate, @RequestParam int schoolAgeChildren, @RequestParam String zipCode,
-			@RequestParam String referral, @RequestParam(required = false) boolean hasInfants) {
+			@RequestParam String referral, @RequestParam(required = false) boolean hasInfants,
+			@RequestParam String primaryPhoneNumber) {
 		System.out.println(firstName);
 		System.out.println(hasInfants);
 		PantryUser user = resolveUser(token);
@@ -34,6 +35,7 @@ public class UserController extends LoginController {
 		user.updateZipCode(zipCode);
 		user.updateReferral(referral);
 		user.updateHasInfants(hasInfants);
+		user.updatePrimaryPhoneNumber(primaryPhoneNumber);
 		userRepo.save(user);
 		return "redirect:/settings";
 	}
