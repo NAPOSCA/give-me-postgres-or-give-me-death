@@ -82,8 +82,8 @@ public class AdministrationController {
 			PricedProduct product = new PricedProduct(productName, category, maximumQuantity, currency, cost);
 			productRepo.save(product);
 		}
-		entityManager.flush();
-		entityManager.clear();
+//		entityManager.flush();
+//		entityManager.clear();
 		category = categoryRepo.findById(categoryId).orElse(null);
 		model.addAttribute("category", category);
 		return "redirect:/admin/categories/" + categoryId;

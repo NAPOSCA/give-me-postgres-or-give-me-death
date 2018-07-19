@@ -15,6 +15,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
+import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
@@ -40,6 +43,15 @@ public class AdminMockMvcTest {
 	
 	@Mock
 	private Product product;
+	
+	@Mock
+	private LimitedProduct limitedProduct;
+	
+	@Mock
+	private PricedProduct pricedProduct;
+	
+	@Mock
+	private Currency currency;
 
 	@Before
 	public void setup() {
@@ -81,10 +93,10 @@ public class AdminMockMvcTest {
 		assertEquals(actualName, "admin/product");
 	}
 	
-//	@Test
-//	public void shouldPostProductsForACategory() {
-//		when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
-//		when(productRepo.findById(1L)).thenReturn(Optional.of(product));
-//		String 
-//	}
+	@Test
+	public void shouldPostProductForACategoryView() {
+		when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
+		String actualName = adminController.receiveAPostRequestOnACategorysProducts(model, 1L, "ok", "ok1", 1, 1, currency);
+		assertEquals("redirect:/admin/categories/1", actualName);
+	}
 }
