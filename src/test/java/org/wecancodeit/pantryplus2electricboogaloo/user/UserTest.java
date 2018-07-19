@@ -16,7 +16,6 @@ public class UserTest {
 
 	int familySize;
 	String googleName = "12345";
-	private String googleEmail;
 	
 	@Mock
 	private OAuth2User googleId;
@@ -414,6 +413,25 @@ public class UserTest {
 		PantryUser user = new PantryUser(googleId);
 		String actual = user.getGoogleEmail();
 		assertThat(actual, is(email));
+	}
+	
+	@Test
+	public void shouldInitializePrimaryEmailFromGoogleId() {
+		String email = "12345@6789.com";
+		when(googleAttributes.get("email")).thenReturn(email);
+		PantryUser user = new PantryUser(googleId);
+		String actual = user.getPrimaryEmail();
+		assertThat(actual, is(email));
+	}
+	
+	@Test
+	public void shouldHaveGoogleEmailAndPrimaryEmailBeTheSameInitially() {
+		String email = "a@b.c";
+		when(googleAttributes.get("email")).thenReturn(email);
+		PantryUser user = new PantryUser(googleId);
+		String primary = user.getPrimaryEmail();
+		String google = user.getGoogleEmail();
+		assertThat(primary, is(google));
 	}
 	
 }

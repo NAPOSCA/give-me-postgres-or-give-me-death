@@ -33,16 +33,20 @@ public class PantryUser {
 	private String referral;
 	private boolean hasInfants;
 	private String primaryPhoneNumber;
+	private String primaryEmail;
+	private String googleEmail;
 
 	public PantryUser() {
 	}
 
 	public PantryUser(OAuth2User googleId) {
 		Map<String, Object> attributes = googleId.getAttributes();
-		this.googleName = (String) attributes.get("sub");
-		this.firstName = (String) attributes.get("given_name");
-		this.lastName = (String) attributes.get("family_name");
-		this.schoolAgeChildren = -1;
+		googleName = (String) attributes.get("sub");
+		firstName = (String) attributes.get("given_name");
+		lastName = (String) attributes.get("family_name");
+		googleEmail = (String) attributes.get("email");
+		primaryEmail = this.googleEmail;
+		schoolAgeChildren = -1;
 	}
 
 	public long getId() {
@@ -81,6 +85,30 @@ public class PantryUser {
 		return schoolAgeChildren;
 	}
 
+	public String getPrimaryPhoneNumber() {
+		return primaryPhoneNumber;
+	}
+
+	public String getReferral() {
+		return referral;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public boolean getHasInfants() {
+		return hasInfants;
+	}
+
+	public String getGoogleEmail() {
+		return googleEmail;
+	}
+
+	public String getPrimaryEmail() {
+		return primaryEmail;
+	}
+
 	public void updateFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -103,6 +131,22 @@ public class PantryUser {
 
 	public void updateSchoolAgeChildren(int schoolAgeChildren) {
 		this.schoolAgeChildren = schoolAgeChildren;
+	}
+
+	public void updateZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public void updateReferral(String referral) {
+		this.referral = referral;
+	}
+
+	public void updateHasInfants(boolean hasInfants) {
+		this.hasInfants = hasInfants;
+	}
+
+	public void updatePrimaryPhoneNumber(String primaryPhoneNumber) {
+		this.primaryPhoneNumber = primaryPhoneNumber;
 	}
 
 	public int calculateCouponLimit() {
@@ -183,42 +227,6 @@ public class PantryUser {
 			return false;
 		}
 		return true;
-	}
-
-	public String getPrimaryPhoneNumber() {
-		return primaryPhoneNumber;
-	}
-
-	public String getReferral() {
-		return referral;
-	}
-
-	public String getZipCode() {
-		return zipCode;
-	}
-
-	public void updateZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
-	public void updateReferral(String referral) {
-		this.referral = referral;
-	}
-
-	public void updateHasInfants(boolean hasInfants) {
-		this.hasInfants = hasInfants;
-	}
-
-	public boolean getHasInfants() {
-		return hasInfants;
-	}
-
-	public String getGoogleEmail() {
-		return "coolguy69@geemail.net";
-	}
-
-	public void updatePrimaryPhoneNumber(String primaryPhoneNumber) {
-		this.primaryPhoneNumber = primaryPhoneNumber;
 	}
 
 }
