@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -20,10 +19,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class UserJpaTest {
-	
+
 	@Resource
 	private UserRepository userRepo;
-	
+
 	@Resource
 	private TestEntityManager entityManager;
 
@@ -42,13 +41,13 @@ public class UserJpaTest {
 		boolean isPresent = userRepo.findById(id).isPresent();
 		assertThat(isPresent, is(true));
 	}
-	
+
 	@Test
 	public void shouldSaveTwoUsers() {
 		userRepo.save(new PantryUser(googleId));
 		userRepo.save(new PantryUser(googleId));
 	}
-	
+
 	@Test
 	public void shouldSaveAndLoadUserByGoogleName12345() {
 		String googleName = "12345";
