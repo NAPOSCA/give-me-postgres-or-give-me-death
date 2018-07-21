@@ -21,7 +21,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
-public class AdminMockMvcTest {
+public class AdminMockTest {
 	
 	@InjectMocks
 	private AdministrationController adminController;
