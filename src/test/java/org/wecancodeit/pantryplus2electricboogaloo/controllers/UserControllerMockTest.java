@@ -28,7 +28,7 @@ public class UserControllerMockTest {
 	private OAuth2AuthenticationToken token;
 
 	@Mock
-	private OAuth2User oAuth2User;
+	private OAuth2User googleId;
 
 	@Mock
 	private Map<String, Object> attributes;
@@ -68,8 +68,8 @@ public class UserControllerMockTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		when(token.getPrincipal()).thenReturn(oAuth2User);
-		when(oAuth2User.getAttributes()).thenReturn(attributes);
+		when(token.getPrincipal()).thenReturn(googleId);
+		when(googleId.getAttributes()).thenReturn(attributes);
 		googleName = "12345";
 		when(attributes.get("sub")).thenReturn(googleName);
 		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
@@ -85,81 +85,74 @@ public class UserControllerMockTest {
 		primaryPhoneNumber = "1234567890";
 	}
 
+	private String testReceiveRequestOnUser() {
+		return underTest.receiveRequestOnUser(googleId, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
+				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+	}
+
 	@Test
 	public void shouldUpdateFirstNameWhenReceivingPostOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateFirstName(firstName);
 	}
 
 	@Test
 	public void shouldUpdateLastNameWhenReceivingPostOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateLastName(lastName);
 	}
 
 	@Test
 	public void shouldUpdateAddressWhenReceivingPostOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateAddress(address);
 	}
 
 	@Test
 	public void shouldUpdateFamilySizeWhenReceivingPostOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateFamilySize(familySize);
 	}
 
 	@Test
 	public void shouldUpdateBirthDateWhenReceivingPostOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateBirthdate(birthdate);
 	}
 
 	@Test
 	public void shouldRedirectBackToFormWhenReceivingPostOnUser() {
-		String actual = underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate,
-				schoolAgeChildren, zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber,
-				primaryEmail);
+		String actual = testReceiveRequestOnUser();
 		assertThat(actual, is("redirect:/settings"));
 	}
 
 	@Test
 	public void shouldUpateSchoolAgeChildrenWhenReceivingRequestOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateSchoolAgeChildren(schoolAgeChildren);
 	}
 
 	@Test
 	public void shouldSaveUserAfterUpdatingWhenReceivingRequestOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(userRepo).save(user);
 	}
 
 	@Test
 	public void shouldUpdateZipCodeWhenReceivingRequestOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateZipCode(zipCode);
 	}
 
 	@Test
 	public void shouldUpdateReferralWhenReceivingRequestOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateReferral(referral);
 	}
 
 	@Test
 	public void shouldUpdateHasInfantsWhenReceivingRequestOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateHasInfants(hasInfants);
 	}
 
@@ -167,29 +160,25 @@ public class UserControllerMockTest {
 	public void shouldNotUpdateSchoolAgeChildrenIfThereAreMoreThanTotalFamilySize() {
 		familySize = 4;
 		schoolAgeChildren = 5;
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user, never()).updateSchoolAgeChildren(schoolAgeChildren);
 	}
 
 	@Test
 	public void shouldUpdatePrimaryPhoneNumberWhenReceivingRequestOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updatePrimaryPhoneNumber(primaryPhoneNumber);
 	}
 
 	@Test
 	public void shouldUpdateSecondaryPhoneNumberWhenReceivingRequestOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updateSecondaryPhoneNumber(secondaryPhoneNumber);
 	}
 
 	@Test
 	public void shouldUpdatePrimaryEmailWhenReceivingRequestOnUser() {
-		underTest.receiveRequestOnUser(token, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		testReceiveRequestOnUser();
 		verify(user).updatePrimaryEmail(primaryEmail);
 	}
 

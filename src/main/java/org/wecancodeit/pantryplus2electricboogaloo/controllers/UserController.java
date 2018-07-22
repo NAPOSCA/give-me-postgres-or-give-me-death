@@ -2,7 +2,8 @@ package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
 import javax.annotation.Resource;
 
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,13 +17,13 @@ public class UserController extends LoginController {
 	private UserRepository userRepo;
 
 	@RequestMapping("/user")
-	public String receiveRequestOnUser(OAuth2AuthenticationToken token, @RequestParam String firstName,
+	public String receiveRequestOnUser(@AuthenticationPrincipal OAuth2User googleId, @RequestParam String firstName,
 			@RequestParam String lastName, @RequestParam String address, @RequestParam int familySize,
 			@RequestParam String birthdate, @RequestParam int schoolAgeChildren, @RequestParam String zipCode,
 			@RequestParam String referral, @RequestParam(required = false) boolean hasInfants,
 			@RequestParam String primaryPhoneNumber, @RequestParam String secondaryPhoneNumber,
 			@RequestParam String primaryEmail) {
-		PantryUser user = resolveUser(token);
+		PantryUser user = resolveUser(googleId);
 		user.updateFirstName(firstName);
 		user.updateLastName(lastName);
 		user.updateAddress(address);

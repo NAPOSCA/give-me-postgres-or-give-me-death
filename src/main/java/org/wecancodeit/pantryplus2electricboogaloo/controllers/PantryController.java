@@ -4,7 +4,8 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,16 +32,16 @@ public class PantryController extends LoginController {
 
 	@Transactional
 	@RequestMapping("/settings")
-	public String displayUserForm(Model model, OAuth2AuthenticationToken token) {
-		model.addAttribute("user", resolveUser(token));
+	public String displayUserForm(Model model, @AuthenticationPrincipal OAuth2User googleId) {
+		model.addAttribute("user", resolveUser(googleId));
 		return "user-form";
 	}
 
 	@Transactional
 	@RequestMapping("/shopping")
-	public String displayShopping(Model model, OAuth2AuthenticationToken token) {
+	public String displayShopping(Model model, @AuthenticationPrincipal OAuth2User googleId) {
 		model.addAttribute("categories", categoryRepo.findAll());
-		PantryUser user = resolveUser(token);
+		PantryUser user = resolveUser(googleId);
 		if(!user.isValid()) {
 			return "redirect:/settings";
 		}
@@ -51,8 +52,8 @@ public class PantryController extends LoginController {
 
 	@Transactional
 	@RequestMapping("/cart")
-	public String displayCart(Model model, OAuth2AuthenticationToken token) {
-		Cart cart = resolveUser(token).getCart();
+	public String displayCart(Model model, @AuthenticationPrincipal OAuth2User googleId) {
+		Cart cart = resolveUser(googleId).getCart();
 		model.addAttribute("cart", cart);
 		model.addAttribute("lineItems", cart.getLineItems());
 		model.addAttribute("countedLineItems", cart.getCountedLineItems());
@@ -66,11 +67,11 @@ public class PantryController extends LoginController {
 
 	@Transactional
 	@RequestMapping("/")
-	public String displayWelcomeView(Model model, OAuth2AuthenticationToken token) {
-		boolean isAuthenticated = token != null;
+	public String displayWelcomeView(Model model, @AuthenticationPrincipal OAuth2User googleId) {
+		boolean isAuthenticated = googleId != null;
 		model.addAttribute("authenticated", isAuthenticated);
 		if (isAuthenticated) {
-			PantryUser user = resolveUser(token);
+			PantryUser user = resolveUser(googleId);
 			if(!user.isValid()) {
 				return "redirect:/settings";
 			}

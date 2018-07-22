@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.Model;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
@@ -46,10 +45,7 @@ public class PantryControllerMockTest {
 	private Model model;
 
 	@Mock
-	private OAuth2AuthenticationToken token;
-
-	@Mock
-	private OAuth2User authenticatedUser;
+	private OAuth2User googleId;
 
 	@Mock
 	private UserRepository userRepo;
@@ -77,11 +73,10 @@ public class PantryControllerMockTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		when(token.getPrincipal()).thenReturn(authenticatedUser);
 		Map<String, Object> attributes = new HashMap<>();
 		googleName = "12345";
 		attributes.put("sub", googleName);
-		when(authenticatedUser.getAttributes()).thenReturn(attributes);
+		when(googleId.getAttributes()).thenReturn(attributes);
 		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
 		when(user.getCart()).thenReturn(cart);
 	}
@@ -89,7 +84,7 @@ public class PantryControllerMockTest {
 	@Test
 	public void shouldHaveDisplayUserFormReturnUserForm() {
 		String templateName = "user-form";
-		String actual = underTest.displayUserForm(model, token);
+		String actual = underTest.displayUserForm(model, googleId);
 		assertThat(actual, is(templateName));
 	}
 
@@ -97,7 +92,7 @@ public class PantryControllerMockTest {
 	public void shouldHaveDisplayShoppingReturnShoppingWhenUserIsValid() {
 		when(user.isValid()).thenReturn(true);
 		String templateName = "shopping";
-		String actual = underTest.displayShopping(model, token);
+		String actual = underTest.displayShopping(model, googleId);
 		assertThat(actual, is(templateName));
 	}
 
@@ -108,7 +103,7 @@ public class PantryControllerMockTest {
 		Set<LineItem> lineItems = new HashSet<>();
 		lineItems.addAll(asList(lineItem, anotherLineItem, countedLineItem));
 		when(cart.getAllLineItems()).thenReturn(lineItems);
-		String actual = underTest.displayCart(model, token);
+		String actual = underTest.displayCart(model, googleId);
 		assertThat(actual, is(templateName));
 	}
 
@@ -116,7 +111,7 @@ public class PantryControllerMockTest {
 	public void shouldHaveDisplayShoppingAddCategoriesToModel() {
 		Iterable<Category> categories = asList(category, anotherCategory);
 		when(categoryRepo.findAll()).thenReturn(categories);
-		underTest.displayShopping(model, token);
+		underTest.displayShopping(model, googleId);
 		verify(model).addAttribute("categories", categories);
 	}
 
@@ -127,7 +122,7 @@ public class PantryControllerMockTest {
 		when(categoryRepo.findAll()).thenReturn(categories);
 		when(user.getCart()).thenReturn(cart);
 
-		underTest.displayShopping(model, token);
+		underTest.displayShopping(model, googleId);
 		verify(model).addAttribute("cart", cart);
 	}
 
@@ -142,7 +137,7 @@ public class PantryControllerMockTest {
 	public void shouldHaveDisplayCartAttachLineItemsAndNoCountedLineItems() {
 		HashSet<LineItem> lineItems = new HashSet<>(asList(lineItem, anotherLineItem));
 		when(cart.getLineItems()).thenReturn(lineItems);
-		underTest.displayCart(model, token);
+		underTest.displayCart(model, googleId);
 		verify(model).addAttribute("lineItems", lineItems);
 	}
 
@@ -150,61 +145,60 @@ public class PantryControllerMockTest {
 	public void shouldHaveDisplayCartAttachCountedLineItemsAndNoLineItems() {
 		HashSet<CountedLineItem> countedLineItems = new HashSet<>(asList(countedLineItem, anotherCountedLineItem));
 		when(cart.getCountedLineItems()).thenReturn(countedLineItems);
-		underTest.displayCart(model, token);
+		underTest.displayCart(model, googleId);
 		verify(model).addAttribute("countedLineItems", countedLineItems);
 	}
 
 	@Test
 	public void shouldHaveDisplayUserFormAttachUserToModel() {
-		underTest.displayUserForm(model, token);
+		underTest.displayUserForm(model, googleId);
 		verify(model).addAttribute("user", user);
 	}
 
 	@Test
 	public void shouldHaveDisplayCartAttachCartToModel() {
-		underTest.displayCart(model, token);
+		underTest.displayCart(model, googleId);
 		verify(model).addAttribute("cart", cart);
 	}
 
 	@Test
 	public void shouldHaveDisplayWelcomePageReturnWelcomeWhenUserIsValid() {
 		when(user.isValid()).thenReturn(true);
-		String templateName = underTest.displayWelcomeView(model, token);
+		String templateName = underTest.displayWelcomeView(model, googleId);
 		assertThat(templateName, is("welcome"));
 	}
 
 	@Test
 	public void shouldAttachAuthenticatedAsTrueToModelIfUserIsSignedIn() {
-		when(token.isAuthenticated()).thenReturn(true);
-		underTest.displayWelcomeView(model, token);
+		underTest.displayWelcomeView(model, googleId);
 		verify(model).addAttribute("authenticated", true);
 	}
 
 	@Test
 	public void shouldAttachAuthenticatedAsFalseToModelIfUserIsNotSignedIn() {
-		token = null;
-		underTest.displayWelcomeView(model, token);
+		googleId = null;
+		underTest.displayWelcomeView(model, googleId);
 		verify(model).addAttribute("authenticated", false);
 	}
 
 	@Test
 	public void shouldAttachUserIfAuthenticatedAndUserIsValid() {
 		when(user.isValid()).thenReturn(true);
-		underTest.displayWelcomeView(model, token);
+		underTest.displayWelcomeView(model, googleId);
 		verify(model).addAttribute("user", user);
 	}
 
 	@Test
 	public void shouldRedirectFromTheWelcomeViewToTheSettingsPageIfUserIsNotValid() {
 		when(user.isValid()).thenReturn(false);
-		String templateName = underTest.displayWelcomeView(model, token);
+		String templateName = underTest.displayWelcomeView(model, googleId);
 		assertThat(templateName, is("redirect:/settings"));
 	}
 	
 	@Test
 	public void shouldRedirectFromTheShoppingViewToTheSettingsPageIfUserIsNotValid() {
 		when(user.isValid()).thenReturn(false);
-		String templateName = underTest.displayShopping(model, token);
+		String templateName = underTest.displayShopping(model, googleId);
 		assertThat(templateName, is("redirect:/settings"));
 	}
 

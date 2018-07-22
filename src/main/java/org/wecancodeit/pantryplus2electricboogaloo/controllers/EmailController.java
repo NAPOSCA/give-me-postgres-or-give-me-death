@@ -10,7 +10,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,9 +51,9 @@ public class EmailController extends LoginController {
 
 	@Transactional
 	@RequestMapping("/email")
-	public String home(OAuth2AuthenticationToken token) {
+	public String home(@AuthenticationPrincipal OAuth2User googleId) {
 		try {
-			PantryUser user = resolveUser(token);
+			PantryUser user = resolveUser(googleId);
 			Long cartId = user.getCart().getId();
 			Cart cart = cartRepo.findById(cartId).orElse(null);
 			String name;
