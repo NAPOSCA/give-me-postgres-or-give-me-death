@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -37,6 +39,9 @@ public class UserRestControllerMockTest {
 
 	@Mock
 	private UserRepository userRepo;
+	
+	@Mock
+	private EntityManager entityManager;
 
 	private String lastName;
 
@@ -53,6 +58,7 @@ public class UserRestControllerMockTest {
 		MockitoAnnotations.initMocks(this);
 		when(googleId.getAttributes()).thenReturn(attributes);
 		googleName = "12345";
+		when(googleId.getName()).thenReturn(googleName);
 		when(attributes.get("sub")).thenReturn(googleName);
 		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
 		firstName = "Scooby";

@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -40,6 +42,9 @@ public class UserControllerMockTest {
 
 	@Mock
 	private PantryUser user;
+	
+	@Mock
+	private EntityManager entitymanager;
 
 	private String firstName;
 
@@ -71,6 +76,7 @@ public class UserControllerMockTest {
 		when(token.getPrincipal()).thenReturn(googleId);
 		when(googleId.getAttributes()).thenReturn(attributes);
 		googleName = "12345";
+		when(googleId.getName()).thenReturn(googleName);
 		when(attributes.get("sub")).thenReturn(googleName);
 		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
 		firstName = "Scooby";

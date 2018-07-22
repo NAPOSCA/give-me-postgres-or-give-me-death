@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -69,12 +71,16 @@ public class PantryControllerMockTest {
 
 	@Mock
 	private CountedLineItem anotherCountedLineItem;
+	
+	@Mock
+	private EntityManager entityManager;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		Map<String, Object> attributes = new HashMap<>();
 		googleName = "12345";
+		when(googleId.getName()).thenReturn(googleName);
 		attributes.put("sub", googleName);
 		when(googleId.getAttributes()).thenReturn(attributes);
 		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
