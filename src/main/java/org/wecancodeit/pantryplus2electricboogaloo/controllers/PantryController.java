@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;

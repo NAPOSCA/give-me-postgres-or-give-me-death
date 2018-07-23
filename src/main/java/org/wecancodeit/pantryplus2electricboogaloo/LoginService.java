@@ -1,4 +1,4 @@
-package org.wecancodeit.pantryplus2electricboogaloo.controllers;
+package org.wecancodeit.pantryplus2electricboogaloo;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;

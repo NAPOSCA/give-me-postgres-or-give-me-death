@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.Model;
+import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
