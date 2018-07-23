@@ -10,20 +10,22 @@ import javax.transaction.Transactional;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class EmailController extends LoginController {
+public class EmailController {
 
 	private static final String RECIPIENT = "bsfppantryplus@gmail.com";
 
@@ -41,6 +43,9 @@ public class EmailController extends LoginController {
 
 	@Resource
 	private SpringTemplateEngine templateEngine;
+	
+	@Resource
+	private LoginService loginService;
 
 	@RequestMapping("/email-failure")
 	public String emailFailure(@RequestParam String error, Model model) {
@@ -50,9 +55,9 @@ public class EmailController extends LoginController {
 
 	@Transactional
 	@RequestMapping("/email")
-	public String home(OAuth2AuthenticationToken token) {
+	public String home(@AuthenticationPrincipal OAuth2User googleId) {
 		try {
-			PantryUser user = resolveUser(token);
+			PantryUser user = loginService.resolveUser(googleId);
 			Long cartId = user.getCart().getId();
 			Cart cart = cartRepo.findById(cartId).orElse(null);
 			String name;

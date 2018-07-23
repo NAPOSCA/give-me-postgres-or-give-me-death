@@ -1,15 +1,16 @@
-package org.wecancodeit.pantryplus2electricboogaloo.controllers;
+package org.wecancodeit.pantryplus2electricboogaloo;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Service;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
-public abstract class LoginController {
+@Service
+public class LoginService {
 
 	@Resource
 	private UserRepository userRepo;
@@ -18,23 +19,14 @@ public abstract class LoginController {
 	private EntityManager entityManager;
 
 	@Transactional
-	public PantryUser resolveUser(OAuth2AuthenticationToken token) {
-		String googleName = getGoogleNameFrom(token);
+	public PantryUser resolveUser(OAuth2User googleId) {
+		String googleName = googleId.getName();
 		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
-			OAuth2User googleId = getGoogleId(token);
 			userRepo.save(new PantryUser(googleId));
 			entityManager.flush();
 			entityManager.clear();
 			return userRepo.findByGoogleName(googleName).get();
 		});
-	}
-
-	private String getGoogleNameFrom(OAuth2AuthenticationToken token) {
-		return (String) getGoogleId(token).getAttributes().get("sub");
-	}
-
-	private OAuth2User getGoogleId(OAuth2AuthenticationToken token) {
-		return token.getPrincipal();
 	}
 
 }

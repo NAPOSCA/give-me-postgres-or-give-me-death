@@ -41,7 +41,7 @@ public class PantryUser {
 
 	public PantryUser(OAuth2User googleId) {
 		Map<String, Object> attributes = googleId.getAttributes();
-		googleName = (String) attributes.get("sub");
+		googleName = googleId.getName();
 		firstName = (String) attributes.get("given_name");
 		lastName = (String) attributes.get("family_name");
 		googleEmail = (String) attributes.get("email");

@@ -52,7 +52,7 @@ public class UserJpaTest {
 	public void shouldSaveAndLoadUserByGoogleName12345() {
 		String googleName = "12345";
 		when(googleId.getAttributes()).thenReturn(googleAttributes);
-		when(googleAttributes.get("sub")).thenReturn(googleName);
+		when(googleId.getName()).thenReturn(googleName);
 		userRepo.save(new PantryUser(googleId));
 		entityManager.flush();
 		entityManager.clear();
