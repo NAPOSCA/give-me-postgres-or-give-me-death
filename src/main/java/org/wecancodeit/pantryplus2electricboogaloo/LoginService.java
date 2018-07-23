@@ -29,4 +29,12 @@ public class LoginService {
 		});
 	}
 
+	public boolean isAdmin(OAuth2User googleId) {
+		String googleName = googleId.getName();
+		if (googleName.equals("115969733168111031226")) {
+			return true;
+		}
+		return false;
+	}
+
 }
