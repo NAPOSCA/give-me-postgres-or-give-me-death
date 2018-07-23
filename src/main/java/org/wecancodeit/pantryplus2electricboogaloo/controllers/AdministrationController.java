@@ -124,4 +124,20 @@ public class AdministrationController {
 		}
 	}
 
+	@GetMapping("/admin/currencies")
+	public String displayCurrenciesView(Model model) {
+		model.addAttribute("currencies", currencyRepo.findAll());
+		return "admin/currencies";
+	}
+
+	@GetMapping("/admin/currency/{currencyId}")
+	public String displayCurrencyView(Model model, @PathVariable long currencyId) {
+		Optional<Currency> potentialCurrency = currencyRepo.findById(currencyId);
+		if (potentialCurrency.isPresent()) {
+			return "redirect:/admin/currencies";
+		}
+		model.addAttribute("currency", currencyRepo.findById(currencyId).get());
+		return "admin/currency";
+	}
+
 }

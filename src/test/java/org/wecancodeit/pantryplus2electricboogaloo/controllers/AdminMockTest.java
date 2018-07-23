@@ -20,13 +20,15 @@ import org.springframework.ui.Model;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
 public class AdminMockTest {
 
 	@InjectMocks
-	private AdministrationController adminController;
+	private AdministrationController underTest;
 
 	@Mock
 	private Model model;
@@ -52,6 +54,15 @@ public class AdminMockTest {
 	@Mock
 	private LoginService loginService;
 
+	@Mock
+	private Currency currency;
+
+	@Mock
+	private Currency anotherCurrency;
+
+	@Mock
+	private CurrencyRepository currencyRepo;
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -60,35 +71,35 @@ public class AdminMockTest {
 
 	@Test
 	public void shouldReturnAdminCategoriesView() {
-		String actualName = adminController.displayAdminCategoriesView(googleId, model);
+		String actualName = underTest.displayAdminCategoriesView(googleId, model);
 		assertEquals(actualName, "admin/categories");
 	}
 
 	@Test
-	public void shouldAttachCategoryToModel() {
+	public void shouldAttachCategoriesToModel() {
 		Iterable<Category> categories = asList(category, category2);
 		when(categoryRepo.findAll()).thenReturn(categories);
-		adminController.displayAdminCategoriesView(googleId, model);
+		underTest.displayAdminCategoriesView(googleId, model);
 		verify(model).addAttribute("categories", categories);
 	}
 
 	@Test
 	public void shouldReturnAdminCategoryView() {
 		when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
-		String actualName = adminController.displayAdminCategoryView(googleId, model, 1L);
+		String actualName = underTest.displayAdminCategoryView(googleId, model, 1L);
 		assertEquals(actualName, "admin/category");
 	}
 
 	@Test
 	public void shouldAttachOneCategoryToModel() {
 		when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
-		adminController.displayAdminCategoryView(googleId, model, 1L);
+		underTest.displayAdminCategoryView(googleId, model, 1L);
 		verify(model).addAttribute("category", category);
 	}
 
 	@Test
 	public void shouldRedirectToCategoriesViewIfCategoryIsNotPresent() {
-		String templateName = adminController.displayAdminCategoryView(googleId, model, 1L);
+		String templateName = underTest.displayAdminCategoryView(googleId, model, 1L);
 		assertThat(templateName, is("redirect:/admin/categories"));
 	}
 
@@ -96,7 +107,7 @@ public class AdminMockTest {
 	public void shouldDisplayAdminProductView() {
 		when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
 		when(productRepo.findById(1L)).thenReturn(Optional.of(product));
-		String actualName = adminController.displayAdminProductView(googleId, model, 1L, 1L);
+		String actualName = underTest.displayAdminProductView(googleId, model, 1L, 1L);
 		assertEquals(actualName, "admin/product");
 	}
 
@@ -104,7 +115,7 @@ public class AdminMockTest {
 	public void shouldRedirectToCategoryViewOneIfProductIsNotPresent() {
 		long categoryId = 1L;
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
-		String templateName = adminController.displayAdminProductView(googleId, model, categoryId, 1L);
+		String templateName = underTest.displayAdminProductView(googleId, model, categoryId, 1L);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -112,7 +123,7 @@ public class AdminMockTest {
 	public void shouldRedirectToCategoryViewTwoIfProductIsNotPresent() {
 		long categoryId = 2L;
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
-		String templateName = adminController.displayAdminProductView(googleId, model, categoryId, 1L);
+		String templateName = underTest.displayAdminProductView(googleId, model, categoryId, 1L);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -125,7 +136,7 @@ public class AdminMockTest {
 		int valueInCurrency = 1;
 		String currencyName = "coupons";
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
-		String templateName = adminController.receiveAPostRequestOnACategorysProducts(googleId, model, categoryId,
+		String templateName = underTest.receiveAPostRequestOnACategorysProducts(googleId, model, categoryId,
 				productName, type, maximumQuantity, valueInCurrency, currencyName);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
@@ -139,51 +150,87 @@ public class AdminMockTest {
 		int valueInCurrency = 1;
 		String currencyName = "coupons";
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
-		String templateName = adminController.receiveAPostRequestOnACategorysProducts(googleId, model, categoryId,
+		String templateName = underTest.receiveAPostRequestOnACategorysProducts(googleId, model, categoryId,
 				productName, type, maximumQuantity, valueInCurrency, currencyName);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 	
 	@Test
 	public void shouldDisplayMainAdminView() {
-		String templateName = adminController.displayAdminView(googleId);
+		String templateName = underTest.displayAdminView(googleId);
 		assertThat(templateName, is("admin/index"));
 	}
 	
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeDisplayingTheAdminView() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		adminController.displayAdminView(googleId);
+		underTest.displayAdminView(googleId);
 	}
 	
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeDisplayingTheAdminCategoriesView() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		adminController.displayAdminCategoriesView(googleId, model);
+		underTest.displayAdminCategoriesView(googleId, model);
 	}
 	
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeDisplayingTheProductView() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		adminController.displayAdminProductView(googleId, model, 1L, 1L);
+		underTest.displayAdminProductView(googleId, model, 1L, 1L);
 	}
 	
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeDisplayingTheAdminCategoryView() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		adminController.displayAdminCategoryView(googleId, model, 1L);
+		underTest.displayAdminCategoryView(googleId, model, 1L);
 	}
 	
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeSavingACategory() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		adminController.receiveAPostRequestOnCategories(googleId, "");
+		underTest.receiveAPostRequestOnCategories(googleId, "");
 	}
 	
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeSavingProduct() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		adminController.receiveAPostRequestOnACategorysProducts(googleId, model, 1L, "", "", 1, 1, "");
+		underTest.receiveAPostRequestOnACategorysProducts(googleId, model, 1L, "", "", 1, 1, "");
+	}
+	
+	@Test
+	public void shouldDisplayCurrenciesView() {
+		String templateName = underTest.displayCurrenciesView(model);
+		assertThat(templateName, is("admin/currencies"));
+	}
+	
+	@Test
+	public void shouldAttachAllCurrenciesToModelWhenDisplayingCurrenciesView() {
+		Iterable<Currency> currencies = asList(currency, anotherCurrency);
+		when(currencyRepo.findAll()).thenReturn(currencies);
+		underTest.displayCurrenciesView(model);
+		verify(model).addAttribute("currencies", currencies);
+	}
+	
+	@Test
+	public void shouldDisplayCurrencyView() {
+		long currencyId = 1L;
+		when(currencyRepo.findById(currencyId)).thenReturn(Optional.of(currency));
+		String templateName = underTest.displayCurrencyView(model, currencyId);
+		assertThat(templateName, is("admin/currency"));
+	}
+	
+	@Test
+	public void shouldAttachOneCurrencyToModelWhenDisplayingCurrencyView() {
+		long currencyId = 1L;
+		when(currencyRepo.findById(currencyId)).thenReturn(Optional.of(currency));
+		underTest.displayCurrencyView(model, currencyId);
+		verify(model).addAttribute("currency", currency);
+	}
+	
+	@Test
+	public void shouldRedirectToCurrenciesViewIfCurrencyDoesNotExist() {
+		String templateName = underTest.displayCurrencyView(model, 1L);
+		assertThat(templateName, is("redirect:/admin/currencies"));
 	}
 
 }
