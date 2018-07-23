@@ -17,9 +17,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
-import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
-import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
-import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
@@ -45,15 +42,6 @@ public class AdminMockTest {
 
 	@Mock
 	private Product product;
-
-	@Mock
-	private LimitedProduct limitedProduct;
-
-	@Mock
-	private PricedProduct pricedProduct;
-
-	@Mock
-	private Currency currency;
 
 	@Before
 	public void setup() {
