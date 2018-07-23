@@ -17,7 +17,8 @@
         </header>
         <section class="product-creator">
             <h2>Product Creator</h2>
-            <form th:action="@{'/admin/categories/' + ${category.id} + '/products'}" method="post" class="product-creator">
+			<form th:action="@{'/admin/categories/' + ${category.id} + '/products'}" method="post" class="product-creator">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 				<p>Type</p>
 				<br />
 				<label for="type-product">Product</label>
