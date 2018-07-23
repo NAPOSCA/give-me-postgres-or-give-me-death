@@ -9,8 +9,6 @@ import static org.mockito.Mockito.when;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -25,7 +23,6 @@ import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
-import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 public class PantryControllerMockTest {
 
@@ -48,9 +45,6 @@ public class PantryControllerMockTest {
 	private OAuth2User googleId;
 
 	@Mock
-	private UserRepository userRepo;
-
-	@Mock
 	private PantryUser user;
 
 	@Mock
@@ -67,10 +61,7 @@ public class PantryControllerMockTest {
 
 	@Mock
 	private CountedLineItem anotherCountedLineItem;
-	
-	@Mock
-	private EntityManager entityManager;
-	
+
 	@Mock
 	private LoginService loginService;
 
@@ -194,7 +185,7 @@ public class PantryControllerMockTest {
 		String templateName = underTest.displayWelcomeView(model, googleId);
 		assertThat(templateName, is("redirect:/settings"));
 	}
-	
+
 	@Test
 	public void shouldRedirectFromTheShoppingViewToTheSettingsPageIfUserIsNotValid() {
 		when(user.isValid()).thenReturn(false);

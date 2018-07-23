@@ -6,10 +6,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -24,7 +20,7 @@ public class UserControllerMockTest {
 
 	@InjectMocks
 	private UserController underTest;
-	
+
 	@Mock
 	private LoginService loginService;
 
@@ -32,16 +28,10 @@ public class UserControllerMockTest {
 	private OAuth2User googleId;
 
 	@Mock
-	private Map<String, Object> attributes;
-
-	@Mock
 	private UserRepository userRepo;
 
 	@Mock
 	private PantryUser user;
-	
-	@Mock
-	private EntityManager entitymanager;
 
 	private String firstName;
 
@@ -84,8 +74,9 @@ public class UserControllerMockTest {
 	}
 
 	private String testReceiveRequestOnUser() {
-		return underTest.receiveRequestOnUser(googleId, firstName, lastName, address, familySize, birthdate, schoolAgeChildren,
-				zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber, primaryEmail);
+		return underTest.receiveRequestOnUser(googleId, firstName, lastName, address, familySize, birthdate,
+				schoolAgeChildren, zipCode, referral, hasInfants, primaryPhoneNumber, secondaryPhoneNumber,
+				primaryEmail);
 	}
 
 	@Test
