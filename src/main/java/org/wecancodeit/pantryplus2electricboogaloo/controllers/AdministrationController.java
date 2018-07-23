@@ -1,17 +1,19 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
@@ -33,14 +35,19 @@ public class AdministrationController {
 	@Resource
 	private CurrencyRepository currencyRepo;
 
-	@RequestMapping(path = "admin/categories", method = GET)
-	public String displayAdminCategoriesView(Model model) {
+	@Resource
+	private LoginService loginService;
+
+	@GetMapping(path = "admin/categories")
+	public String displayAdminCategoriesView(@AuthenticationPrincipal OAuth2User googleId, Model model) {
+		checkClearance(googleId);
 		model.addAttribute("categories", categoryRepo.findAll());
 		return "admin/categories";
 	}
 
-	@RequestMapping(path = "admin/categories/{categoryId}", method = GET)
-	public String displayAdminCategoryView(Model model, @PathVariable Long categoryId) {
+	@GetMapping(path = "admin/categories/{categoryId}")
+	public String displayAdminCategoryView(OAuth2User googleId, Model model, @PathVariable Long categoryId) {
+		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (potentialCategory.isPresent()) {
 			model.addAttribute("category", potentialCategory.get());
@@ -49,8 +56,10 @@ public class AdministrationController {
 		return "redirect:/admin/categories";
 	}
 
-	@RequestMapping(path = "admin/categories/{categoryId}/products/{productId}", method = GET)
-	public String displayAdminProductView(Model model, @PathVariable Long categoryId, @PathVariable Long productId) {
+	@GetMapping("admin/categories/{categoryId}/products/{productId}")
+	public String displayAdminProductView(OAuth2User googleId, Model model, @PathVariable Long categoryId,
+			@PathVariable Long productId) {
+		checkClearance(googleId);
 		model.addAttribute("category", categoryRepo.findById(categoryId));
 		Optional<Product> potentialProduct = productRepo.findById(productId);
 		model.addAttribute("product", potentialProduct);
@@ -66,16 +75,18 @@ public class AdministrationController {
 		return "admin/product";
 	}
 
-	@RequestMapping(path = "/admin/categories", method = POST)
-	public String receiveAPostRequestOnCategories(@RequestParam String categoryName) {
+	@PostMapping("/admin/categories")
+	public String receiveAPostRequestOnCategories(OAuth2User googleId, @RequestParam String categoryName) {
+		checkClearance(googleId);
 		categoryRepo.save(new Category(categoryName));
 		return "redirect:/admin/categories";
 	}
 
-	@RequestMapping(path = "/admin/categories/{categoryId}/products", method = POST)
-	public String receiveAPostRequestOnACategorysProducts(Model model, @PathVariable long categoryId,
-			@RequestParam String productName, @RequestParam String type, @RequestParam int maximumQuantity,
-			@RequestParam int valueInCurrency, @RequestParam String currencyName) {
+	@PostMapping("/admin/categories/{categoryId}/products")
+	public String receiveAPostRequestOnACategorysProducts(OAuth2User googleId, Model model,
+			@PathVariable long categoryId, @RequestParam String productName, @RequestParam String type,
+			@RequestParam int maximumQuantity, @RequestParam int valueInCurrency, @RequestParam String currencyName) {
+		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (!potentialCategory.isPresent()) {
 			return "redirect:/admin/categories";
@@ -99,6 +110,18 @@ public class AdministrationController {
 			}
 		}
 		return "redirect:/admin/categories/" + categoryId;
+	}
+
+	@GetMapping("/admin")
+	public String displayAdminView(@AuthenticationPrincipal OAuth2User googleId) {
+		checkClearance(googleId);
+		return "admin/index";
+	}
+
+	private void checkClearance(OAuth2User googleId) {
+		if (!loginService.isAdmin(googleId)) {
+			throw new AccessDeniedException("403 returned");
+		}
 	}
 
 }
