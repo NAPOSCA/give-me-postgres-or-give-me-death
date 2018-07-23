@@ -24,7 +24,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class EmailController extends LoginController {
+public class EmailController {
 
 	private static final String RECIPIENT = "bsfppantryplus@gmail.com";
 
@@ -42,6 +42,9 @@ public class EmailController extends LoginController {
 
 	@Resource
 	private SpringTemplateEngine templateEngine;
+	
+	@Resource
+	private LoginService loginService;
 
 	@RequestMapping("/email-failure")
 	public String emailFailure(@RequestParam String error, Model model) {
@@ -53,7 +56,7 @@ public class EmailController extends LoginController {
 	@RequestMapping("/email")
 	public String home(@AuthenticationPrincipal OAuth2User googleId) {
 		try {
-			PantryUser user = resolveUser(googleId);
+			PantryUser user = loginService.resolveUser(googleId);
 			Long cartId = user.getCart().getId();
 			Cart cart = cartRepo.findById(cartId).orElse(null);
 			String name;

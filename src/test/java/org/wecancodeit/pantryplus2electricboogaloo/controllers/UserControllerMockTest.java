@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
-import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -16,7 +15,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
@@ -25,17 +23,15 @@ public class UserControllerMockTest {
 
 	@InjectMocks
 	private UserController underTest;
-
+	
 	@Mock
-	private OAuth2AuthenticationToken token;
+	private LoginService loginService;
 
 	@Mock
 	private OAuth2User googleId;
 
 	@Mock
 	private Map<String, Object> attributes;
-
-	private String googleName;
 
 	@Mock
 	private UserRepository userRepo;
@@ -73,12 +69,7 @@ public class UserControllerMockTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		when(token.getPrincipal()).thenReturn(googleId);
-		when(googleId.getAttributes()).thenReturn(attributes);
-		googleName = "12345";
-		when(googleId.getName()).thenReturn(googleName);
-		when(attributes.get("sub")).thenReturn(googleName);
-		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
+		when(loginService.resolveUser(googleId)).thenReturn(user);
 		firstName = "Scooby";
 		lastName = "Doo";
 		address = "Mystery Van";

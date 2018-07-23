@@ -11,10 +11,13 @@ import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
-public class UserController extends LoginController {
+public class UserController {
 
 	@Resource
 	private UserRepository userRepo;
+	
+	@Resource
+	private LoginService loginService;
 
 	@RequestMapping("/user")
 	public String receiveRequestOnUser(@AuthenticationPrincipal OAuth2User googleId, @RequestParam String firstName,
@@ -23,7 +26,7 @@ public class UserController extends LoginController {
 			@RequestParam String referral, @RequestParam(required = false) boolean hasInfants,
 			@RequestParam String primaryPhoneNumber, @RequestParam String secondaryPhoneNumber,
 			@RequestParam String primaryEmail) {
-		PantryUser user = resolveUser(googleId);
+		PantryUser user = loginService.resolveUser(googleId);
 		user.updateFirstName(firstName);
 		user.updateLastName(lastName);
 		user.updateAddress(address);

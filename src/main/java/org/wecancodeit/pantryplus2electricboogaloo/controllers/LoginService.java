@@ -5,10 +5,12 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Service;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
-public abstract class LoginController {
+@Service
+public class LoginService {
 
 	@Resource
 	private UserRepository userRepo;

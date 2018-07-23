@@ -6,10 +6,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -58,8 +55,6 @@ public class PantryControllerMockTest {
 	@Mock
 	private Cart cart;
 
-	String googleName;
-
 	@Mock
 	private LineItem lineItem;
 
@@ -74,17 +69,15 @@ public class PantryControllerMockTest {
 	
 	@Mock
 	private EntityManager entityManager;
+	
+	@Mock
+	private LoginService loginService;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		Map<String, Object> attributes = new HashMap<>();
-		googleName = "12345";
-		when(googleId.getName()).thenReturn(googleName);
-		attributes.put("sub", googleName);
-		when(googleId.getAttributes()).thenReturn(attributes);
-		when(userRepo.findByGoogleName(googleName)).thenReturn(Optional.of(user));
 		when(user.getCart()).thenReturn(cart);
+		when(loginService.resolveUser(googleId)).thenReturn(user);
 	}
 
 	@Test
