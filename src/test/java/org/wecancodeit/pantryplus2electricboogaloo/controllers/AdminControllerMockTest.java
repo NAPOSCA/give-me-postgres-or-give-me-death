@@ -25,7 +25,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
-public class AdminMockTest {
+public class AdminControllerMockTest {
 
 	@InjectMocks
 	private AdministrationController underTest;
