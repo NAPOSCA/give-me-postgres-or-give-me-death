@@ -130,7 +130,7 @@ public class AdministrationController {
 		return "admin/currencies";
 	}
 
-	@GetMapping("/admin/currency/{currencyId}")
+	@GetMapping("/admin/currencies/{currencyId}")
 	public String displayCurrencyView(Model model, @PathVariable long currencyId) {
 		Optional<Currency> potentialCurrency = currencyRepo.findById(currencyId);
 		if (!potentialCurrency.isPresent()) {
