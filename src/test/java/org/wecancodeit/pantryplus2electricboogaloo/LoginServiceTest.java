@@ -2,6 +2,7 @@ package org.wecancodeit.pantryplus2electricboogaloo;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -48,6 +49,13 @@ public class LoginServiceTest {
 	public void shouldRetrieveUser() {
 		PantryUser actual = loginService.resolveUser(googleId);
 		assertThat(actual, is(user));
+	}
+
+	@Test
+	public void shouldHaveAlexMalcolmBeAdmin() {
+		when(googleId.getName()).thenReturn("115969733168111031226");
+		boolean actual = loginService.isAdmin(googleId);
+		assertTrue(actual);
 	}
 
 }
