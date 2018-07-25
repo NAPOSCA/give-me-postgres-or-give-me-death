@@ -76,16 +76,16 @@ public class AdministrationController {
 	}
 
 	@PostMapping("/admin/categories")
-	public String receiveAPostRequestOnCategories(OAuth2User googleId, @RequestParam String categoryName) {
+	public String receivePostRequestOnCategories(OAuth2User googleId, @RequestParam String categoryName) {
 		checkClearance(googleId);
 		categoryRepo.save(new Category(categoryName));
 		return "redirect:/admin/categories";
 	}
 
 	@PostMapping("/admin/categories/{categoryId}/products")
-	public String receiveAPostRequestOnACategorysProducts(OAuth2User googleId, Model model,
-			@PathVariable long categoryId, @RequestParam String productName, @RequestParam String type,
-			@RequestParam int maximumQuantity, @RequestParam int valueInCurrency, @RequestParam String currencyName) {
+	public String receivePostRequestOnProductsOfCategory(OAuth2User googleId, @PathVariable long categoryId,
+			@RequestParam String productName, @RequestParam String type, @RequestParam int maximumQuantity,
+			@RequestParam int valueInCurrency, @RequestParam String currencyName) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (!potentialCategory.isPresent()) {
@@ -138,6 +138,12 @@ public class AdministrationController {
 		}
 		model.addAttribute("currency", currencyRepo.findById(currencyId).get());
 		return "admin/currency";
+	}
+
+	@PostMapping("/admin/currencies")
+	public String receivePostRequestOnCurrencies(@RequestParam String name) {
+		currencyRepo.save(new Currency(name));
+		return "redirect:/admin/currencies";
 	}
 
 }

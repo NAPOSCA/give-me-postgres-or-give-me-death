@@ -136,8 +136,8 @@ public class AdminControllerMockTest {
 		int valueInCurrency = 1;
 		String currencyName = "coupons";
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
-		String templateName = underTest.receiveAPostRequestOnACategorysProducts(googleId, model, categoryId,
-				productName, type, maximumQuantity, valueInCurrency, currencyName);
+		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
+				maximumQuantity, valueInCurrency, currencyName);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -150,8 +150,8 @@ public class AdminControllerMockTest {
 		int valueInCurrency = 1;
 		String currencyName = "coupons";
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
-		String templateName = underTest.receiveAPostRequestOnACategorysProducts(googleId, model, categoryId,
-				productName, type, maximumQuantity, valueInCurrency, currencyName);
+		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
+				maximumQuantity, valueInCurrency, currencyName);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -188,13 +188,13 @@ public class AdminControllerMockTest {
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeSavingACategory() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		underTest.receiveAPostRequestOnCategories(googleId, "");
+		underTest.receivePostRequestOnCategories(googleId, "");
 	}
 
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeSavingProduct() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		underTest.receiveAPostRequestOnACategorysProducts(googleId, model, 1L, "", "", 1, 1, "");
+		underTest.receivePostRequestOnProductsOfCategory(googleId, 1L, "", "", 1, 1, "");
 	}
 
 	@Test
