@@ -197,9 +197,27 @@ public class AdminControllerMockTest {
 		underTest.receivePostRequestOnProductsOfCategory(googleId, 1L, "", "", 1, 1, "");
 	}
 
+	@Test(expected = AccessDeniedException.class)
+	public void shouldHaveDisplayCurrenciesViewDenyIfUserIsNotAdmin() {
+		when(loginService.isAdmin(googleId)).thenReturn(false);
+		underTest.displayCurrenciesView(googleId, model);
+	}
+
+	@Test(expected = AccessDeniedException.class)
+	public void shouldReceivePostRequestOnCurrenciesAndDenyIfUserIsNotAdmin() {
+		when(loginService.isAdmin(googleId)).thenReturn(false);
+		underTest.receivePostRequestOnCurrencies(googleId, "Coupons");
+	}
+	
+	@Test(expected = AccessDeniedException.class)
+	public void shouldHaveDisplayCurrencyViewDenyIfUserIsNotAdmin() {
+		when(loginService.isAdmin(googleId)).thenReturn(false);
+		underTest.displayCurrencyView(googleId, model, 1L);
+	}
+
 	@Test
 	public void shouldDisplayCurrenciesView() {
-		String templateName = underTest.displayCurrenciesView(model);
+		String templateName = underTest.displayCurrenciesView(googleId, model);
 		assertThat(templateName, is("admin/currencies"));
 	}
 
@@ -207,7 +225,7 @@ public class AdminControllerMockTest {
 	public void shouldAttachAllCurrenciesToModelWhenDisplayingCurrenciesView() {
 		Iterable<Currency> currencies = asList(currency, anotherCurrency);
 		when(currencyRepo.findAll()).thenReturn(currencies);
-		underTest.displayCurrenciesView(model);
+		underTest.displayCurrenciesView(googleId, model);
 		verify(model).addAttribute("currencies", currencies);
 	}
 
@@ -215,7 +233,7 @@ public class AdminControllerMockTest {
 	public void shouldDisplayCurrencyView() {
 		long currencyId = 1L;
 		when(currencyRepo.findById(currencyId)).thenReturn(Optional.of(currency));
-		String templateName = underTest.displayCurrencyView(model, currencyId);
+		String templateName = underTest.displayCurrencyView(googleId, model, currencyId);
 		assertThat(templateName, is("admin/currency"));
 	}
 
@@ -223,13 +241,13 @@ public class AdminControllerMockTest {
 	public void shouldAttachOneCurrencyToModelWhenDisplayingCurrencyView() {
 		long currencyId = 1L;
 		when(currencyRepo.findById(currencyId)).thenReturn(Optional.of(currency));
-		underTest.displayCurrencyView(model, currencyId);
+		underTest.displayCurrencyView(googleId, model, currencyId);
 		verify(model).addAttribute("currency", currency);
 	}
 
 	@Test
 	public void shouldRedirectToCurrenciesViewIfCurrencyDoesNotExist() {
-		String templateName = underTest.displayCurrencyView(model, 1L);
+		String templateName = underTest.displayCurrencyView(googleId, model, 1L);
 		assertThat(templateName, is("redirect:/admin/currencies"));
 	}
 

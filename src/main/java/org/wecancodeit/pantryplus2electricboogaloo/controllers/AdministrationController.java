@@ -119,19 +119,22 @@ public class AdministrationController {
 	}
 
 	@GetMapping("/admin/currencies")
-	public String displayCurrenciesView(Model model) {
+	public String displayCurrenciesView(OAuth2User googleId, Model model) {
+		checkClearance(googleId);
 		model.addAttribute("currencies", currencyRepo.findAll());
 		return "admin/currencies";
 	}
 
 	@PostMapping("/admin/currencies")
-	public String receivePostRequestOnCurrencies(@RequestParam String name) {
+	public String receivePostRequestOnCurrencies(OAuth2User googleId, @RequestParam String name) {
+		checkClearance(googleId);
 		currencyRepo.save(new Currency(name));
 		return "redirect:/admin/currencies";
 	}
 
 	@GetMapping("/admin/currencies/{currencyId}")
-	public String displayCurrencyView(Model model, @PathVariable long currencyId) {
+	public String displayCurrencyView(OAuth2User googleId, Model model, @PathVariable long currencyId) {
+		checkClearance(googleId);
 		Optional<Currency> potentialCurrency = currencyRepo.findById(currencyId);
 		if (!potentialCurrency.isPresent()) {
 			return "redirect:/admin/currencies";
