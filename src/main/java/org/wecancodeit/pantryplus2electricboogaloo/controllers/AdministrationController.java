@@ -38,14 +38,27 @@ public class AdministrationController {
 	@Resource
 	private LoginService loginService;
 
-	@GetMapping(path = "admin/categories")
+	@GetMapping("/admin")
+	public String displayAdminView(@AuthenticationPrincipal OAuth2User googleId) {
+		checkClearance(googleId);
+		return "admin/index";
+	}
+
+	@GetMapping("admin/categories")
 	public String displayAdminCategoriesView(@AuthenticationPrincipal OAuth2User googleId, Model model) {
 		checkClearance(googleId);
 		model.addAttribute("categories", categoryRepo.findAll());
 		return "admin/categories";
 	}
 
-	@GetMapping(path = "admin/categories/{categoryId}")
+	@PostMapping("/admin/categories")
+	public String receivePostRequestOnCategories(OAuth2User googleId, @RequestParam String categoryName) {
+		checkClearance(googleId);
+		categoryRepo.save(new Category(categoryName));
+		return "redirect:/admin/categories";
+	}
+
+	@GetMapping("admin/categories/{categoryId}")
 	public String displayAdminCategoryView(OAuth2User googleId, Model model, @PathVariable Long categoryId) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
@@ -53,32 +66,6 @@ public class AdministrationController {
 			model.addAttribute("category", potentialCategory.get());
 			return "admin/category";
 		}
-		return "redirect:/admin/categories";
-	}
-
-	@GetMapping("admin/categories/{categoryId}/products/{productId}")
-	public String displayAdminProductView(OAuth2User googleId, Model model, @PathVariable Long categoryId,
-			@PathVariable Long productId) {
-		checkClearance(googleId);
-		model.addAttribute("category", categoryRepo.findById(categoryId));
-		Optional<Product> potentialProduct = productRepo.findById(productId);
-		model.addAttribute("product", potentialProduct);
-		if (!potentialProduct.isPresent()) {
-			return "redirect:/admin/categories/" + categoryId;
-		}
-		if (potentialProduct.get() instanceof PricedProduct) {
-			return "admin/priced-product";
-		}
-		if (potentialProduct.get() instanceof LimitedProduct) {
-			return "admin/limited-product";
-		}
-		return "admin/product";
-	}
-
-	@PostMapping("/admin/categories")
-	public String receivePostRequestOnCategories(OAuth2User googleId, @RequestParam String categoryName) {
-		checkClearance(googleId);
-		categoryRepo.save(new Category(categoryName));
 		return "redirect:/admin/categories";
 	}
 
@@ -112,22 +99,35 @@ public class AdministrationController {
 		return "redirect:/admin/categories/" + categoryId;
 	}
 
-	@GetMapping("/admin")
-	public String displayAdminView(@AuthenticationPrincipal OAuth2User googleId) {
+	@GetMapping("admin/categories/{categoryId}/products/{productId}")
+	public String displayAdminProductView(OAuth2User googleId, Model model, @PathVariable Long categoryId,
+			@PathVariable Long productId) {
 		checkClearance(googleId);
-		return "admin/index";
-	}
-
-	private void checkClearance(OAuth2User googleId) {
-		if (!loginService.isAdmin(googleId)) {
-			throw new AccessDeniedException("403 returned");
+		model.addAttribute("category", categoryRepo.findById(categoryId));
+		Optional<Product> potentialProduct = productRepo.findById(productId);
+		model.addAttribute("product", potentialProduct);
+		if (!potentialProduct.isPresent()) {
+			return "redirect:/admin/categories/" + categoryId;
 		}
+		if (potentialProduct.get() instanceof PricedProduct) {
+			return "admin/priced-product";
+		}
+		if (potentialProduct.get() instanceof LimitedProduct) {
+			return "admin/limited-product";
+		}
+		return "admin/product";
 	}
 
 	@GetMapping("/admin/currencies")
 	public String displayCurrenciesView(Model model) {
 		model.addAttribute("currencies", currencyRepo.findAll());
 		return "admin/currencies";
+	}
+
+	@PostMapping("/admin/currencies")
+	public String receivePostRequestOnCurrencies(@RequestParam String name) {
+		currencyRepo.save(new Currency(name));
+		return "redirect:/admin/currencies";
 	}
 
 	@GetMapping("/admin/currencies/{currencyId}")
@@ -140,10 +140,10 @@ public class AdministrationController {
 		return "admin/currency";
 	}
 
-	@PostMapping("/admin/currencies")
-	public String receivePostRequestOnCurrencies(@RequestParam String name) {
-		currencyRepo.save(new Currency(name));
-		return "redirect:/admin/currencies";
+	private void checkClearance(OAuth2User googleId) {
+		if (!loginService.isAdmin(googleId)) {
+			throw new AccessDeniedException("403 returned");
+		}
 	}
 
 }
