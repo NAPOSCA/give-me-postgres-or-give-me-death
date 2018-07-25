@@ -58,4 +58,11 @@ public class LoginServiceTest {
 		assertTrue(actual);
 	}
 
+	@Test
+	public void shouldHaveSomeoneElseNotBeAdmin() {
+		when(googleId.getName()).thenReturn("000000000000000000000");
+		boolean actual = loginService.isAdmin(googleId);
+		assertThat(actual, is(false));
+	}
+
 }
