@@ -7,11 +7,13 @@
 </head>
 
 <body>
-	<h1>Currencies</h1>
-	<div th:each="currency : ${currencies}">
-		<p>
-			<a th:href="@{'/admin/currencies/' + ${currency.id}}" th:text="${currency.name}" />
-		</p>
+	<div class="container admin currencies">
+		<h1>Currencies</h1>
+		<div th:each="currency : ${currencies}">
+			<p>
+				<a th:href="@{'/admin/currencies/' + ${currency.id}}" th:text="${currency.name}" />
+			</p>
+		</div>
 	</div>
 </body>
 
