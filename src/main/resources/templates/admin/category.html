@@ -38,8 +38,14 @@
 				<label for="maximumQuantity" class="reveal-if-limited-product reveal-if-priced-product">Maximum Quantity</label>
 				<input type="number" name="maximumQuantity" id="maximumQuantity" class="reveal-if-limited-product reveal-if-priced-product" />
 				<br />
-				<label for="price" class="reveal-if-priced-product">Price</label>
-				<input type="number" name="price" id="price" class="reveal-if-priced-product" />
+				<label for="valueInCurrency" class="reveal-if-priced-product">Price</label>
+				<input type="number" name="valueInCurrency" id="valueInCurrency" class="reveal-if-priced-product" />
+				<br />
+				<label for="currencyId">Currency</label>
+				<select name="currencyId" id="currencyId" class="reveal-if-priced-product">
+					<option disabled>Currency</option>
+					<option th:each="currency : ${currencies}" th:value="${currency.id}" th:text="${currency.name}"/>
+				</select>
 				<br />
                 <input type="submit" />
             </form>
