@@ -134,10 +134,10 @@ public class AdminControllerMockTest {
 		String type = "Product";
 		int maximumQuantity = 5;
 		int valueInCurrency = 1;
-		String currencyName = "coupons";
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+		long currencyId = 1L;
 		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
-				maximumQuantity, valueInCurrency, currencyName);
+				maximumQuantity, valueInCurrency, currencyId);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -148,10 +148,10 @@ public class AdminControllerMockTest {
 		String type = "Product";
 		int maximumQuantity = 5;
 		int valueInCurrency = 1;
-		String currencyName = "coupons";
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+		long currencyId = 1L;
 		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
-				maximumQuantity, valueInCurrency, currencyName);
+				maximumQuantity, valueInCurrency, currencyId);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -194,7 +194,14 @@ public class AdminControllerMockTest {
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeSavingProduct() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		underTest.receivePostRequestOnProductsOfCategory(googleId, 1L, "", "", 1, 1, "");
+		long categoryId = 3L;
+		String productName = "Coupons";
+		String type = "Product";
+		int maximumQuantity = 5;
+		int valueInCurrency = 1;
+		long currencyId = 1L;
+		underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type, maximumQuantity,
+				valueInCurrency, currencyId);
 	}
 
 	@Test(expected = AccessDeniedException.class)
@@ -208,7 +215,7 @@ public class AdminControllerMockTest {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
 		underTest.receivePostRequestOnCurrencies(googleId, "Coupons");
 	}
-	
+
 	@Test(expected = AccessDeniedException.class)
 	public void shouldHaveDisplayCurrencyViewDenyIfUserIsNotAdmin() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
