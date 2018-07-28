@@ -18,7 +18,7 @@ public class Currency {
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	private String name;
-	
+
 	@OneToMany(mappedBy = "currency")
 	private Collection<PricedProduct> pricedProducts;
 

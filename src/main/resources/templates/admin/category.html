@@ -17,9 +17,9 @@
         </header>
         <section class="product-creator">
             <h2>Product Creator</h2>
-            <form th:action="@{'/admin/categories/' + ${category.id} + '/products'}" method="post" class="product-creator">
-				<p>Type</p>
-				<br />
+			<form th:action="@{'/admin/categories/' + ${category.id} + '/products'}" method="post" class="product-creator">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				<h3>Type</h3>
 				<label for="type-product">Product</label>
 				<input type="radio" name="type" value="Product" id="type-product" />
 				<br />
@@ -29,7 +29,7 @@
 				<label for="type-priced-product">Priced Product</label>
 				<input type="radio" name="type" value="PricedProduct" id="type-priced-product" />
 				<br />
-				<label for="product-name">Product Name</label>
+				<label for="product-name">Name</label>
 				<input id="product-name" type="text" name="productName" />
 				<br />
 				<label for="image">Image Path</label>

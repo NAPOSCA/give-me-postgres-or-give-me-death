@@ -29,4 +29,8 @@ public class LoginService {
 		});
 	}
 
+	public boolean isAdmin(OAuth2User googleId) {
+		return googleId.getName().equals("115969733168111031226");
+	}
+
 }
