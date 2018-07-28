@@ -258,4 +258,14 @@ public class AdminControllerMockTest {
 		assertThat(templateName, is("redirect:/admin/currencies"));
 	}
 
+	@Test
+	public void shouldHaveDisplayCategoryAttachCurrenciesToModel() {
+		Iterable<Currency> currencies = asList(currency, anotherCurrency);
+		when(currencyRepo.findAll()).thenReturn(currencies);
+		Long categoryId = 1L;
+		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+		underTest.displayAdminCategoryView(googleId, model, categoryId);
+		verify(model).addAttribute("currencies", currencies);
+	}
+
 }

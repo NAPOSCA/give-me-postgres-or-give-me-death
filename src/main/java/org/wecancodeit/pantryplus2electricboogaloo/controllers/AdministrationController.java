@@ -64,6 +64,7 @@ public class AdministrationController {
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (potentialCategory.isPresent()) {
 			model.addAttribute("category", potentialCategory.get());
+			model.addAttribute("currencies", currencyRepo.findAll());
 			return "admin/category";
 		}
 		return "redirect:/admin/categories";
