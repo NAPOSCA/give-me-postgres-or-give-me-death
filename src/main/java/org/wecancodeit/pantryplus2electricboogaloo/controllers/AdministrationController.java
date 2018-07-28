@@ -45,7 +45,7 @@ public class AdministrationController {
 	}
 
 	@GetMapping("admin/categories")
-	public String displayAdminCategoriesView(@AuthenticationPrincipal OAuth2User googleId, Model model) {
+	public String displayCategoriesView(@AuthenticationPrincipal OAuth2User googleId, Model model) {
 		checkClearance(googleId);
 		model.addAttribute("categories", categoryRepo.findAll());
 		return "admin/categories";
@@ -59,7 +59,7 @@ public class AdministrationController {
 	}
 
 	@GetMapping("admin/categories/{categoryId}")
-	public String displayAdminCategoryView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId) {
+	public String displayCategoryView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (potentialCategory.isPresent()) {
@@ -101,7 +101,7 @@ public class AdministrationController {
 	}
 
 	@GetMapping("admin/categories/{categoryId}/products/{productId}")
-	public String displayAdminProductView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId,
+	public String displayProductView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId,
 			@PathVariable Long productId) {
 		checkClearance(googleId);
 		model.addAttribute("category", categoryRepo.findById(categoryId));
