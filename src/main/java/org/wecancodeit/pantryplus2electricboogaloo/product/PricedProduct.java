@@ -10,7 +10,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 public class PricedProduct extends LimitedProduct {
 
 	private int cost;
-	
+
 	@ManyToOne
 	private Currency currency;
 

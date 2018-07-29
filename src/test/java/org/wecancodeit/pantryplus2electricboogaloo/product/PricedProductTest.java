@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 
 public class PricedProductTest {
-	
+
 	@Test
 	public void shouldHaveCouponCostOne() {
 		Currency coupons = new Currency("Coupons");
@@ -16,7 +16,7 @@ public class PricedProductTest {
 		int actual = underTest.getPrice();
 		assertThat(actual, is(cost));
 	}
-	
+
 	@Test
 	public void shouldHaveCouponCostTwo() {
 		Currency coupons = new Currency("Coupons");

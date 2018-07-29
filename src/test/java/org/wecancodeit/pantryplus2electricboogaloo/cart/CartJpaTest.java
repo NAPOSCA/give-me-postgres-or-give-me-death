@@ -36,7 +36,7 @@ public class CartJpaTest {
 
 	@Resource
 	private UserRepository userRepo;
-	
+
 	@Resource
 	private LineItemRepository lineItemRepo;
 
@@ -97,7 +97,7 @@ public class CartJpaTest {
 		assertThat(potentialCart.isPresent(), is(true));
 		assertThat(potentialAnotherCart.isPresent(), is(true));
 	}
-	
+
 	@Test
 	public void shouldSaveLineItemToCart() {
 		PantryUser user = userRepo.save(new PantryUser(googleId));
@@ -110,7 +110,7 @@ public class CartJpaTest {
 		Set<LineItem> actual = cart.getLineItems();
 		assertThat(actual, contains(lineItem));
 	}
-	
+
 	@Test
 	public void shouldSaveCountedLineItemToCart() {
 		PantryUser user = userRepo.save(new PantryUser(googleId));
@@ -123,7 +123,7 @@ public class CartJpaTest {
 		Set<CountedLineItem> actual = cart.getCountedLineItems();
 		assertThat(actual, hasItem(countedLineItem));
 	}
-	
+
 	@Test
 	public void shouldSaveLineItemAndCountedLineItemToCartButOnlyReturnLineItem() {
 		PantryUser user = userRepo.save(new PantryUser(googleId));

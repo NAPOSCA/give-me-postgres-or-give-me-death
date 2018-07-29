@@ -43,7 +43,7 @@ public class EmailController {
 
 	@Resource
 	private SpringTemplateEngine templateEngine;
-	
+
 	@Resource
 	private LoginService loginService;
 

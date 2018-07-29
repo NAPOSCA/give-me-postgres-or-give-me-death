@@ -12,16 +12,14 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
-import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class CategoryJpaTest {
-	
+
 	@Resource
 	private CategoryRepository categoryRepo;
-	
+
 	@Resource
 	private TestEntityManager entityManager;
 

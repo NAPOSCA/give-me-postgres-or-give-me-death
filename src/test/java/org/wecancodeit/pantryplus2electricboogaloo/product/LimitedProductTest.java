@@ -14,7 +14,7 @@ public class LimitedProductTest {
 		int actual = underTest.getMaximumQuantity();
 		assertThat(actual, is(maximumQuantity));
 	}
-	
+
 	@Test
 	public void shouldHaveMaximumQuantityTwo() {
 		int maximumQuantity = 2;

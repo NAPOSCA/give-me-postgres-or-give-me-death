@@ -14,7 +14,7 @@ public class CurrencyTest {
 		String actual = underTest.getName();
 		assertThat(actual, is(name));
 	}
-	
+
 	@Test
 	public void shouldHaveNameBar() {
 		String name = "Bar";
@@ -22,5 +22,5 @@ public class CurrencyTest {
 		String actual = underTest.getName();
 		assertThat(actual, is(name));
 	}
-	
+
 }

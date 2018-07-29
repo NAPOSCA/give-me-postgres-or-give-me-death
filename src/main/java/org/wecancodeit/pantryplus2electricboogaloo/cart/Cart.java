@@ -71,8 +71,7 @@ public class Cart {
 		model.put("user", user);
 		model.put("lineItems", getLineItems());
 		model.put("countedLineItems", getCountedLineItems());
-		
-		
+
 		return model;
 	}
 
@@ -85,7 +84,8 @@ public class Cart {
 	}
 
 	public Set<CountedLineItem> getCountedLineItems() {
-		return lineItems.stream().filter(item -> isCountedLineItem(item)).map(item -> (CountedLineItem) item).collect(toSet());
+		return lineItems.stream().filter(item -> isCountedLineItem(item)).map(item -> (CountedLineItem) item)
+				.collect(toSet());
 	}
 
 	private boolean isCountedLineItem(LineItem item) {

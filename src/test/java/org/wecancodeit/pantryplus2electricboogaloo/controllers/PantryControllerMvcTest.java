@@ -46,7 +46,7 @@ public class PantryControllerMvcTest {
 	public void shouldRedirectFromCartToLoginPage() throws Exception {
 		mvc.perform(get("/cart")).andExpect(redirectedUrlPattern("**/oauth2/authorization/google"));
 	}
-	
+
 	@Ignore
 	@Test
 	@WithMockUser

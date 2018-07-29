@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<PantryUser, Long>{
+public interface UserRepository extends CrudRepository<PantryUser, Long> {
 
 	Optional<PantryUser> findByGoogleName(String googleName);
 

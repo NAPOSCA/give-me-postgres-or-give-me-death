@@ -16,7 +16,7 @@ public class Product {
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	private String name;
-	
+
 	@ManyToOne
 	private Category category;
 

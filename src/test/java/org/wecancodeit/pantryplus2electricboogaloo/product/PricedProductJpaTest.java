@@ -19,16 +19,16 @@ import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class PricedProductJpaTest {
-	
+
 	@Resource
 	private ProductRepository productRepo;
-	
+
 	@Resource
 	private CurrencyRepository currencyRepo;
-	
+
 	@Resource
 	private TestEntityManager entityManager;
-	
+
 	@Test
 	public void shouldSaveCurrencyToPricedProduct() {
 		Currency currency = new Currency("Currency");
@@ -42,7 +42,7 @@ public class PricedProductJpaTest {
 		Currency actual = underTest.getCurrency();
 		assertThat(actual, is(currency));
 	}
-	
+
 	@Test
 	public void shouldSavePricedProductsToCurrency() {
 		Currency underTest = new Currency("Currency");

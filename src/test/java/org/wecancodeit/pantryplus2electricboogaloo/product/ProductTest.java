@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 
 public class ProductTest {
-	
+
 	@Test
 	public void shouldHaveNameFoo() {
 		Category category = new Category("Category");
@@ -16,7 +16,7 @@ public class ProductTest {
 		String actualName = underTest.getName();
 		assertThat(actualName, is(name));
 	}
-	
+
 	@Test
 	public void shouldHaveNameBar() {
 		Category category = new Category("Category");
@@ -25,7 +25,7 @@ public class ProductTest {
 		String actualName = underTest.getName();
 		assertThat(actualName, is(name));
 	}
-	
+
 	@Test
 	public void shouldSaveCategoryCans() {
 		Category category = new Category("Cans");

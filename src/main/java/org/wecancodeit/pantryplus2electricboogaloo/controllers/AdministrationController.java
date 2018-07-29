@@ -52,14 +52,16 @@ public class AdministrationController {
 	}
 
 	@PostMapping("/admin/categories")
-	public String receivePostRequestOnCategories(@AuthenticationPrincipal OAuth2User googleId, @RequestParam String categoryName) {
+	public String receivePostRequestOnCategories(@AuthenticationPrincipal OAuth2User googleId,
+			@RequestParam String categoryName) {
 		checkClearance(googleId);
 		categoryRepo.save(new Category(categoryName));
 		return "redirect:/admin/categories";
 	}
 
 	@GetMapping("admin/categories/{categoryId}")
-	public String displayCategoryView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId) {
+	public String displayCategoryView(@AuthenticationPrincipal OAuth2User googleId, Model model,
+			@PathVariable Long categoryId) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (potentialCategory.isPresent()) {
@@ -71,9 +73,9 @@ public class AdministrationController {
 	}
 
 	@PostMapping("/admin/categories/{categoryId}/products")
-	public String receivePostRequestOnProductsOfCategory(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long categoryId,
-			@RequestParam String productName, @RequestParam String type, @RequestParam int maximumQuantity,
-			@RequestParam(defaultValue = "0") int valueInCurrency, long currencyId) {
+	public String receivePostRequestOnProductsOfCategory(@AuthenticationPrincipal OAuth2User googleId,
+			@PathVariable long categoryId, @RequestParam String productName, @RequestParam String type,
+			@RequestParam int maximumQuantity, @RequestParam(defaultValue = "0") int valueInCurrency, long currencyId) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (!potentialCategory.isPresent()) {
@@ -101,8 +103,8 @@ public class AdministrationController {
 	}
 
 	@GetMapping("admin/categories/{categoryId}/products/{productId}")
-	public String displayProductView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId,
-			@PathVariable Long productId) {
+	public String displayProductView(@AuthenticationPrincipal OAuth2User googleId, Model model,
+			@PathVariable Long categoryId, @PathVariable Long productId) {
 		checkClearance(googleId);
 		model.addAttribute("category", categoryRepo.findById(categoryId));
 		Optional<Product> potentialProduct = productRepo.findById(productId);
@@ -127,14 +129,16 @@ public class AdministrationController {
 	}
 
 	@PostMapping("/admin/currencies")
-	public String receivePostRequestOnCurrencies(@AuthenticationPrincipal OAuth2User googleId, @RequestParam String name) {
+	public String receivePostRequestOnCurrencies(@AuthenticationPrincipal OAuth2User googleId,
+			@RequestParam String name) {
 		checkClearance(googleId);
 		currencyRepo.save(new Currency(name));
 		return "redirect:/admin/currencies";
 	}
 
 	@GetMapping("/admin/currencies/{currencyId}")
-	public String displayCurrencyView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable long currencyId) {
+	public String displayCurrencyView(@AuthenticationPrincipal OAuth2User googleId, Model model,
+			@PathVariable long currencyId) {
 		checkClearance(googleId);
 		Optional<Currency> potentialCurrency = currencyRepo.findById(currencyId);
 		if (!potentialCurrency.isPresent()) {
