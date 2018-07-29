@@ -68,6 +68,7 @@ public class PantryController {
 				return "redirect:/settings";
 			}
 			model.addAttribute("user", user);
+			model.addAttribute("isAdmin", loginService.isAdmin(googleId));
 		}
 		return "welcome";
 	}
