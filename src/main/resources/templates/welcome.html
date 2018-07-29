@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Welcome to BSFP</title>
+	<title>Welcome to BSFP</title>
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
-	<link rel="stylesheet" type="text/css" href="/css/layout.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/animation.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="/css/animation.css" />
 	<!-- <link rel="stylesheet" type="text/css" href="/css/user-form.media-queries.css"/> -->
-	<link rel="shortcut icon" href="images\favicon.ico" type="image/x-icon"/>
-	<link rel="icon" href="images\favicon.ico" type="image/x-icon"/>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+	<link rel="shortcut icon" href="images\favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="images\favicon.ico" type="image/x-icon" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
 	<!-- <script type="text/javascript" src="/js/user-form.js"></script> -->
 </head>
+
 <body>
 	<div class="container welcome">
 		<header>
@@ -39,10 +41,11 @@
 			</nav>
 		</header>
 		<div class="aside-main">
-			<aside th:replace="user-form :: aside"/>
+			<aside th:replace="user-form :: aside" />
 			<main>
 				<p th:if="${authenticated}">
-					Hello <span th:text="${user.firstName}"/>, welcome to the Broad Street Food Pantry.
+					Hello
+					<span th:text="${user.firstName}" />, welcome to the Broad Street Food Pantry.
 				</p>
 				<p th:unless="${authenticated}">
 					Hello, welcome to the Broad Street Food Pantry.
@@ -51,11 +54,13 @@
 					<img src="/images/google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png" alt="Google Signin button">
 				</a>
 				<p th:if="${isAdmin}">
-					Since you are an administrator you have access to the <a href="/admin">administration page</a>.
+					Since you are an administrator you have access to the
+					<a href="/admin">administration page</a>.
 				</p>
 			</main>
 		</div>
-		<footer th:replace="user-form :: footer"/>
+		<footer th:replace="user-form :: footer" />
 	</div>
 </body>
+
 </html>
