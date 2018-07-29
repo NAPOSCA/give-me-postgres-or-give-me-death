@@ -45,7 +45,7 @@ public class AdministrationController {
 	}
 
 	@GetMapping("admin/categories")
-	public String displayAdminCategoriesView(@AuthenticationPrincipal OAuth2User googleId, Model model) {
+	public String displayCategoriesView(@AuthenticationPrincipal OAuth2User googleId, Model model) {
 		checkClearance(googleId);
 		model.addAttribute("categories", categoryRepo.findAll());
 		return "admin/categories";
@@ -59,11 +59,12 @@ public class AdministrationController {
 	}
 
 	@GetMapping("admin/categories/{categoryId}")
-	public String displayAdminCategoryView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId) {
+	public String displayCategoryView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (potentialCategory.isPresent()) {
 			model.addAttribute("category", potentialCategory.get());
+			model.addAttribute("currencies", currencyRepo.findAll());
 			return "admin/category";
 		}
 		return "redirect:/admin/categories";
@@ -72,7 +73,7 @@ public class AdministrationController {
 	@PostMapping("/admin/categories/{categoryId}/products")
 	public String receivePostRequestOnProductsOfCategory(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long categoryId,
 			@RequestParam String productName, @RequestParam String type, @RequestParam int maximumQuantity,
-			@RequestParam int valueInCurrency, @RequestParam String currencyName) {
+			@RequestParam(defaultValue = "0") int valueInCurrency, long currencyId) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (!potentialCategory.isPresent()) {
@@ -86,7 +87,7 @@ public class AdministrationController {
 			LimitedProduct product = new LimitedProduct(productName, category, maximumQuantity);
 			productRepo.save(product);
 		} else if (type.equals("PricedProduct")) {
-			Optional<Currency> potentialCurrency = currencyRepo.findByName(currencyName);
+			Optional<Currency> potentialCurrency = currencyRepo.findById(currencyId);
 			if (potentialCurrency.isPresent()) {
 				Currency currency = potentialCurrency.get();
 				PricedProduct product = new PricedProduct(productName, category, maximumQuantity, currency,
@@ -100,7 +101,7 @@ public class AdministrationController {
 	}
 
 	@GetMapping("admin/categories/{categoryId}/products/{productId}")
-	public String displayAdminProductView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId,
+	public String displayProductView(@AuthenticationPrincipal OAuth2User googleId, Model model, @PathVariable Long categoryId,
 			@PathVariable Long productId) {
 		checkClearance(googleId);
 		model.addAttribute("category", categoryRepo.findById(categoryId));
