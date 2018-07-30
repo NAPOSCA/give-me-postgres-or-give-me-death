@@ -95,3 +95,8 @@ div.container.confirmation div.message {
 div section.category{
 	cursor: pointer;
 }
+
+.admin header {
+    align-items: center;
+    width: 20rem;
+}
