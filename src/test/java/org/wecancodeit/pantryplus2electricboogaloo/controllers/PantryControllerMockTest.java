@@ -208,5 +208,12 @@ public class PantryControllerMockTest {
 		underTest.displayWelcomeView(model, googleId);
 		verify(model).addAttribute("isAdmin", isAdmin);
 	}
+	
+	@Test
+	public void shouldHaveWelcomeViewAttachIsAdminToModelAsFalseIfUserNotSignedIn() {
+		googleId = null;
+		underTest.displayWelcomeView(model, googleId);
+		verify(model).addAttribute("isAdmin", false);
+	}
 
 }

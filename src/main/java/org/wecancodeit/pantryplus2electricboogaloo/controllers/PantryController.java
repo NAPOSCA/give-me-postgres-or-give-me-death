@@ -63,12 +63,14 @@ public class PantryController {
 		boolean isAuthenticated = googleId != null;
 		model.addAttribute("authenticated", isAuthenticated);
 		if (isAuthenticated) {
+			model.addAttribute("isAdmin", loginService.isAdmin(googleId));
 			PantryUser user = loginService.resolveUser(googleId);
 			if (!user.isValid()) {
 				return "redirect:/settings";
 			}
 			model.addAttribute("user", user);
-			model.addAttribute("isAdmin", loginService.isAdmin(googleId));
+		} else {
+			model.addAttribute("isAdmin", false);
 		}
 		return "welcome";
 	}
