@@ -25,7 +25,7 @@
 			<div>
 				<p th:each="category : ${categories}">
                     <a th:href="@{'/admin/categories/' + ${category.id}}" th:text="${category.name}" />
-                    <span th:text="${category.numberOfProducts}"/>
+                    <span th:text="${category.numberOfProducts()}"/>
 				</p>
 			</div>
         </section>
