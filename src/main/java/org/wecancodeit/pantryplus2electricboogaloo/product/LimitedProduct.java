@@ -1,7 +1,10 @@
 package org.wecancodeit.pantryplus2electricboogaloo.product;
 
+import javax.persistence.Entity;
+
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 
+@Entity
 public class LimitedProduct extends Product {
 
 	private int maximumQuantity;
