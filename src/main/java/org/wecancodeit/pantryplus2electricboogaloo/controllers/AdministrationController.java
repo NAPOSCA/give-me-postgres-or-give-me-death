@@ -74,9 +74,10 @@ public class AdministrationController {
 
 	@PostMapping("/admin/categories/{categoryId}/products")
 	public String receivePostRequestOnProductsOfCategory(@AuthenticationPrincipal OAuth2User googleId,
-			@PathVariable long categoryId, @RequestParam String productName, @RequestParam String type,
-			@RequestParam int maximumQuantity, @RequestParam(defaultValue = "0") int valueInCurrency,
-			@RequestParam long currencyId, @RequestParam String image) {
+			@PathVariable long categoryId, String productName, @RequestParam String type,
+			@RequestParam(defaultValue = "0") int maximumQuantity,
+			@RequestParam(defaultValue = "0") int valueInCurrency, @RequestParam(defaultValue = "0") long currencyId,
+			@RequestParam String image) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (!potentialCategory.isPresent()) {
