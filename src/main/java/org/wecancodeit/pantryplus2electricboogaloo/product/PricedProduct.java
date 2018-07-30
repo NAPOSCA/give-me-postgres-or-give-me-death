@@ -17,8 +17,8 @@ public class PricedProduct extends LimitedProduct {
 	public PricedProduct() {
 	}
 
-	public PricedProduct(String name, Category category, int maximumQuantity, Currency currency, int cost) {
-		super(name, category, maximumQuantity);
+	public PricedProduct(String name, Category category, int maximumQuantity, Currency currency, int cost, String imagePath) {
+		super(name, category, maximumQuantity, imagePath);
 		this.currency = currency;
 		this.cost = cost;
 	}

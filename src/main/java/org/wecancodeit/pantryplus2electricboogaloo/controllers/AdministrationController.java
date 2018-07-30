@@ -75,7 +75,8 @@ public class AdministrationController {
 	@PostMapping("/admin/categories/{categoryId}/products")
 	public String receivePostRequestOnProductsOfCategory(@AuthenticationPrincipal OAuth2User googleId,
 			@PathVariable long categoryId, @RequestParam String productName, @RequestParam String type,
-			@RequestParam int maximumQuantity, @RequestParam(defaultValue = "0") int valueInCurrency, long currencyId) {
+			@RequestParam int maximumQuantity, @RequestParam(defaultValue = "0") int valueInCurrency,
+			@RequestParam long currencyId, @RequestParam String image) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (!potentialCategory.isPresent()) {
@@ -83,17 +84,17 @@ public class AdministrationController {
 		}
 		Category category = potentialCategory.get();
 		if (type.equals("Product")) {
-			Product product = new Product(productName, category);
+			Product product = new Product(productName, category, image);
 			productRepo.save(product);
 		} else if (type.equals("LimitedProduct")) {
-			LimitedProduct product = new LimitedProduct(productName, category, maximumQuantity);
+			LimitedProduct product = new LimitedProduct(productName, category, maximumQuantity, image);
 			productRepo.save(product);
 		} else if (type.equals("PricedProduct")) {
 			Optional<Currency> potentialCurrency = currencyRepo.findById(currencyId);
 			if (potentialCurrency.isPresent()) {
 				Currency currency = potentialCurrency.get();
 				PricedProduct product = new PricedProduct(productName, category, maximumQuantity, currency,
-						valueInCurrency);
+						valueInCurrency, image);
 				productRepo.save(product);
 			} else {
 				return "redirect:/admin/currencies";

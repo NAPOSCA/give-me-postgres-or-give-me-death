@@ -144,8 +144,9 @@ public class AdminControllerMockTest {
 		int valueInCurrency = 1;
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
 		long currencyId = 1L;
+		String imagePath = "";
 		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
-				maximumQuantity, valueInCurrency, currencyId);
+				maximumQuantity, valueInCurrency, currencyId, imagePath);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -158,8 +159,9 @@ public class AdminControllerMockTest {
 		int valueInCurrency = 1;
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
 		long currencyId = 1L;
+		String imagePath = "";
 		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
-				maximumQuantity, valueInCurrency, currencyId);
+				maximumQuantity, valueInCurrency, currencyId, imagePath);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -208,8 +210,9 @@ public class AdminControllerMockTest {
 		int maximumQuantity = 5;
 		int valueInCurrency = 1;
 		long currencyId = 1L;
+		String imagePath = "";
 		underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type, maximumQuantity,
-				valueInCurrency, currencyId);
+				valueInCurrency, currencyId, imagePath);
 	}
 
 	@Test(expected = AccessDeniedException.class)
@@ -285,7 +288,7 @@ public class AdminControllerMockTest {
 		underTest.displayProductView(googleId, model, categoryId, productId);
 		verify(model).addAttribute("product", product);
 	}
-	
+
 	@Test
 	public void shouldHaveDisplayProductUsePricedProductTemplate() {
 		long categoryId = 1L;
@@ -294,7 +297,7 @@ public class AdminControllerMockTest {
 		String templateName = underTest.displayProductView(googleId, model, categoryId, productId);
 		assertThat(templateName, is("admin/priced-product"));
 	}
-	
+
 	@Test
 	public void shouldHaveDisplayProductUseLimitedProductTemplate() {
 		long categoryId = 1L;

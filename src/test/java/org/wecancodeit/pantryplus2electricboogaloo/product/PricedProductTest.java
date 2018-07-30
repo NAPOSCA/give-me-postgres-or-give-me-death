@@ -12,7 +12,7 @@ public class PricedProductTest {
 	public void shouldHaveCouponCostOne() {
 		Currency coupons = new Currency("Coupons");
 		int cost = 1;
-		PricedProduct underTest = new PricedProduct("Product", null, 5, coupons, cost);
+		PricedProduct underTest = new PricedProduct("Product", null, 5, coupons, cost, "");
 		int actual = underTest.getPrice();
 		assertThat(actual, is(cost));
 	}
@@ -21,7 +21,7 @@ public class PricedProductTest {
 	public void shouldHaveCouponCostTwo() {
 		Currency coupons = new Currency("Coupons");
 		int cost = 2;
-		PricedProduct underTest = new PricedProduct("Product", null, 5, coupons, cost);
+		PricedProduct underTest = new PricedProduct("Product", null, 5, coupons, cost, "");
 		int actual = underTest.getPrice();
 		assertThat(actual, is(cost));
 	}
