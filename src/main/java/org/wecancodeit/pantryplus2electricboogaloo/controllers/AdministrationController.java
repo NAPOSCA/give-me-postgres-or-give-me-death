@@ -102,23 +102,23 @@ public class AdministrationController {
 		return "redirect:/admin/categories/" + categoryId;
 	}
 
-	@GetMapping("admin/categories/{categoryId}/products/{productId}")
+	@GetMapping("/admin/categories/{categoryId}/products/{productId}")
 	public String displayProductView(@AuthenticationPrincipal OAuth2User googleId, Model model,
-			@PathVariable Long categoryId, @PathVariable Long productId) {
+			@PathVariable long categoryId, @PathVariable long productId) {
 		checkClearance(googleId);
-		model.addAttribute("category", categoryRepo.findById(categoryId));
 		Optional<Product> potentialProduct = productRepo.findById(productId);
-		model.addAttribute("product", potentialProduct);
-		if (!potentialProduct.isPresent()) {
-			return "redirect:/admin/categories/" + categoryId;
+		if (potentialProduct.isPresent()) {
+			Product product = potentialProduct.get();
+			model.addAttribute("product", product);
+			if (product instanceof PricedProduct) {
+				return "admin/priced-product";
+			}
+			if (product instanceof LimitedProduct) {
+				return "admin/limited-product";
+			}
+			return "admin/product";
 		}
-		if (potentialProduct.get() instanceof PricedProduct) {
-			return "admin/priced-product";
-		}
-		if (potentialProduct.get() instanceof LimitedProduct) {
-			return "admin/limited-product";
-		}
-		return "admin/product";
+		return "redirect:/admin/categories/" + categoryId;
 	}
 
 	@GetMapping("/admin/currencies")

@@ -22,6 +22,8 @@ import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
@@ -62,6 +64,12 @@ public class AdminControllerMockTest {
 
 	@Mock
 	private CurrencyRepository currencyRepo;
+
+	@Mock
+	private PricedProduct pricedProduct;
+
+	@Mock
+	private LimitedProduct limitedProduct;
 
 	@Before
 	public void setup() {
@@ -266,6 +274,34 @@ public class AdminControllerMockTest {
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
 		underTest.displayCategoryView(googleId, model, categoryId);
 		verify(model).addAttribute("currencies", currencies);
+	}
+
+	@Test
+	public void shouldHaveDisplayProductAttachProductToModel() {
+		long categoryId = 1L;
+		long productId = 1L;
+		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+		when(productRepo.findById(productId)).thenReturn(Optional.of(product));
+		underTest.displayProductView(googleId, model, categoryId, productId);
+		verify(model).addAttribute("product", product);
+	}
+	
+	@Test
+	public void shouldHaveDisplayProductUsePricedProductTemplate() {
+		long categoryId = 1L;
+		long productId = 1L;
+		when(productRepo.findById(productId)).thenReturn(Optional.of(pricedProduct));
+		String templateName = underTest.displayProductView(googleId, model, categoryId, productId);
+		assertThat(templateName, is("admin/priced-product"));
+	}
+	
+	@Test
+	public void shouldHaveDisplayProductUseLimitedProductTemplate() {
+		long categoryId = 1L;
+		long productId = 1L;
+		when(productRepo.findById(productId)).thenReturn(Optional.of(limitedProduct));
+		String templateName = underTest.displayProductView(googleId, model, categoryId, productId);
+		assertThat(templateName, is("admin/limited-product"));
 	}
 
 }
