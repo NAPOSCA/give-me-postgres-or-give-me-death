@@ -34,6 +34,12 @@
 			<span>Price:</span>
 			<span th:text="${product.price}" />
 		</p>
+		<p>
+			<span>Currency:</span>
+			<span>
+				<a th:href="@{'/admin/currencies/' + ${product.currency.id}}" th:text="${product.currency.name}" />
+			</span>
+		</p>
 	</div>
 </body>
 
