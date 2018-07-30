@@ -12,6 +12,9 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
+import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -23,6 +26,9 @@ public class CategoryJpaTest {
 	@Resource
 	private TestEntityManager entityManager;
 
+	@Resource
+	private ProductRepository productRepo;
+
 	@Test
 	public void shouldSaveAndLoadCategory() {
 		Category underTest = new Category("underTest");
@@ -32,5 +38,32 @@ public class CategoryJpaTest {
 		entityManager.clear();
 		Optional<Category> actual = categoryRepo.findById(categoryId);
 		assertThat(actual.isPresent(), is(true));
+	}
+
+	@Test
+	public void shouldHaveOneProductInCategory() {
+		Category underTest = new Category("underTest");
+		underTest = categoryRepo.save(underTest);
+		long underTestId = underTest.getId();
+		productRepo.save(new Product("", underTest, ""));
+		entityManager.flush();
+		entityManager.clear();
+		underTest = categoryRepo.findById(underTestId).get();
+		int actual = underTest.numberOfProducts();
+		assertThat(actual, is(1));
+	}
+	
+	@Test
+	public void shouldHaveTwoProductsInCategory() {
+		Category underTest = new Category("underTest");
+		underTest = categoryRepo.save(underTest);
+		long underTestId = underTest.getId();
+		productRepo.save(new Product("", underTest, ""));
+		productRepo.save(new LimitedProduct("", underTest, 1, ""));
+		entityManager.flush();
+		entityManager.clear();
+		underTest = categoryRepo.findById(underTestId).get();
+		int actual = underTest.numberOfProducts();
+		assertThat(actual, is(2));
 	}
 }

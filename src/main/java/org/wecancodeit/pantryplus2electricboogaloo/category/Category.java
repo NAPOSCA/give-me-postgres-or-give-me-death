@@ -41,4 +41,8 @@ public class Category {
 		return products;
 	}
 
+	public int numberOfProducts() {
+		return getProducts().size();
+	}
+
 }

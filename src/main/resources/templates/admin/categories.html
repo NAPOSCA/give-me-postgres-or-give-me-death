@@ -22,9 +22,10 @@
         </section>
         <section>
 			<h2>Categories</h2>
-			<div th:each="category : ${categories}">
-				<p>
-					<a th:href="@{'/admin/categories/' + ${category.id}}" th:text="${category.name}" />
+			<div>
+				<p th:each="category : ${categories}">
+                    <a th:href="@{'/admin/categories/' + ${category.id}}" th:text="${category.name}" />
+                    <span th:text="${category.numberOfProducts}"/>
 				</p>
 			</div>
         </section>
