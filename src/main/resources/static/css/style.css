@@ -195,4 +195,10 @@ td img {
 .admin main {
 	width: max-content;
 	border-radius: var(--border-radius);
+	margin: auto;
+}
+
+.admin img {
+	max-width: 12rem;
+	max-height: 12rem;
 }
