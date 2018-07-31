@@ -187,3 +187,7 @@ a {
 table, th, td {
     border: 1px solid black;
 }
+
+td img {
+	height: 0.9rem;
+}
