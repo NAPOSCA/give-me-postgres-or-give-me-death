@@ -63,18 +63,18 @@
 					<th>Price</th>
 					<th>Currency</th>
 				</tr>
-				<tr th:each="product : ${category.products}">
+				<tr th:each="product : ${category.products}" th:object="${product}">
 					<td>
-						<a th:href="@{'/admin/categories/' + ${category.id} + '/products/' + ${product.id}}" th:text="${product.name}" />
+						<a th:href="@{'/admin/categories/' + ${category.id} + '/products/' + *{id}}" th:text="*{name}" />
 					</td>
-					<td th:text="${product.type}" />
+					<td th:text="*{type}" />
 					<td>
-						<img th:src="${product.image}" />
+						<img th:src="*{image}" />
 					</td>
-					<td th:if="${product.type == 'LimitedProduct' or product.type == 'PricedProduct'}" th:text="${product.maximumQuantity}" />
+					<td th:if="${product.type == 'LimitedProduct' or product.type == 'PricedProduct'}" th:text="*{maximumQuantity}" />
 					<td th:if="${product.type == 'PricedProduct'}" th:text="${product.price}" />
 					<td th:if="${product.type == 'PricedProduct'}">
-						<a th:href="@{'/admin/currencies' + ${product.currency.id}}" th:text="${product.currency.name}" />
+						<a th:href="@{'/admin/currencies' + *{currency.id}}" th:text="*{currency.name}" />
 					</td>
 				</tr>
 			</table>
