@@ -16,30 +16,20 @@
 			<a th:href="@{'/admin/categories/' + ${product.category.id}}">Go Back</a>
 			<h1 th:text="${product.name}" />
 		</header>
-		<p>
-			<span>Product Name:</span>
-			<span th:text="${product.name}" />
-		</p>
-		<p>
-			<span>Image Path:</span>
-			<span th:text="${product.image}" />
-		</p>
-		<p>Image:</p>
-		<img th:src="${product.image}" />
-		<p>
-			<span>Maximum Quantity:</span>
-			<span th:text="${product.maximumQuantity}" />
-		</p>
-		<p>
-			<span>Price:</span>
-			<span th:text="${product.price}" />
-		</p>
-		<p>
-			<span>Currency:</span>
-			<span>
-				<a th:href="@{'/admin/currencies/' + ${product.currency.id}}" th:text="${product.currency.name}" />
-			</span>
-		</p>
+		<main>
+			<div th:replace="admin/product :: #product" />
+			<div th:replace="admin/limited-product :: #limited-product" />
+			<p>
+				<span>Price:</span>
+				<span th:text="${product.price}" />
+			</p>
+			<p>
+				<span>Currency:</span>
+				<span>
+					<a th:href="@{'/admin/currencies/' + ${product.currency.id}}" th:text="${product.currency.name}" />
+				</span>
+			</p>
+		</main>
 	</div>
 </body>
 

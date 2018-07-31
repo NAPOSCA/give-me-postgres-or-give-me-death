@@ -16,16 +16,20 @@
 			<a th:href="@{'/admin/categories/' + ${product.category.id}}">Go Back</a>
 			<h1 th:text="${product.name}" />
 		</header>
-		<p>
-			<span>Product Name:</span>
-			<span th:text="${product.name}" />
-		</p>
-		<p>
-			<span>Image Path:</span>
-			<span th:text="${product.image}" />
-		</p>
-		<p>Image:</p>
-		<img th:src="${product.image}" />
+		<main>
+			<div id="product">
+				<p>
+					<span>Product Name:</span>
+					<span th:text="${product.name}" />
+				</p>
+				<p>
+					<span>Image Path:</span>
+					<span th:text="${product.image}" />
+				</p>
+				<p>Image:</p>
+				<img th:src="${product.image}" />
+			</div>
+		</main>
 	</div>
 </body>
 
