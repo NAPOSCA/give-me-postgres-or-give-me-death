@@ -57,6 +57,7 @@
 			<table>
 				<tr>
 					<th>Name</th>
+					<th>Type</th>
 					<th>Image</th>
 					<th>Maximum Quantity</th>
 					<th>Price</th>
@@ -66,6 +67,7 @@
 					<td>
 						<a th:href="@{'/admin/categories/' + ${category.id} + '/products/' + ${product.id}}" th:text="${product.name}" />
 					</td>
+					<td th:text="${product.type}" />
 					<td>
 						<img th:src="${product.image}" />
 					</td>
