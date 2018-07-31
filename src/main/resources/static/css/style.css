@@ -183,3 +183,7 @@ p.address {
 a {
 	color: #46a8d0;
 }
+
+table, th, td {
+    border: 1px solid black;
+}
