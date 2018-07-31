@@ -191,3 +191,8 @@ table, th, td {
 td img {
 	height: 0.9rem;
 }
+
+.admin main {
+	width: max-content;
+	border-radius: var(--border-radius);
+}
