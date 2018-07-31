@@ -23,7 +23,7 @@
 					<th>Price</th>
 					<th>Category</th>
 				</tr>
-				<tr th:each="product : ${currency.products}" th:object="${product}">
+				<tr th:each="product : ${currency.pricedProducts}" th:object="${product}">
 					<td>
 						<a th:href="@{'/admin/categories/' + *{category.id} + '/products/' + *{id}}" th:text="*{name}" />
 					</td>
