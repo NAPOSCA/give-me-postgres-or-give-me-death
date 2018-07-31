@@ -9,9 +9,10 @@
 	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
 	<link rel="stylesheet" type="text/css" href="/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="/css/animation.css" />
+	<script type="text/javascript" src="/js/admin.js"></script>
 </head>
 
-<body>
+<body onload="initialize()">
 	<div class="container admin category">
 		<header>
 			<a href="/admin/categories">Go Back</a>
@@ -28,8 +29,8 @@
 
 					<br />
 
-					<button>Update</button>
-					<button>Delete</button>
+					<button class="update">Update</button>
+					<button class="delete">Delete</button>
 				</form>
 			</section>
 			<section class="product-creator">
