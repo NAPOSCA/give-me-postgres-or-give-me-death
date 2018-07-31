@@ -25,4 +25,12 @@ public class PricedProductTest {
 		int actual = underTest.getPrice();
 		assertThat(actual, is(cost));
 	}
+	
+	@Test
+	public void shouldHaveTypeReturnPricedProduct() {
+		PricedProduct underTest = new PricedProduct("Product", null, 1, null, 1, "");
+		String actual = underTest.getType();
+		assertThat(actual, is("PricedProduct"));
+	}
+	
 }

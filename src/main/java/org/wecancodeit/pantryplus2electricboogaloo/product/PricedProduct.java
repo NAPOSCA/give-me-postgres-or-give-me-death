@@ -30,5 +30,10 @@ public class PricedProduct extends LimitedProduct {
 	public Currency getCurrency() {
 		return currency;
 	}
+	
+	@Override
+	public String getType() {
+		return "PricedProduct";
+	}
 
 }

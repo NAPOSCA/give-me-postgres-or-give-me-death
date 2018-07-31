@@ -22,4 +22,11 @@ public class LimitedProductTest {
 		int actual = underTest.getMaximumQuantity();
 		assertThat(actual, is(maximumQuantity));
 	}
+
+	@Test
+	public void shouldHaveTypeReturnLimitedProduct() {
+		LimitedProduct underTest = new LimitedProduct("Product", null, 1, "");
+		String actual = underTest.getType();
+		assertThat(actual, is("LimitedProduct"));
+	}
 }

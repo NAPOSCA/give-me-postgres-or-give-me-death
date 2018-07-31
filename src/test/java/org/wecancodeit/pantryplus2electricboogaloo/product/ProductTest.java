@@ -33,7 +33,7 @@ public class ProductTest {
 		Category actual = underTest.getCategory();
 		assertThat(actual, is(category));
 	}
-	
+
 	@Test
 	public void shouldHaveImageBeEmptyStringIfNoUrlSupplied() {
 		Category category = new Category("Product");
@@ -41,7 +41,7 @@ public class ProductTest {
 		String actual = underTest.getImage();
 		assertThat(actual, is(""));
 	}
-	
+
 	@Test
 	public void shouldHaveImageBeFruit() {
 		String imagePath = "http://www.images.com/fruit.png";
@@ -50,7 +50,7 @@ public class ProductTest {
 		String actual = underTest.getImage();
 		assertThat(actual, is(imagePath));
 	}
-	
+
 	@Test
 	public void shouldHaveImageBeVegtable() {
 		String imagePath = "http://www.images.com/vetable.png";
@@ -59,4 +59,13 @@ public class ProductTest {
 		String actual = underTest.getImage();
 		assertThat(actual, is(imagePath));
 	}
+
+	@Test
+	public void shouldHaveTypeReturnProduct() {
+		Category category = new Category("Category");
+		Product underTest = new Product("Product", category, "");
+		String actual = underTest.getType();
+		assertThat(actual, is("Product"));
+	}
+
 }

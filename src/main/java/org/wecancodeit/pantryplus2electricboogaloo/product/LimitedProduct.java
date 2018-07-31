@@ -21,4 +21,9 @@ public class LimitedProduct extends Product {
 		return maximumQuantity;
 	}
 
+	@Override
+	public String getType() {
+		return "LimitedProduct";
+	}
+
 }
