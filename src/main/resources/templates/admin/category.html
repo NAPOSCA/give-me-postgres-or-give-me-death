@@ -41,7 +41,7 @@
 				<label for="valueInCurrency" class="reveal-if-priced-product">Price</label>
 				<input type="number" name="valueInCurrency" id="valueInCurrency" class="reveal-if-priced-product" />
 				<br />
-				<label for="currencyId">Currency</label>
+				<label for="currencyId" class="reveal-if-priced-product">Currency</label>
 				<select name="currencyId" id="currencyId" class="reveal-if-priced-product">
 					<option disabled>Currency</option>
 					<option th:each="currency : ${currencies}" th:value="${currency.id}" th:text="${currency.name}"/>
