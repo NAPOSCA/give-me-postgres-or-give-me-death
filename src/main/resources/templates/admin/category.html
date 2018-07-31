@@ -64,9 +64,11 @@
 				</tr>
 				<tr th:each="product : ${category.products}">
 					<td>
-						<a th:href="${product.name}" />
+						<a th:href="@{'/admin/categories/' + ${category.id} + '/products/' + ${product.id}}" th:text="${product.name}" />
 					</td>
-					<td th:text="${product.image}" />
+					<td>
+						<img th:src="${product.image}" />
+					</td>
 					<td th:if="${product.type == 'LimitedProduct' or product.type == 'PricedProduct'}" th:text="${product.maximumQuantity}" />
 					<td th:if="${product.type == 'PricedProduct'}" th:text="${product?.price}" />
 					<td th:if="${product.type == 'PricedProduct'}" th:text="${product?.currency.name}" />
