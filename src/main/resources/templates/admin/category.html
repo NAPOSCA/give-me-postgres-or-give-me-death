@@ -67,9 +67,9 @@
 						<a th:href="${product.name}" />
 					</td>
 					<td th:text="${product.image}" />
-					<td th:if="${product.maximumQuantity != null}" th:text="${product.maximumQuantity}" />
-					<td th:text="${product?.price}" />
-					<td th:text="${product?.currency.name}" />
+					<td th:if="${product.type == 'LimitedProduct' or product.type == 'PricedProduct'}" th:text="${product.maximumQuantity}" />
+					<td th:if="${product.type == 'PricedProduct'}" th:text="${product?.price}" />
+					<td th:if="${product.type == 'PricedProduct'}" th:text="${product?.currency.name}" />
 				</tr>
 			</table>
 		</section>
