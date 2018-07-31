@@ -72,8 +72,10 @@
 						<img th:src="${product.image}" />
 					</td>
 					<td th:if="${product.type == 'LimitedProduct' or product.type == 'PricedProduct'}" th:text="${product.maximumQuantity}" />
-					<td th:if="${product.type == 'PricedProduct'}" th:text="${product?.price}" />
-					<td th:if="${product.type == 'PricedProduct'}" th:text="${product?.currency.name}" />
+					<td th:if="${product.type == 'PricedProduct'}" th:text="${product.price}" />
+					<td th:if="${product.type == 'PricedProduct'}">
+						<a th:href="@{'/admin/currencies' + ${product.currency.id}}" th:text="${product.currency.name}" />
+					</td>
 				</tr>
 			</table>
 		</section>
