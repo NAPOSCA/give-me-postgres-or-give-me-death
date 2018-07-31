@@ -67,7 +67,7 @@
 						<a th:href="${product.name}" />
 					</td>
 					<td th:text="${product.image}" />
-					<td th:text="${product?.maximumQuantity}" />
+					<td th:if="${product.maximumQuantity != null}" th:text="${product.maximumQuantity}" />
 					<td th:text="${product?.price}" />
 					<td th:text="${product?.currency.name}" />
 				</tr>
