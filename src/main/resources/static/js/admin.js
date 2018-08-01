@@ -14,8 +14,7 @@ const request = (callback, method, url) => {
 	const xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = () => {
 		if (xhr.readyState === 4 && xhr.status === 200) {
-			const response = JSON.parse(xhr.response);
-			callback(response);
+			callback(xhr.response);
 		}
 	};
 	xhr.open(method, url, true);
