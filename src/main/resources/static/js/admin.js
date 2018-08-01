@@ -3,7 +3,7 @@ function initialize() {
 	const detailsForm = document.querySelector(".category-details");
 	const updateButton = document.querySelector("#update");
 	updateButton.addEventListener("click", () => {
-		const name = detailsForm.querySelector("#name").nodeValue;
+		const name = detailsForm.querySelector("#name").value;
 		request(response => {
 			document.location.reload(true);
 		}, "PUT", `/admin/category/${categoryId}?name=${name}`);
