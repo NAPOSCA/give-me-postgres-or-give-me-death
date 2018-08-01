@@ -19,7 +19,7 @@ public class Currency {
 	private long id;
 	private String name;
 
-	@OneToMany(mappedBy = "currency")
+	@OneToMany(mappedBy = "currency", orphanRemoval = true)
 	private Collection<PricedProduct> pricedProducts;
 
 	public Currency() {
