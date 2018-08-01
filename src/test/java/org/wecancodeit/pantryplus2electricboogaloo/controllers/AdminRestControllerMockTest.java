@@ -4,6 +4,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -11,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
+import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
@@ -34,6 +37,9 @@ public class AdminRestControllerMockTest {
 
 	@Mock
 	private OAuth2User googleId;
+
+	@Mock
+	private Category category;
 
 	@Before
 	public void setup() {
@@ -98,13 +104,32 @@ public class AdminRestControllerMockTest {
 		underTest.receiveDeleteOnCategory(googleId, categoryId);
 		verify(categoryRepo, never()).deleteById(categoryId);
 	}
-	
+
 	@Test
 	public void shouldNotDeleteProductIfNotAdmin() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
 		long productId = 1L;
 		underTest.receiveDeleteOnProduct(googleId, productId);
 		verify(productRepo, never()).deleteById(productId);
+	}
+
+	@Test
+	public void shouldUpdateCategoryNameToFoo() {
+		long categoryId = 1L;
+		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+		String name = "Foo";
+		underTest.receivePutOnCategory(googleId, categoryId, name);
+		verify(category).updateName(name);
+	}
+
+	@Test
+	public void shouldNotUpdateCategoryNameIfNotAdmin() {
+		when(loginService.isAdmin(googleId)).thenReturn(false);
+		long categoryId = 1L;
+		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+		String name = "Foo";
+		underTest.receivePutOnCategory(googleId, categoryId, name);
+		verify(category, never()).updateName(name);
 	}
 
 }

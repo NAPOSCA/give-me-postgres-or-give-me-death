@@ -6,6 +6,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
@@ -47,5 +49,13 @@ public class AdministrationRestController {
 			productRepo.deleteById(productId);
 		}
 	}
-	
+
+	@PutMapping("/admin/category/{categoryId}")
+	public void receivePutOnCategory(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long categoryId,
+			@RequestParam String name) {
+		if (loginService.isAdmin(googleId)) {
+			categoryRepo.findById(categoryId).get().updateName(name);
+		}
+	}
+
 }

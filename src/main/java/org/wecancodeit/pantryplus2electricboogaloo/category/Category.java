@@ -45,4 +45,9 @@ public class Category {
 		return getProducts().size();
 	}
 
+	public void updateName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
