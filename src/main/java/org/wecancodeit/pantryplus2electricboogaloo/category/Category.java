@@ -19,7 +19,7 @@ public class Category {
 	private long id;
 	private String name;
 
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", orphanRemoval = true)
 	Collection<Product> products;
 
 	public Category() {

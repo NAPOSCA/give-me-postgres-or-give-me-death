@@ -52,7 +52,7 @@ public class CategoryJpaTest {
 		int actual = underTest.numberOfProducts();
 		assertThat(actual, is(1));
 	}
-	
+
 	@Test
 	public void shouldHaveTwoProductsInCategory() {
 		Category underTest = new Category("underTest");
@@ -66,4 +66,21 @@ public class CategoryJpaTest {
 		int actual = underTest.numberOfProducts();
 		assertThat(actual, is(2));
 	}
+
+	@Test
+	public void shouldDeleteProductsInsideCategoryWhenCategoryIsDeleted() {
+		Category underTest = new Category("underTest");
+		underTest = categoryRepo.save(underTest);
+		long underTestId = underTest.getId();
+		Product product = new Product("Product", underTest, "");
+		product = productRepo.save(product);
+		long productId = product.getId();
+		entityManager.flush();
+		entityManager.clear();
+		categoryRepo.deleteById(underTestId);
+		Optional<Product> potentialProduct = productRepo.findById(productId);
+		boolean actual = potentialProduct.isPresent();
+		assertThat(actual, is(false));
+	}
+
 }
