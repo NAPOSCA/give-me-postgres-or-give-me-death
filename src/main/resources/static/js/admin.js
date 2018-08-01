@@ -4,9 +4,12 @@ function initialize() {
 	const updateButton = document.querySelector("#update");
 	const deleteButton = document.querySelector("#delete");
 	deleteButton.addEventListener("click", () => {
-		request(response => {
-			document.location.reload(true);
-		}, "DELETE", `/admin/category/${categoryId}`);
+		const confirmation = confirm("Are you sure you want to delete this category?");
+		if (confirmation) {
+			request(response => {
+				document.location.reload(true);
+			}, "DELETE", `/admin/category/${categoryId}`);
+		}
 	});
 }
 
