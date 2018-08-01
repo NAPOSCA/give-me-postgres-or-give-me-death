@@ -2,6 +2,12 @@ function initialize() {
 	const categoryId = document.querySelector("#id").textContent;
 	const detailsForm = document.querySelector(".category-details");
 	const updateButton = document.querySelector("#update");
+	updateButton.addEventListener("click", () => {
+		const name = detailsForm.querySelector("#name").nodeValue;
+		request(response => {
+			document.location.reload(true);
+		}, "PUT", `/admin/category/${categoryId}?name=${name}`);
+	});
 	const deleteButton = document.querySelector("#delete");
 	deleteButton.addEventListener("click", () => {
 		const confirmation = confirm("Are you sure you want to delete this category?");
