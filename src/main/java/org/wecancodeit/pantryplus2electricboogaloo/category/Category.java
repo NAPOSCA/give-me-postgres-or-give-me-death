@@ -46,8 +46,7 @@ public class Category {
 	}
 
 	public void updateName(String name) {
-		// TODO Auto-generated method stub
-		
+		this.name = name;
 	}
 
 }
