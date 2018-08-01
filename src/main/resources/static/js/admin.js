@@ -10,7 +10,7 @@ function initialize() {
 	});
 	const deleteButton = document.querySelector("#delete");
 	deleteButton.addEventListener("click", () => {
-		const confirmation = confirm("Are you sure you want to delete this category?");
+		const confirmation = confirm("Are you sure you want to delete this category and all products inside it?");
 		if (confirmation) {
 			request(response => {
 				document.location.reload(true);
