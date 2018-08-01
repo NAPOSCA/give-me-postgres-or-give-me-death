@@ -1,5 +1,5 @@
 function initialize() {
-	const categoryId = document.querySelector("#id");
+	const categoryId = document.querySelector("#id").textContent;
 	const detailsForm = document.querySelector(".category-details");
 	const updateButton = document.querySelector("#update");
 	const deleteButton = document.querySelector("#delete");
