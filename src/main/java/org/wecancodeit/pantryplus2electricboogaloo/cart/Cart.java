@@ -13,8 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
+import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Entity
@@ -90,6 +93,19 @@ public class Cart {
 
 	private boolean isCountedLineItem(LineItem item) {
 		return item instanceof CountedLineItem;
+	}
+
+	public int amountUsed(Currency currency) {
+		return getCountedLineItems().stream().mapToInt(lineItem -> {
+			Product product = lineItem.getProduct();
+			if (product instanceof PricedProduct) {
+				PricedProduct pricedProduct = (PricedProduct) product;
+				if (pricedProduct.getCurrency().equals(currency)) {
+					return pricedProduct.getPrice() * lineItem.getQuantity();
+				}
+			}
+			return 0;
+		}).sum();
 	}
 
 }

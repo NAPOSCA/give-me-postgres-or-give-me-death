@@ -18,9 +18,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItemRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
@@ -39,6 +44,12 @@ public class CartJpaTest {
 
 	@Resource
 	private LineItemRepository lineItemRepo;
+
+	@Resource
+	private CurrencyRepository currencyRepo;
+
+	@Resource
+	private ProductRepository productRepo;
 
 	PantryUser user;
 	Cart cart;
@@ -103,7 +114,7 @@ public class CartJpaTest {
 		PantryUser user = userRepo.save(new PantryUser(googleId));
 		Cart cart = cartRepo.save(new Cart(user));
 		long cartId = cart.getId();
-		LineItem lineItem = lineItemRepo.save(new LineItem(cart));
+		LineItem lineItem = lineItemRepo.save(new LineItem(cart, null));
 		entityManager.flush();
 		entityManager.clear();
 		cart = cartRepo.findById(cartId).get();
@@ -116,7 +127,7 @@ public class CartJpaTest {
 		PantryUser user = userRepo.save(new PantryUser(googleId));
 		Cart cart = cartRepo.save(new Cart(user));
 		long cartId = cart.getId();
-		CountedLineItem countedLineItem = lineItemRepo.save(new CountedLineItem(cart));
+		CountedLineItem countedLineItem = lineItemRepo.save(new CountedLineItem(cart, null));
 		entityManager.flush();
 		entityManager.clear();
 		cart = cartRepo.findById(cartId).get();
@@ -129,12 +140,70 @@ public class CartJpaTest {
 		PantryUser user = userRepo.save(new PantryUser(googleId));
 		Cart cart = cartRepo.save(new Cart(user));
 		long cartId = cart.getId();
-		LineItem lineItem = lineItemRepo.save(new LineItem(cart));
-		lineItemRepo.save(new CountedLineItem(cart));
+		LineItem lineItem = lineItemRepo.save(new LineItem(cart, null));
+		lineItemRepo.save(new CountedLineItem(cart, null));
 		entityManager.flush();
 		entityManager.clear();
 		cart = cartRepo.findById(cartId).get();
 		Set<LineItem> actual = cart.getLineItems();
 		assertThat(actual, contains(lineItem));
 	}
+
+	@Test
+	public void shouldHaveAmountUsedBeOne() {
+		Cart underTest = cartRepo.save(new Cart(null));
+		long underTestId = underTest.getId();
+		Currency currency = currencyRepo.save(new Currency("Coupons"));
+		long currencyId = currency.getId();
+		int cost = 1;
+		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, cost, ""));
+		lineItemRepo.save(new CountedLineItem(underTest, product));
+		entityManager.flush();
+		entityManager.clear();
+		currency = currencyRepo.findById(currencyId).get();
+		underTest = cartRepo.findById(underTestId).get();
+		int actual = underTest.amountUsed(currency);
+		assertThat(actual, is(cost));
+	}
+
+	@Test
+	public void shouldHaveAmountUsedBeTwo() {
+		Cart underTest = cartRepo.save(new Cart(null));
+		long underTestId = underTest.getId();
+		Currency currency = currencyRepo.save(new Currency("Coupons"));
+		long currencyId = currency.getId();
+		int cost = 2;
+		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, cost, ""));
+		lineItemRepo.save(new CountedLineItem(underTest, product));
+		entityManager.flush();
+		entityManager.clear();
+		currency = currencyRepo.findById(currencyId).get();
+		underTest = cartRepo.findById(underTestId).get();
+		int actual = underTest.amountUsed(currency);
+		assertThat(actual, is(cost));
+	}
+
+	@Test
+	public void shouldHaveAmountUsedBeFour() {
+		Cart underTest = cartRepo.save(new Cart(null));
+		long underTestId = underTest.getId();
+		Currency currency = currencyRepo.save(new Currency("Coupons"));
+		long currencyId = currency.getId();
+		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, 1, ""));
+		CountedLineItem lineItem = new CountedLineItem(underTest, product);
+		lineItem.increase();
+		lineItemRepo.save(lineItem);
+		PricedProduct anotherProduct = productRepo.save(new PricedProduct("Banana", null, 5, currency, 2, ""));
+		lineItemRepo.save(new CountedLineItem(underTest, anotherProduct));
+		LimitedProduct limitedProduct = new LimitedProduct("Kiwi", null, 5, "");
+		productRepo.save(limitedProduct);
+		lineItemRepo.save(new CountedLineItem(underTest, limitedProduct));
+		entityManager.flush();
+		entityManager.clear();
+		currency = currencyRepo.findById(currencyId).get();
+		underTest = cartRepo.findById(underTestId).get();
+		int actual = underTest.amountUsed(currency);
+		assertThat(actual, is(4));
+	}
+
 }

@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItemRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
@@ -28,6 +30,12 @@ public class CurrencyJpaTest {
 
 	@Resource
 	private ProductRepository productRepo;
+
+	@Resource
+	private CartRepository cartRepo;
+
+	@Resource
+	private LineItemRepository lineItemRepo;
 
 	@Test
 	public void shouldSaveAndLoad() {
