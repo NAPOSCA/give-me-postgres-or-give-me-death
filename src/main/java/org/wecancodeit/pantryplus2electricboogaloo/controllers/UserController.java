@@ -16,7 +16,7 @@ public class UserController {
 
 	@Resource
 	private UserRepository userRepo;
-	
+
 	@Resource
 	private LoginService loginService;
 

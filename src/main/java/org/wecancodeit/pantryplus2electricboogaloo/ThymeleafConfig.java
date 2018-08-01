@@ -9,7 +9,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 @Configuration
 public class ThymeleafConfig {
-	
+
 	@Bean
 	public SpringTemplateEngine springTemplateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();

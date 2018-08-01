@@ -19,21 +19,21 @@ import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class PricedProductJpaTest {
-	
+
 	@Resource
 	private ProductRepository productRepo;
-	
+
 	@Resource
 	private CurrencyRepository currencyRepo;
-	
+
 	@Resource
 	private TestEntityManager entityManager;
-	
+
 	@Test
 	public void shouldSaveCurrencyToPricedProduct() {
 		Currency currency = new Currency("Currency");
 		currency = currencyRepo.save(currency);
-		PricedProduct underTest = new PricedProduct("Product", null, 5, currency, 1);
+		PricedProduct underTest = new PricedProduct("Product", null, 5, currency, 1, "");
 		underTest = productRepo.save(underTest);
 		long id = underTest.getId();
 		entityManager.flush();
@@ -42,15 +42,15 @@ public class PricedProductJpaTest {
 		Currency actual = underTest.getCurrency();
 		assertThat(actual, is(currency));
 	}
-	
+
 	@Test
 	public void shouldSavePricedProductsToCurrency() {
 		Currency underTest = new Currency("Currency");
 		underTest = currencyRepo.save(underTest);
 		long id = underTest.getId();
-		PricedProduct product = new PricedProduct("First product", null, 1, underTest, 1);
+		PricedProduct product = new PricedProduct("First product", null, 1, underTest, 1, "");
 		product = productRepo.save(product);
-		PricedProduct anotherProduct = new PricedProduct("Second product", null, 1, underTest, 1);
+		PricedProduct anotherProduct = new PricedProduct("Second product", null, 1, underTest, 1, "");
 		anotherProduct = productRepo.save(anotherProduct);
 		entityManager.flush();
 		entityManager.clear();

@@ -18,8 +18,8 @@ public class Category {
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	private String name;
-	
-	@OneToMany(mappedBy = "category")
+
+	@OneToMany(mappedBy = "category", orphanRemoval = true)
 	Collection<Product> products;
 
 	public Category() {
@@ -39,6 +39,14 @@ public class Category {
 
 	public Collection<Product> getProducts() {
 		return products;
+	}
+
+	public int numberOfProducts() {
+		return getProducts().size();
+	}
+
+	public void updateName(String name) {
+		this.name = name;
 	}
 
 }

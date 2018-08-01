@@ -18,8 +18,8 @@ public class Currency {
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	private String name;
-	
-	@OneToMany(mappedBy = "currency")
+
+	@OneToMany(mappedBy = "currency", orphanRemoval = true)
 	private Collection<PricedProduct> pricedProducts;
 
 	public Currency() {

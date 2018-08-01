@@ -1,0 +1,47 @@
+<html>
+
+<head>
+	<title th:text="${currency.name}" />
+	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+
+<body>
+	<div class="container admin currency">
+		<header>
+			<a href="/admin">Go Back</a>
+			<h1 th:text="${currency.name}" />
+		</header>
+		<main>
+			<section class="products">
+				<h2>Products</h2>
+				<table>
+					<tr>
+						<th>Name</th>
+						<th>Type</th>
+						<th>Image</th>
+						<th>Maximum Quantity</th>
+						<th>Price</th>
+						<th>Category</th>
+					</tr>
+					<tr th:each="product : ${currency.pricedProducts}" th:object="${product}">
+						<td>
+							<a th:href="@{'/admin/categories/' + *{category.id} + '/products/' + *{id}}" th:text="*{name}" />
+						</td>
+						<td th:text="*{type}" />
+						<td>
+							<img th:src="*{image}" />
+						</td>
+						<td th:text="*{maximumQuantity}" />
+						<td th:text="*{price}" />
+						<td>
+							<a th:href="@{'/admin/categories/' + *{category.id}}" th:text="*{category.name}" />
+						</td>
+					</tr>
+				</table>
+			</section>
+		</main>
+	</div>
+</body>
+
+</html>

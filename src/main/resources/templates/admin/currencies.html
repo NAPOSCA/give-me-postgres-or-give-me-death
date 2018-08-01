@@ -1,0 +1,36 @@
+<html>
+
+<head>
+	<title>Currencies</title>
+	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+
+<body>
+	<div class="container admin currencies">
+		<h1>Currencies</h1>
+		<section class="currency-creator">
+			<form action="/admin/currencies" method="post">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+				<br />
+
+				<label for="name">Name:</label>
+				<input type="text" name="name" id="name" />
+
+				<br />
+
+				<input type="submit" />
+			</form>
+		</section>
+		<section>
+			<div th:each="currency : ${currencies}">
+				<p>
+					<a th:href="@{'/admin/currencies/' + ${currency.id}}" th:text="${currency.name}" />
+				</p>
+			</div>
+		</section>
+	</div>
+</body>
+
+</html>

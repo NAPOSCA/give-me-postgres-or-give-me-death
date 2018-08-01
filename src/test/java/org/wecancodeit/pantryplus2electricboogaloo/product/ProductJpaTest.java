@@ -20,13 +20,13 @@ import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class ProductJpaTest {
-	
+
 	@Resource
 	private ProductRepository productRepo;
-	
+
 	@Resource
 	private TestEntityManager entityManager;
-	
+
 	@Resource
 	private CategoryRepository categoryRepo;
 
@@ -34,7 +34,7 @@ public class ProductJpaTest {
 	public void shouldSaveAndLoadProduct() {
 		Category category = new Category("Category");
 		category = categoryRepo.save(category);
-		Product underTest = new Product("underTest", category);
+		Product underTest = new Product("underTest", category, "");
 		underTest = productRepo.save(underTest);
 		long id = underTest.getId();
 		entityManager.flush();
@@ -43,14 +43,14 @@ public class ProductJpaTest {
 		boolean isPresent = potentialProduct.isPresent();
 		assertThat(isPresent, is(true));
 	}
-	
+
 	@Test
 	public void shouldSaveManyProductsToOneCategory() {
 		Category category = new Category("Category");
 		category = categoryRepo.save(category);
 		long categoryId = category.getId();
-		Product product = productRepo.save(new Product("First Product", category));
-		Product anotherProduct = productRepo.save(new Product("Second Product", category));
+		Product product = productRepo.save(new Product("First Product", category, ""));
+		Product anotherProduct = productRepo.save(new Product("Second Product", category, ""));
 		entityManager.flush();
 		entityManager.clear();
 		category = categoryRepo.findById(categoryId).get();

@@ -16,16 +16,18 @@ public class Product {
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
 	private String name;
-	
+
 	@ManyToOne
 	private Category category;
+	private String image;
 
 	public Product() {
 	}
 
-	public Product(String name, Category category) {
+	public Product(String name, Category category, String imagePath) {
 		this.name = name;
 		this.category = category;
+		this.image = imagePath;
 	}
 
 	public String getName() {
@@ -60,5 +62,13 @@ public class Product {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public String getType() {
+		return "Product";
 	}
 }

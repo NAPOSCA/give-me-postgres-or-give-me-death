@@ -183,3 +183,22 @@ p.address {
 a {
 	color: #46a8d0;
 }
+
+table, th, td {
+    border: 1px solid black;
+}
+
+td img {
+	height: 0.9rem;
+}
+
+.admin main {
+	width: max-content;
+	border-radius: var(--border-radius);
+	margin: auto;
+}
+
+.admin img {
+	max-width: 12rem;
+	max-height: 12rem;
+}

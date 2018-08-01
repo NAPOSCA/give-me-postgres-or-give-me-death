@@ -193,4 +193,27 @@ public class PantryControllerMockTest {
 		assertThat(templateName, is("redirect:/settings"));
 	}
 
+	@Test
+	public void shouldHaveWelcomeViewAttachIsAdminToModelAsTrue() {
+		boolean isAdmin = true;
+		when(loginService.isAdmin(googleId)).thenReturn(isAdmin);
+		underTest.displayWelcomeView(model, googleId);
+		verify(model).addAttribute("isAdmin", isAdmin);
+	}
+
+	@Test
+	public void shouldHaveWelcomeViewAttachIsAdminToModelAsFalse() {
+		boolean isAdmin = false;
+		when(loginService.isAdmin(googleId)).thenReturn(isAdmin);
+		underTest.displayWelcomeView(model, googleId);
+		verify(model).addAttribute("isAdmin", isAdmin);
+	}
+	
+	@Test
+	public void shouldHaveWelcomeViewAttachIsAdminToModelAsFalseIfUserNotSignedIn() {
+		googleId = null;
+		underTest.displayWelcomeView(model, googleId);
+		verify(model).addAttribute("isAdmin", false);
+	}
+
 }

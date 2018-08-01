@@ -18,7 +18,7 @@ public class PantryController {
 
 	@Resource
 	private CategoryRepository categoryRepo;
-	
+
 	@Resource
 	private LoginService loginService;
 
@@ -34,11 +34,11 @@ public class PantryController {
 	public String displayShopping(Model model, @AuthenticationPrincipal OAuth2User googleId) {
 		model.addAttribute("categories", categoryRepo.findAll());
 		PantryUser user = loginService.resolveUser(googleId);
-		if(!user.isValid()) {
+		if (!user.isValid()) {
 			return "redirect:/settings";
 		}
 		model.addAttribute("cart", user.getCart());
-		
+
 		return "shopping";
 	}
 
@@ -63,11 +63,14 @@ public class PantryController {
 		boolean isAuthenticated = googleId != null;
 		model.addAttribute("authenticated", isAuthenticated);
 		if (isAuthenticated) {
+			model.addAttribute("isAdmin", loginService.isAdmin(googleId));
 			PantryUser user = loginService.resolveUser(googleId);
-			if(!user.isValid()) {
+			if (!user.isValid()) {
 				return "redirect:/settings";
 			}
 			model.addAttribute("user", user);
+		} else {
+			model.addAttribute("isAdmin", false);
 		}
 		return "welcome";
 	}
