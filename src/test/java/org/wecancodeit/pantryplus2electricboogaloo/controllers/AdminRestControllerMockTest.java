@@ -1,5 +1,6 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,6 +9,7 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -130,6 +132,17 @@ public class AdminRestControllerMockTest {
 		String name = "Foo";
 		underTest.receivePutOnCategory(googleId, categoryId, name);
 		verify(category, never()).updateName(name);
+	}
+
+	@Test
+	public void shouldSaveTheCategoryAfterUpdating() {
+		long categoryId = 1L;
+		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+		String name = "Bar";
+		underTest.receivePutOnCategory(googleId, categoryId, name);
+		InOrder inOrder = inOrder(categoryRepo, category);
+		inOrder.verify(category).updateName(name);
+		inOrder.verify(categoryRepo).save(category);
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
+import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
@@ -54,7 +55,9 @@ public class AdministrationRestController {
 	public void receivePutOnCategory(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long categoryId,
 			@RequestParam String name) {
 		if (loginService.isAdmin(googleId)) {
-			categoryRepo.findById(categoryId).get().updateName(name);
+			Category category = categoryRepo.findById(categoryId).get();
+			category.updateName(name);
+			categoryRepo.save(category);
 		}
 	}
 
