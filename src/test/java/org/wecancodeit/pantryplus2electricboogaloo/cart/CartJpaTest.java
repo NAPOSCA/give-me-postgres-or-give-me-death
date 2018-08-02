@@ -25,6 +25,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItemRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
@@ -204,6 +205,38 @@ public class CartJpaTest {
 		underTest = cartRepo.findById(underTestId).get();
 		int actual = underTest.amountUsed(currency);
 		assertThat(actual, is(4));
+	}
+	
+	@Test
+	public void shouldHaveCartContainProduct() {
+		Cart underTest = cartRepo.save(new Cart(null));
+		long underTestId = underTest.getId();
+		Product product = new Product("Product", null, "");
+		product = productRepo.save(product);
+		long productId = product.getId();
+		LineItem lineItem = new LineItem(underTest, product);
+		lineItemRepo.save(lineItem);
+		entityManager.flush();
+		entityManager.clear();
+		underTest = cartRepo.findById(underTestId).get();
+		product = productRepo.findById(productId).get();
+		boolean actual = underTest.has(product);
+		assertThat(actual, is(true));
+	}
+	
+	@Test
+	public void shouldHaveCartNotContainProduct() {
+		Cart underTest = cartRepo.save(new Cart(null));
+		long underTestId = underTest.getId();
+		Product product = new Product("Product", null, "");
+		product = productRepo.save(product);
+		long productId = product.getId();
+		entityManager.flush();
+		entityManager.clear();
+		underTest = cartRepo.findById(underTestId).get();
+		product = productRepo.findById(productId).get();
+		boolean actual = underTest.has(product);
+		assertThat(actual, is(false));
 	}
 
 }

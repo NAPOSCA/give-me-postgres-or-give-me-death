@@ -108,4 +108,8 @@ public class Cart {
 		}).sum();
 	}
 
+	public boolean has(Product product) {
+		return getAllLineItems().stream().anyMatch(lineItem -> lineItem.getProduct().equals(product));
+	}
+
 }
