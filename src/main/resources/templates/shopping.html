@@ -55,34 +55,34 @@
 				<a class="button" th:href="'/carts/' + ${cart.getId()}">
 					Go to Cart
 				</a>
+			</aside>
+			<main>
+				<div th:each="category : ${categories}" class="category-items" th:unless="${category.name == 'After School Snacks' and cart.user.schoolAgeChildren == 0}">
+					<section class="category">
+						<h2 th:text="${category.name}" />
+						<p class="indicator visible">+</p>
+						<p class="indicator hidden">-</p>
+					</section>
+					<ul class="items hidden">
+						<li class="item" th:each="product : ${category.products}" th:unless="${product.name == 'Diapers' and cart.user.hasInfants() == false}">
+							<img class="product-image" th:src="${product.image}" draggable="false" />
+							<h3 th:text="${product.name}" />
+							<div th:id="'product-'+${product.id}" th:switch="true" class="switch">
+								<div th:case="${category.name == 'Choice Items'}" class="case">
+									<div th:replace="fragments/interfaces :: .coupon" />
+								</div>
+								<div th:case="${category.name == 'Meat'}" class="case">
+									<div th:replace="fragments/interfaces :: .meat" />
+								</div>
+								<div th:case="true" class="case">
+									<div th:replace="fragments/interfaces :: .dichotomous" />
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</main>
 		</div>
-		</aside>
-		<main>
-			<div th:each="category : ${categories}" class="category-items" th:unless="${category.name == 'After School Snacks' and cart.user.schoolAgeChildren == 0}">
-				<section class="category">
-					<h2 th:text="${category.name}" />
-					<p class="indicator visible">+</p>
-					<p class="indicator hidden">-</p>
-				</section>
-				<ul class="items hidden">
-					<li class="item" th:each="product : ${category.products}" th:unless="${product.name == 'Diapers' and cart.user.hasInfants() == false}">
-						<img class="product-image" th:src="${product.image}" draggable="false" />
-						<h3 th:text="${product.name}" />
-						<div th:id="'product-'+${product.id}" th:switch="true" class="switch">
-							<div th:case="${category.name == 'Choice Items'}" class="case">
-								<div th:replace="fragments/interfaces :: .coupon" />
-							</div>
-							<div th:case="${category.name == 'Meat'}" class="case">
-								<div th:replace="fragments/interfaces :: .meat" />
-							</div>
-							<div th:case="true" class="case">
-								<div th:replace="fragments/interfaces :: .dichotomous" />
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</main>
 	</div>
 	<footer th:replace="user-form :: footer" />
 	</div>
