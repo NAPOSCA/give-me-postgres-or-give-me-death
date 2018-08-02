@@ -66,7 +66,7 @@ public class CurrencyJpaTest {
 		currencyRepo.save(new Currency("First Currency", null));
 		currencyRepo.save(new Currency("Second Currency", null));
 	}
-	
+
 	@Test
 	public void shouldDeletePricedProductWhenCurrencyIsDeleted() {
 		Currency underTest = new Currency("Coupons", null);
@@ -82,7 +82,7 @@ public class CurrencyJpaTest {
 		boolean isPresent = potentialProduct.isPresent();
 		assertThat(isPresent, is(false));
 	}
-	
+
 	@Test
 	public void shouldHaveAllowanceBeOne() {
 		PantryUser user = new PantryUser(googleId);
@@ -103,7 +103,7 @@ public class CurrencyJpaTest {
 		int actual = underTest.allowanceOf(user);
 		assertThat(actual, is(amountOfCurrency));
 	}
-	
+
 	@Test
 	public void shouldHaveAllowanceBeTwo() {
 		PantryUser user = new PantryUser(googleId);
@@ -124,7 +124,7 @@ public class CurrencyJpaTest {
 		int actual = underTest.allowanceOf(user);
 		assertThat(actual, is(amountOfCurrency));
 	}
-	
+
 	@Test
 	public void shouldHaveAllowanceBeThree() {
 		PantryUser user = new PantryUser(googleId);
@@ -145,7 +145,7 @@ public class CurrencyJpaTest {
 		int actual = underTest.allowanceOf(user);
 		assertThat(actual, is(amountOfCurrency));
 	}
-	
+
 	@Test
 	public void shouldHaveAllowanceBeFive() {
 		PantryUser user = new PantryUser(googleId);
@@ -169,7 +169,7 @@ public class CurrencyJpaTest {
 		int actual = underTest.allowanceOf(user);
 		assertThat(actual, is(5));
 	}
-	
+
 	@Test
 	public void shouldHaveAllowanceBeSix() {
 		PantryUser user = new PantryUser(googleId);
@@ -194,7 +194,7 @@ public class CurrencyJpaTest {
 		int actual = underTest.allowanceOf(user);
 		assertThat(actual, is(6));
 	}
-	
+
 	@Test
 	public void shouldHaveAllowanceBeSeven() {
 		PantryUser user = new PantryUser(googleId);
@@ -218,7 +218,7 @@ public class CurrencyJpaTest {
 		int actual = underTest.allowanceOf(user);
 		assertThat(actual, is(7));
 	}
-	
+
 	@Test
 	public void shouldHaveLowerLimitOfZeroForGettingAllowance() {
 		PantryUser user = new PantryUser(googleId);
@@ -241,6 +241,61 @@ public class CurrencyJpaTest {
 		underTest = currencyRepo.findById(underTestId).get();
 		int actual = underTest.allowanceOf(user);
 		assertThat(actual, is(1));
+	}
+
+	@Test
+	public void shouldGetOddHashMap() {
+		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
+		familySizeToCurrency.put(1,  1);
+		familySizeToCurrency.put(3,  3);
+		familySizeToCurrency.put(5,  5);
+		familySizeToCurrency.put(7,  7);
+		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String actual = underTest.getAllowanceMap();
+		String check = "{1=1, 3=3, 5=5, 7=7}";
+		assertThat(actual, is(check));
+	}
+	
+	@Test
+	public void shouldGetEvenHashMap() {
+		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
+		familySizeToCurrency.put(2,  2);
+		familySizeToCurrency.put(4,  4);
+		familySizeToCurrency.put(6,  6);
+		familySizeToCurrency.put(8,  8);
+		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String actual = underTest.getAllowanceMap();
+		String check = "{2=2, 4=4, 6=6, 8=8}";
+		assertThat(actual, is(check));
+	}
+	
+	@Test
+	public void shouldUpdateMap() {
+		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
+		familySizeToCurrency.put(2,  2);
+		familySizeToCurrency.put(4,  4);
+		familySizeToCurrency.put(6,  6);
+		familySizeToCurrency.put(8,  8);
+		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String representationMap = "{1=2, 2=4, 3=6, 4=8, 5=10}";
+		underTest.setAllowanceMap(representationMap);
+		String actual = underTest.getAllowanceMap();
+		assertThat(actual, is(representationMap));
+	}
+	
+	@Test
+	public void shouldUpdateMapWithoutWhitespace() {
+		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
+		familySizeToCurrency.put(2,  2);
+		familySizeToCurrency.put(4,  4);
+		familySizeToCurrency.put(6,  6);
+		familySizeToCurrency.put(8,  8);
+		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String representationMapWithoutWhiteSpace = "{1=2,2=4,3=6,4=8,5=10}";
+		String representationMap = "{1=2, 2=4, 3=6, 4=8, 5=10}";
+		underTest.setAllowanceMap(representationMapWithoutWhiteSpace);
+		String actual = underTest.getAllowanceMap();
+		assertThat(actual, is(representationMap));
 	}
 
 }

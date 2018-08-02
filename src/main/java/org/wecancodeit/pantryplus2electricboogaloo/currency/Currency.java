@@ -1,5 +1,7 @@
 package org.wecancodeit.pantryplus2electricboogaloo.currency;
 
+import static java.lang.Integer.parseInt;
+import static java.util.Arrays.stream;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Collection;
@@ -31,6 +33,15 @@ public class Currency {
 	public Currency(String name, HashMap<Integer, Integer> familySizeToAllowance) {
 		this.name = name;
 		this.familySizeToAllowance = familySizeToAllowance;
+	}
+
+	public Currency(String name, String allowanceMap) {
+		this(name);
+		setAllowanceMap(allowanceMap);
+	}
+
+	public Currency(String name) {
+		this.name = name;
 	}
 
 	public String getName() {
@@ -80,6 +91,20 @@ public class Currency {
 			return familySizeToAllowance.get(familySize);
 		}
 		return allowanceOf(familySize - 1);
+	}
+
+	public String getAllowanceMap() {
+		return familySizeToAllowance.toString();
+	}
+
+	public void setAllowanceMap(String representationMap) {
+		familySizeToAllowance.clear();
+		stream(representationMap.split(", |,|\\{|\\}")).filter(element -> element.length() > 0).forEach(pair -> {
+			int equalsIndex = pair.indexOf("=");
+			int key = parseInt(pair.substring(0, equalsIndex));
+			int value = parseInt(pair.substring(equalsIndex + 1));
+			familySizeToAllowance.put(key, value);
+		});
 	}
 
 }
