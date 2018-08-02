@@ -31,7 +31,7 @@ public class PricedProductJpaTest {
 
 	@Test
 	public void shouldSaveCurrencyToPricedProduct() {
-		Currency currency = new Currency("Currency", null);
+		Currency currency = new Currency("Currency");
 		currency = currencyRepo.save(currency);
 		PricedProduct underTest = new PricedProduct("Product", null, 5, currency, 1, "");
 		underTest = productRepo.save(underTest);
@@ -45,7 +45,7 @@ public class PricedProductJpaTest {
 
 	@Test
 	public void shouldSavePricedProductsToCurrency() {
-		Currency underTest = new Currency("Currency", null);
+		Currency underTest = new Currency("Currency");
 		underTest = currencyRepo.save(underTest);
 		long id = underTest.getId();
 		PricedProduct product = new PricedProduct("First product", null, 1, underTest, 1, "");

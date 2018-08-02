@@ -49,7 +49,7 @@ public class CurrencyJpaTest {
 
 	@Test
 	public void shouldSaveAndLoad() {
-		Currency currency = new Currency("Coupons", null);
+		Currency currency = new Currency("Coupons");
 		currency = currencyRepo.save(currency);
 		long id = currency.getId();
 
@@ -62,8 +62,8 @@ public class CurrencyJpaTest {
 
 	@Test
 	public void shouldSaveAndLoadTwoObjects() {
-		currencyRepo.save(new Currency("First Currency", null));
-		currencyRepo.save(new Currency("Second Currency", null));
+		currencyRepo.save(new Currency("First Currency"));
+		currencyRepo.save(new Currency("Second Currency"));
 	}
 
 	@Test

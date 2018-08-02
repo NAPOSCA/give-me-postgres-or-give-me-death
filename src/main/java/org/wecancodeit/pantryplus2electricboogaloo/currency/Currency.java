@@ -32,6 +32,7 @@ public class Currency {
 
 	public Currency(String name, String allowanceMap) {
 		this(name);
+		this.familySizeToAllowance = new HashMap<>();
 		setAllowanceMap(allowanceMap);
 	}
 
