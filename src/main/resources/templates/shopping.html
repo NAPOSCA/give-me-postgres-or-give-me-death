@@ -25,15 +25,20 @@
 		<header>
 			<nav>
 				<ul>
-					<li class="previous">
-						<h2>Form</h2>
+					<li>
+						<h2 href="/">Welcome</h2>
+					</li>
+					<li>
+						<h2>
+							<a href="/settings">Settings</a>
+						</h2>
 					</li>
 					<li class="current">
 						<h2>Shopping</h2>
 					</li>
 					<li>
 						<h2>
-							<a th:href="'/carts/' + ${cart.getId()}">Cart</a>
+							<a href="/cart">Cart</a>
 						</h2>
 					</li>
 				</ul>
