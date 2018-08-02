@@ -153,7 +153,7 @@ public class CartJpaTest {
 	public void shouldHaveAmountUsedBeOne() {
 		Cart underTest = cartRepo.save(new Cart(null));
 		long underTestId = underTest.getId();
-		Currency currency = currencyRepo.save(new Currency("Coupons"));
+		Currency currency = currencyRepo.save(new Currency("Coupons", null));
 		long currencyId = currency.getId();
 		int cost = 1;
 		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, cost, ""));
@@ -170,7 +170,7 @@ public class CartJpaTest {
 	public void shouldHaveAmountUsedBeTwo() {
 		Cart underTest = cartRepo.save(new Cart(null));
 		long underTestId = underTest.getId();
-		Currency currency = currencyRepo.save(new Currency("Coupons"));
+		Currency currency = currencyRepo.save(new Currency("Coupons", null));
 		long currencyId = currency.getId();
 		int cost = 2;
 		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, cost, ""));
@@ -187,7 +187,7 @@ public class CartJpaTest {
 	public void shouldHaveAmountUsedBeFour() {
 		Cart underTest = cartRepo.save(new Cart(null));
 		long underTestId = underTest.getId();
-		Currency currency = currencyRepo.save(new Currency("Coupons"));
+		Currency currency = currencyRepo.save(new Currency("Coupons", null));
 		long currencyId = currency.getId();
 		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, 1, ""));
 		CountedLineItem lineItem = new CountedLineItem(underTest, product);

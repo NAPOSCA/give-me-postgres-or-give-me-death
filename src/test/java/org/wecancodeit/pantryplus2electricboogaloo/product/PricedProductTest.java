@@ -10,7 +10,7 @@ public class PricedProductTest {
 
 	@Test
 	public void shouldHaveCouponCostOne() {
-		Currency coupons = new Currency("Coupons");
+		Currency coupons = new Currency("Coupons", null);
 		int cost = 1;
 		PricedProduct underTest = new PricedProduct("Product", null, 5, coupons, cost, "");
 		int actual = underTest.getPrice();
@@ -19,7 +19,7 @@ public class PricedProductTest {
 
 	@Test
 	public void shouldHaveCouponCostTwo() {
-		Currency coupons = new Currency("Coupons");
+		Currency coupons = new Currency("Coupons", null);
 		int cost = 2;
 		PricedProduct underTest = new PricedProduct("Product", null, 5, coupons, cost, "");
 		int actual = underTest.getPrice();
