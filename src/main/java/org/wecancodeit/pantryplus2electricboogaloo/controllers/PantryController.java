@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Controller
@@ -21,6 +22,9 @@ public class PantryController {
 
 	@Resource
 	private LoginService loginService;
+	
+	@Resource
+	private CurrencyRepository currencyRepo;
 
 	@Transactional
 	@RequestMapping("/settings")
@@ -32,13 +36,13 @@ public class PantryController {
 	@Transactional
 	@RequestMapping("/shopping")
 	public String displayShopping(Model model, @AuthenticationPrincipal OAuth2User googleId) {
-		model.addAttribute("categories", categoryRepo.findAll());
 		PantryUser user = loginService.resolveUser(googleId);
 		if (!user.isValid()) {
 			return "redirect:/settings";
 		}
 		model.addAttribute("cart", user.getCart());
-
+		model.addAttribute("currencies", currencyRepo.findAll());
+		model.addAttribute("categories", categoryRepo.findAll());
 		return "shopping";
 	}
 
