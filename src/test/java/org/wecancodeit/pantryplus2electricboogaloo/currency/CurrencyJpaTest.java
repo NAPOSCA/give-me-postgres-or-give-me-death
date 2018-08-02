@@ -3,7 +3,6 @@ package org.wecancodeit.pantryplus2electricboogaloo.currency;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -69,7 +68,7 @@ public class CurrencyJpaTest {
 
 	@Test
 	public void shouldDeletePricedProductWhenCurrencyIsDeleted() {
-		Currency underTest = new Currency("Coupons", null);
+		Currency underTest = new Currency("Coupons");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		PricedProduct product = new PricedProduct("Product", null, 1, underTest, 1, "");
@@ -90,10 +89,9 @@ public class CurrencyJpaTest {
 		user.updateFamilySize(familySize);
 		user = userRepo.save(user);
 		long userId = user.getId();
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
 		Integer amountOfCurrency = 1;
-		familySizeToCurrency.put(familySize, amountOfCurrency);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String computedMap = "{" + familySize + "=" + amountOfCurrency + "}";
+		Currency underTest = new Currency("Currency", computedMap);
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -111,10 +109,9 @@ public class CurrencyJpaTest {
 		user.updateFamilySize(familySize);
 		user = userRepo.save(user);
 		long userId = user.getId();
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
 		Integer amountOfCurrency = 2;
-		familySizeToCurrency.put(familySize, amountOfCurrency);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String allowanceMap = "{" + familySize + "=" + amountOfCurrency + "}";
+		Currency underTest = new Currency("Currency", allowanceMap);
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -132,10 +129,9 @@ public class CurrencyJpaTest {
 		user.updateFamilySize(familySize);
 		user = userRepo.save(user);
 		long userId = user.getId();
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
 		Integer amountOfCurrency = 3;
-		familySizeToCurrency.put(familySize, amountOfCurrency);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String allowanceMap = "{" + familySize + "=" + amountOfCurrency + "}";
+		Currency underTest = new Currency("Currency", allowanceMap);
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -153,13 +149,8 @@ public class CurrencyJpaTest {
 		user.updateFamilySize(familySize);
 		user = userRepo.save(user);
 		long userId = user.getId();
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
-		familySizeToCurrency.put(1, 1);
-		familySizeToCurrency.put(2, 2);
-		familySizeToCurrency.put(3, 3);
-		familySizeToCurrency.put(4, 4);
-		familySizeToCurrency.put(5, 5);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String allowanceMap = "{1=1, 2=2, 3=3, 4=4, 5=5}";
+		Currency underTest = new Currency("Currency", allowanceMap);
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -177,14 +168,8 @@ public class CurrencyJpaTest {
 		user.updateFamilySize(familySize);
 		user = userRepo.save(user);
 		long userId = user.getId();
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
-		familySizeToCurrency.put(1, 1);
-		familySizeToCurrency.put(2, 2);
-		familySizeToCurrency.put(3, 3);
-		familySizeToCurrency.put(4, 4);
-		familySizeToCurrency.put(5, 5);
-		familySizeToCurrency.put(6, 6);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String allowanceMap = "{1=1, 2=2, 3=3, 4=4, 5=5, 6=6}";
+		Currency underTest = new Currency("Currency", allowanceMap);
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -202,13 +187,8 @@ public class CurrencyJpaTest {
 		user.updateFamilySize(familySize);
 		user = userRepo.save(user);
 		long userId = user.getId();
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
-		familySizeToCurrency.put(1, 1);
-		familySizeToCurrency.put(3, 3);
-		familySizeToCurrency.put(5, 5);
-		familySizeToCurrency.put(7, 7);
-		familySizeToCurrency.put(9, 9);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String allowanceMap = "{1=1, 3=3, 5=5, 7=7, 9=9}";
+		Currency underTest = new Currency("Currency", allowanceMap);
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -226,13 +206,8 @@ public class CurrencyJpaTest {
 		user.updateFamilySize(familySize);
 		user = userRepo.save(user);
 		long userId = user.getId();
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
-		familySizeToCurrency.put(1, 1);
-		familySizeToCurrency.put(3, 3);
-		familySizeToCurrency.put(5, 5);
-		familySizeToCurrency.put(7, 7);
-		familySizeToCurrency.put(9, 9);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
+		String allowanceMap = "{1=1, 3=3, 5=5, 7=7, 9=9}";
+		Currency underTest = new Currency("Currency", allowanceMap);
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -245,57 +220,35 @@ public class CurrencyJpaTest {
 
 	@Test
 	public void shouldGetOddHashMap() {
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
-		familySizeToCurrency.put(1,  1);
-		familySizeToCurrency.put(3,  3);
-		familySizeToCurrency.put(5,  5);
-		familySizeToCurrency.put(7,  7);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
-		String actual = underTest.getAllowanceMap();
 		String check = "{1=1, 3=3, 5=5, 7=7}";
+		Currency underTest = new Currency("Currency", check);
+		String actual = underTest.getAllowanceMap();
 		assertThat(actual, is(check));
 	}
-	
+
 	@Test
 	public void shouldGetEvenHashMap() {
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
-		familySizeToCurrency.put(2,  2);
-		familySizeToCurrency.put(4,  4);
-		familySizeToCurrency.put(6,  6);
-		familySizeToCurrency.put(8,  8);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
-		String actual = underTest.getAllowanceMap();
 		String check = "{2=2, 4=4, 6=6, 8=8}";
+		Currency underTest = new Currency("Currency", check);
+		String actual = underTest.getAllowanceMap();
 		assertThat(actual, is(check));
 	}
-	
+
 	@Test
 	public void shouldUpdateMap() {
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
-		familySizeToCurrency.put(2,  2);
-		familySizeToCurrency.put(4,  4);
-		familySizeToCurrency.put(6,  6);
-		familySizeToCurrency.put(8,  8);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
 		String representationMap = "{1=2, 2=4, 3=6, 4=8, 5=10}";
-		underTest.setAllowanceMap(representationMap);
+		Currency underTest = new Currency("Currency", representationMap);
 		String actual = underTest.getAllowanceMap();
 		assertThat(actual, is(representationMap));
 	}
-	
+
 	@Test
 	public void shouldUpdateMapWithoutWhitespace() {
-		HashMap<Integer, Integer> familySizeToCurrency = new HashMap<>();
-		familySizeToCurrency.put(2,  2);
-		familySizeToCurrency.put(4,  4);
-		familySizeToCurrency.put(6,  6);
-		familySizeToCurrency.put(8,  8);
-		Currency underTest = new Currency("Currency", familySizeToCurrency);
 		String representationMapWithoutWhiteSpace = "{1=2,2=4,3=6,4=8,5=10}";
-		String representationMap = "{1=2, 2=4, 3=6, 4=8, 5=10}";
-		underTest.setAllowanceMap(representationMapWithoutWhiteSpace);
+		Currency underTest = new Currency("Currency", representationMapWithoutWhiteSpace);
 		String actual = underTest.getAllowanceMap();
-		assertThat(actual, is(representationMap));
+		String check = "{1=2, 2=4, 3=6, 4=8, 5=10}";
+		assertThat(actual, is(check));
 	}
 
 }

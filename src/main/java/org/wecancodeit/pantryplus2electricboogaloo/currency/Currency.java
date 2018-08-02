@@ -30,11 +30,6 @@ public class Currency {
 	public Currency() {
 	}
 
-	public Currency(String name, HashMap<Integer, Integer> familySizeToAllowance) {
-		this.name = name;
-		this.familySizeToAllowance = familySizeToAllowance;
-	}
-
 	public Currency(String name, String allowanceMap) {
 		this(name);
 		setAllowanceMap(allowanceMap);

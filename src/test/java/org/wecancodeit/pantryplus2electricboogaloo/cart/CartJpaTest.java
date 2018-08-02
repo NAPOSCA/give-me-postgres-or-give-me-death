@@ -154,7 +154,7 @@ public class CartJpaTest {
 	public void shouldHaveAmountUsedBeOne() {
 		Cart underTest = cartRepo.save(new Cart(null));
 		long underTestId = underTest.getId();
-		Currency currency = currencyRepo.save(new Currency("Coupons", null));
+		Currency currency = currencyRepo.save(new Currency("Coupons"));
 		long currencyId = currency.getId();
 		int cost = 1;
 		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, cost, ""));
