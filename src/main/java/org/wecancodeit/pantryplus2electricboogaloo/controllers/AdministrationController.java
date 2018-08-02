@@ -1,5 +1,6 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -134,7 +135,8 @@ public class AdministrationController {
 	public String receivePostRequestOnCurrencies(@AuthenticationPrincipal OAuth2User googleId,
 			@RequestParam String name) {
 		checkClearance(googleId);
-		currencyRepo.save(new Currency(name));
+		//TODO FIX THIS
+		currencyRepo.save(new Currency(name, new HashMap<>()));
 		return "redirect:/admin/currencies";
 	}
 

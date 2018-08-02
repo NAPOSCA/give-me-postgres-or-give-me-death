@@ -3,6 +3,7 @@ package org.wecancodeit.pantryplus2electricboogaloo.currency;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Entity
 public class Currency {
@@ -21,12 +23,14 @@ public class Currency {
 
 	@OneToMany(mappedBy = "currency", orphanRemoval = true)
 	private Collection<PricedProduct> pricedProducts;
+	private HashMap<Integer, Integer> familySizeToAllowance;
 
 	public Currency() {
 	}
 
-	public Currency(String name) {
+	public Currency(String name, HashMap<Integer, Integer> familySizeToAllowance) {
 		this.name = name;
+		this.familySizeToAllowance = familySizeToAllowance;
 	}
 
 	public String getName() {
@@ -61,6 +65,21 @@ public class Currency {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public int allowanceOf(PantryUser user) {
+		int familySize = user.getFamilySize();
+		return allowanceOf(familySize);
+	}
+
+	private int allowanceOf(int familySize) {
+		if (familySize == 0) {
+			return 1;
+		}
+		if (familySizeToAllowance.containsKey(familySize)) {
+			return familySizeToAllowance.get(familySize);
+		}
+		return allowanceOf(familySize - 1);
 	}
 
 }
