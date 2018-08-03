@@ -4,9 +4,10 @@ function initialize() {
 	const updateButton = document.querySelector("#update");
 	updateButton.addEventListener("click", () => {
 		const name = detailsForm.querySelector("#name").value;
+		const schoolAgeChildrenRequired = detailsForm.querySelector("#schoolAgeChildrenRequired").value;
 		request(response => {
 			document.location.reload(true);
-		}, "PUT", `/admin/category/${categoryId}?name=${name}`);
+		}, "PUT", `/admin/category/${categoryId}?name=${name}&schoolAgeChildrenRequired=${schoolAgeChildrenRequired}`);
 	});
 	const deleteButton = document.querySelector("#delete");
 	deleteButton.addEventListener("click", () => {
