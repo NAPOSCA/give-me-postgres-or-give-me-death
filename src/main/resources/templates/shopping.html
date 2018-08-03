@@ -18,6 +18,7 @@
 		const cartId = /*[[${cart.id}]]*/;
 		/*]]>*/
 	</script>
+	<!-- Totally unneeded now, cart doesn't need an id at all since we can use loginService to get it -->
 </head>
 
 <body onload="initialize()">
@@ -65,6 +66,7 @@
 			</aside>
 			<main>
 				<div th:each="category : ${categories}" class="category-items" th:unless="${category.name == 'After School Snacks' and cart.user.schoolAgeChildren == 0}">
+					<!-- Uses string comparison, has got to go -->
 					<section class="category">
 						<h2 th:text="${category.name}" />
 						<p class="indicator visible">+</p>
@@ -72,14 +74,19 @@
 					</section>
 					<ul class="items hidden">
 						<li class="item" th:each="product : ${category.products}" th:unless="${product.name == 'Diapers' and cart.user.hasInfants() == false}">
+							<!-- Uses string comparison, has got to go -->
 							<img class="product-image" th:src="${product.image}" draggable="false" />
 							<h3 th:text="${product.name}" />
 							<div th:id="'product-'+${product.id}" th:switch="true" class="switch">
 								<div th:case="${category.name == 'Choice Items'}" class="case">
+									<!-- Uses string comparison, has got to go -->
 									<div th:replace="fragments/interfaces :: .coupon" />
+									<!-- This is a reference to coupons, should be tweeked -->
 								</div>
 								<div th:case="${category.name == 'Meat'}" class="case">
+									<!-- Uses string comparison, has got to go -->
 									<div th:replace="fragments/interfaces :: .meat" />
+									<!-- This is a reference to meat, should be tweeked -->
 								</div>
 								<div th:case="true" class="case">
 									<div th:replace="fragments/interfaces :: .dichotomous" />
