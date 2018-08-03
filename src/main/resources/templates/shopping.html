@@ -51,13 +51,12 @@
 				<img th:replace="user-form :: img.logo" />
 				<div th:replace="user-form :: div.address" />
 				<div class="stats">
-					<p class="currency" th:each="currency : ${currencies}">
-						<span th:text="${currency.name}" />
+					<p class="currency" th:each="currency : ${currencies}" th:object="${currency}">
+						<span th:text="*{name}" />
 						<span th:text="${cart.amountUsed(currency)}" />
 						<span>/</span>
-						<span class="test delete-me" th:text="${user.familySize}"/>
-						<span th:text="#{curreny.allowanceOf(user.familySize)}" />
-						<span th:text="${currency.unit}">
+						<span th:text="*{allowanceOf(familySize)}" />
+						<span th:text="*{unit}">
 					</p>
 				</div>
 				<a class="button" th:href="'/carts/' + ${cart.getId()}">
