@@ -49,31 +49,47 @@
 					<h3>Type</h3>
 					<label for="type-product">Product</label>
 					<input type="radio" name="type" value="Product" id="type-product" />
+
 					<br />
+					
 					<label for="type-limited-product">Limited Product</label>
 					<input type="radio" name="type" value="LimitedProduct" id="type-limited-product" />
+					
 					<br />
+					
 					<label for="type-priced-product">Priced Product</label>
 					<input type="radio" name="type" value="PricedProduct" id="type-priced-product" />
+					
 					<br />
+					
 					<label for="product-name">Name</label>
 					<input id="product-name" type="text" name="productName" />
+					
 					<br />
+					
 					<label for="image">Image Path</label>
 					<input id="image" type="text" name="image" />
+					
 					<br />
+					
 					<label for="maximumQuantity" class="reveal-if-limited-product reveal-if-priced-product">Maximum Quantity</label>
 					<input type="number" name="maximumQuantity" id="maximumQuantity" class="reveal-if-limited-product reveal-if-priced-product" />
+					
 					<br />
+					
 					<label for="valueInCurrency" class="reveal-if-priced-product">Price</label>
 					<input type="number" name="valueInCurrency" id="valueInCurrency" class="reveal-if-priced-product" />
+					
 					<br />
+					
 					<label for="currencyId" class="reveal-if-priced-product">Currency</label>
 					<select name="currencyId" id="currencyId" class="reveal-if-priced-product">
 						<option disabled>Currency</option>
 						<option th:each="currency : ${currencies}" th:value="${currency.id}" th:text="${currency.name}" />
 					</select>
+					
 					<br />
+					
 					<input type="submit" />
 				</form>
 			</section>
