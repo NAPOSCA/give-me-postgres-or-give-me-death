@@ -50,11 +50,13 @@ public class PantryController {
 	@Transactional
 	@RequestMapping("/cart")
 	public String displayCart(Model model, @AuthenticationPrincipal OAuth2User googleId) {
-		Cart cart = loginService.resolveUser(googleId).getCart();
+		PantryUser user = loginService.resolveUser(googleId);
+		Cart cart = user.getCart();
 		model.addAttribute("cart", cart);
 		model.addAttribute("lineItems", cart.getLineItems());
 		model.addAttribute("countedLineItems", cart.getCountedLineItems());
 		model.addAttribute("currencies", currencyRepo.findAll());
+		model.addAttribute("user", user);
 		return "cart";
 	}
 
