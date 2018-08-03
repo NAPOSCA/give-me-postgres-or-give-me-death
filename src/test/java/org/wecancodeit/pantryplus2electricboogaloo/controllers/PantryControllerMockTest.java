@@ -248,7 +248,6 @@ public class PantryControllerMockTest {
 	public void shouldHaveCartViewAttachTheCurrenciesToModel() {
 		Iterable<Currency> currencies = asList(currency, anotherCurrency);
 		when(currencyRepo.findAll()).thenReturn(currencies);
-//		when(user.isValid()).thenReturn(true);
 		underTest.displayCart(model, googleId);
 		verify(model).addAttribute("currencies", currencies);
 	}
