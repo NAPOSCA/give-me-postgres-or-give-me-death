@@ -91,7 +91,7 @@ public class CurrencyJpaTest {
 		long userId = user.getId();
 		Integer amountOfCurrency = 1;
 		String computedMap = "{" + familySize + "=" + amountOfCurrency + "}";
-		Currency underTest = new Currency("Currency", computedMap);
+		Currency underTest = new Currency("Currency", computedMap, "Units");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -111,7 +111,7 @@ public class CurrencyJpaTest {
 		long userId = user.getId();
 		Integer amountOfCurrency = 2;
 		String allowanceMap = "{" + familySize + "=" + amountOfCurrency + "}";
-		Currency underTest = new Currency("Currency", allowanceMap);
+		Currency underTest = new Currency("Currency", allowanceMap, "Units");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -131,7 +131,7 @@ public class CurrencyJpaTest {
 		long userId = user.getId();
 		Integer amountOfCurrency = 3;
 		String allowanceMap = "{" + familySize + "=" + amountOfCurrency + "}";
-		Currency underTest = new Currency("Currency", allowanceMap);
+		Currency underTest = new Currency("Currency", allowanceMap, "Unites");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -150,7 +150,7 @@ public class CurrencyJpaTest {
 		user = userRepo.save(user);
 		long userId = user.getId();
 		String allowanceMap = "{1=1, 2=2, 3=3, 4=4, 5=5}";
-		Currency underTest = new Currency("Currency", allowanceMap);
+		Currency underTest = new Currency("Currency", allowanceMap, "Units");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -169,7 +169,7 @@ public class CurrencyJpaTest {
 		user = userRepo.save(user);
 		long userId = user.getId();
 		String allowanceMap = "{1=1, 2=2, 3=3, 4=4, 5=5, 6=6}";
-		Currency underTest = new Currency("Currency", allowanceMap);
+		Currency underTest = new Currency("Currency", allowanceMap, "Units");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -188,7 +188,7 @@ public class CurrencyJpaTest {
 		user = userRepo.save(user);
 		long userId = user.getId();
 		String allowanceMap = "{1=1, 3=3, 5=5, 7=7, 9=9}";
-		Currency underTest = new Currency("Currency", allowanceMap);
+		Currency underTest = new Currency("Currency", allowanceMap, "Units");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -207,7 +207,7 @@ public class CurrencyJpaTest {
 		user = userRepo.save(user);
 		long userId = user.getId();
 		String allowanceMap = "{1=1, 3=3, 5=5, 7=7, 9=9}";
-		Currency underTest = new Currency("Currency", allowanceMap);
+		Currency underTest = new Currency("Currency", allowanceMap, "Units");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
 		entityManager.flush();
@@ -221,7 +221,7 @@ public class CurrencyJpaTest {
 	@Test
 	public void shouldGetOddHashMap() {
 		String check = "{1=1, 3=3, 5=5, 7=7}";
-		Currency underTest = new Currency("Currency", check);
+		Currency underTest = new Currency("Currency", check, "Units");
 		String actual = underTest.getAllowanceMap();
 		assertThat(actual, is(check));
 	}
@@ -229,23 +229,23 @@ public class CurrencyJpaTest {
 	@Test
 	public void shouldGetEvenHashMap() {
 		String check = "{2=2, 4=4, 6=6, 8=8}";
-		Currency underTest = new Currency("Currency", check);
+		Currency underTest = new Currency("Currency", check, "Units");
 		String actual = underTest.getAllowanceMap();
 		assertThat(actual, is(check));
 	}
 
 	@Test
 	public void shouldUpdateMap() {
-		String representationMap = "{1=2, 2=4, 3=6, 4=8, 5=10}";
-		Currency underTest = new Currency("Currency", representationMap);
+		String check = "{1=2, 2=4, 3=6, 4=8, 5=10}";
+		Currency underTest = new Currency("Currency", check, "Units");
 		String actual = underTest.getAllowanceMap();
-		assertThat(actual, is(representationMap));
+		assertThat(actual, is(check));
 	}
 
 	@Test
 	public void shouldUpdateMapWithoutWhitespace() {
 		String representationMapWithoutWhiteSpace = "{1=2,2=4,3=6,4=8,5=10}";
-		Currency underTest = new Currency("Currency", representationMapWithoutWhiteSpace);
+		Currency underTest = new Currency("Currency", representationMapWithoutWhiteSpace, "Units");
 		String actual = underTest.getAllowanceMap();
 		String check = "{1=2, 2=4, 3=6, 4=8, 5=10}";
 		assertThat(actual, is(check));

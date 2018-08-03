@@ -224,7 +224,7 @@ public class AdminControllerMockTest {
 	@Test(expected = AccessDeniedException.class)
 	public void shouldReceivePostRequestOnCurrenciesAndDenyIfUserIsNotAdmin() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		underTest.receivePostRequestOnCurrencies(googleId, "Coupons", "{1=1}");
+		underTest.receivePostRequestOnCurrencies(googleId, "Coupons", "{1=1}", "coups");
 	}
 
 	@Test(expected = AccessDeniedException.class)

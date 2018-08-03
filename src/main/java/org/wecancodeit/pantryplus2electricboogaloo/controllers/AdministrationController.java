@@ -132,9 +132,9 @@ public class AdministrationController {
 
 	@PostMapping("/admin/currencies")
 	public String receivePostRequestOnCurrencies(@AuthenticationPrincipal OAuth2User googleId,
-			@RequestParam String name, @RequestParam String allowanceMap) {
+			@RequestParam String name, @RequestParam String allowanceMap, @RequestParam String unit) {
 		checkClearance(googleId);
-		currencyRepo.save(new Currency(name, allowanceMap));
+		currencyRepo.save(new Currency(name, allowanceMap, unit));
 		return "redirect:/admin/currencies";
 	}
 
