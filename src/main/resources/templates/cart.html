@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Pantry+ | Cart</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link rel="stylesheet" type="text/css" href="/css/layout.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/cart.media-queries.css"/>
-	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
-	<link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="/css/cart.media-queries.css" />
+	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
 </head>
+
 <body>
 	<div class="container cart">
 		<header>
@@ -31,13 +33,10 @@
 		</header>
 		<div class="aside-main">
 			<aside>
-				<img th:replace="user-form :: img.logo"/>
-				<div th:replace="user-form :: div.address"/>
-				<div class="stats">
-					<p th:replace="shopping :: p.meat-stats"/>
-					<p th:replace="shopping :: p.coupon-stats"/>
-					<a class="button" th:href="'/email?cartId=' + ${cart.getId()}">Send Order</a>
-				</div>
+				<img th:replace="user-form :: img.logo" />
+				<div th:replace="user-form :: div.address" />
+				<div th:replace="shopping :: div.stats" />
+				<a class="button" th:href="'/email?cartId=' + ${cart.getId()}">Send Order</a>
 			</aside>
 			<main>
 				<section class="line-item">
@@ -49,12 +48,13 @@
 					<p>Included</p>
 				</section>
 				<section class="line-item" th:each="lineItem : ${countedLineItems}">
-					<p th:text="${lineItem.product.name}"/>
-					<p th:text="${lineItem.quantity}"/>
+					<p th:text="${lineItem.product.name}" />
+					<p th:text="${lineItem.quantity}" />
 				</section>
 			</main>
 		</div>
 		<footer th:replace="shopping :: footer" />
 	</div>
 </body>
+
 </html>
