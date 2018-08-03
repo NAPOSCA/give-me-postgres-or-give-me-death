@@ -53,7 +53,7 @@ public class AdministrationController {
 
 	@PostMapping("/admin/categories")
 	public String receivePostRequestOnCategories(@AuthenticationPrincipal OAuth2User googleId,
-			@RequestParam String categoryName, boolean schoolAgeChildrenRequired) {
+			@RequestParam String categoryName, @RequestParam boolean schoolAgeChildrenRequired) {
 		checkClearance(googleId);
 		categoryRepo.save(new Category(categoryName, schoolAgeChildrenRequired));
 		return "redirect:/admin/categories";
@@ -74,7 +74,7 @@ public class AdministrationController {
 
 	@PostMapping("/admin/categories/{categoryId}/products")
 	public String receivePostRequestOnProductsOfCategory(@AuthenticationPrincipal OAuth2User googleId,
-			@PathVariable long categoryId, String productName, @RequestParam String type,
+			@PathVariable long categoryId, @RequestParam String productName, @RequestParam String type,
 			@RequestParam(defaultValue = "0") int maximumQuantity,
 			@RequestParam(defaultValue = "0") int valueInCurrency, @RequestParam(defaultValue = "0") long currencyId,
 			@RequestParam String image, @RequestParam boolean infantsRequired) {
