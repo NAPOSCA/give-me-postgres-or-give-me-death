@@ -236,5 +236,12 @@ public class PantryControllerMockTest {
 		underTest.displayShopping(model, googleId);
 		verify(model).addAttribute("currencies", currencies);
 	}
+	
+	@Test
+	public void shouldHaveShoppingViewAttachTheUserToModel() {
+		when(user.isValid()).thenReturn(true);
+		underTest.displayShopping(model, googleId);
+		verify(model).addAttribute("user", user);
+	}
 
 }

@@ -43,6 +43,7 @@ public class PantryController {
 		model.addAttribute("cart", user.getCart());
 		model.addAttribute("currencies", currencyRepo.findAll());
 		model.addAttribute("categories", categoryRepo.findAll());
+		model.addAttribute("user", user);
 		return "shopping";
 	}
 
