@@ -12,6 +12,7 @@
 	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 	<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script type="text/javascript" src="/js/shopping.js"></script>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
@@ -53,9 +54,9 @@
 				<div class="stats">
 					<p class="currency" th:each="currency : ${currencies}" th:object="${currency}">
 						<span th:text="*{name} + ':'" />
-						<span th:text="${cart.amountUsed(currency)}" />
+						<span class="amountUsed" th:text="${cart.amountUsed(currency)}" />
 						<span>/</span>
-						<span th:text="${currency.allowanceOf(user.familySize)}" />
+						<span class="allowance" th:text="${currency.allowanceOf(user.familySize)}" />
 						<span th:text="*{unit}">
 					</p>
 				</div>
