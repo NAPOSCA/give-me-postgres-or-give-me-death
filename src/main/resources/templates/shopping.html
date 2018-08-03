@@ -55,7 +55,7 @@
 						<span th:text="*{name}" />
 						<span th:text="${cart.amountUsed(currency)}" />
 						<span>/</span>
-						<span th:text="*{allowanceOf(user.familySize)}" />
+						<span th:text="${currency.allowanceOf(user.familySize)}" />
 						<span th:text="*{unit}">
 					</p>
 				</div>
