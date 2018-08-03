@@ -54,6 +54,7 @@ public class PantryController {
 		model.addAttribute("cart", cart);
 		model.addAttribute("lineItems", cart.getLineItems());
 		model.addAttribute("countedLineItems", cart.getCountedLineItems());
+		model.addAttribute("currencies", currencyRepo.findAll());
 		return "cart";
 	}
 
