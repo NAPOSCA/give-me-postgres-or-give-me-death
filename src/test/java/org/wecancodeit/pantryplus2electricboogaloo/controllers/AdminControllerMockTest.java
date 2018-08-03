@@ -146,7 +146,7 @@ public class AdminControllerMockTest {
 		long currencyId = 1L;
 		String imagePath = "";
 		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
-				maximumQuantity, valueInCurrency, currencyId, imagePath);
+				maximumQuantity, valueInCurrency, currencyId, imagePath, false);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -161,7 +161,7 @@ public class AdminControllerMockTest {
 		long currencyId = 1L;
 		String imagePath = "";
 		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
-				maximumQuantity, valueInCurrency, currencyId, imagePath);
+				maximumQuantity, valueInCurrency, currencyId, imagePath, false);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -198,7 +198,7 @@ public class AdminControllerMockTest {
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeSavingACategory() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		underTest.receivePostRequestOnCategories(googleId, "");
+		underTest.receivePostRequestOnCategories(googleId, "", false);
 	}
 
 	@Test(expected = AccessDeniedException.class)
@@ -212,7 +212,7 @@ public class AdminControllerMockTest {
 		long currencyId = 1L;
 		String imagePath = "";
 		underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type, maximumQuantity,
-				valueInCurrency, currencyId, imagePath);
+				valueInCurrency, currencyId, imagePath, false);
 	}
 
 	@Test(expected = AccessDeniedException.class)

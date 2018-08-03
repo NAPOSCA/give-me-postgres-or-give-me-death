@@ -157,7 +157,7 @@ public class CartJpaTest {
 		Currency currency = currencyRepo.save(new Currency("Coupons"));
 		long currencyId = currency.getId();
 		int cost = 1;
-		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, cost, ""));
+		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, "", false, 5, currency, cost));
 		lineItemRepo.save(new CountedLineItem(underTest, product));
 		entityManager.flush();
 		entityManager.clear();
@@ -174,7 +174,7 @@ public class CartJpaTest {
 		Currency currency = currencyRepo.save(new Currency("Coupons"));
 		long currencyId = currency.getId();
 		int cost = 2;
-		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, cost, ""));
+		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, "", false, 5, currency, cost));
 		lineItemRepo.save(new CountedLineItem(underTest, product));
 		entityManager.flush();
 		entityManager.clear();
@@ -190,13 +190,13 @@ public class CartJpaTest {
 		long underTestId = underTest.getId();
 		Currency currency = currencyRepo.save(new Currency("Coupons"));
 		long currencyId = currency.getId();
-		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, 5, currency, 1, ""));
+		PricedProduct product = productRepo.save(new PricedProduct("Apple", null, "", false, 5, currency, 1));
 		CountedLineItem lineItem = new CountedLineItem(underTest, product);
 		lineItem.increase();
 		lineItemRepo.save(lineItem);
-		PricedProduct anotherProduct = productRepo.save(new PricedProduct("Banana", null, 5, currency, 2, ""));
+		PricedProduct anotherProduct = productRepo.save(new PricedProduct("Banana", null, "", false, 5, currency, 2));
 		lineItemRepo.save(new CountedLineItem(underTest, anotherProduct));
-		LimitedProduct limitedProduct = new LimitedProduct("Kiwi", null, 5, "");
+		LimitedProduct limitedProduct = new LimitedProduct("Kiwi", null, "", false, 5);
 		productRepo.save(limitedProduct);
 		lineItemRepo.save(new CountedLineItem(underTest, limitedProduct));
 		entityManager.flush();
@@ -211,7 +211,7 @@ public class CartJpaTest {
 	public void shouldHaveCartContainProduct() {
 		Cart underTest = cartRepo.save(new Cart(null));
 		long underTestId = underTest.getId();
-		Product product = new Product("Product", null, "");
+		Product product = new Product("Product", null, "", false);
 		product = productRepo.save(product);
 		long productId = product.getId();
 		LineItem lineItem = new LineItem(underTest, product);
@@ -228,7 +228,7 @@ public class CartJpaTest {
 	public void shouldHaveCartNotContainProduct() {
 		Cart underTest = cartRepo.save(new Cart(null));
 		long underTestId = underTest.getId();
-		Product product = new Product("Product", null, "");
+		Product product = new Product("Product", null, "", false);
 		product = productRepo.save(product);
 		long productId = product.getId();
 		entityManager.flush();

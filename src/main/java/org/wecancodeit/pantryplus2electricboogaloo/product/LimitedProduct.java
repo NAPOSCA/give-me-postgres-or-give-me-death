@@ -12,8 +12,9 @@ public class LimitedProduct extends Product {
 	public LimitedProduct() {
 	}
 
-	public LimitedProduct(String name, Category category, int maximumQuantity, String imagePath) {
-		super(name, category, imagePath);
+	public LimitedProduct(String name, Category category, String imagePath, boolean infantsRequired,
+			int maximumQuantity) {
+		super(name, category, imagePath, infantsRequired);
 		this.maximumQuantity = maximumQuantity;
 	}
 

@@ -32,9 +32,9 @@ public class ProductJpaTest {
 
 	@Test
 	public void shouldSaveAndLoadProduct() {
-		Category category = new Category("Category");
+		Category category = new Category("Category", false);
 		category = categoryRepo.save(category);
-		Product underTest = new Product("underTest", category, "");
+		Product underTest = new Product("underTest", category, "", false);
 		underTest = productRepo.save(underTest);
 		long id = underTest.getId();
 		entityManager.flush();
@@ -46,11 +46,11 @@ public class ProductJpaTest {
 
 	@Test
 	public void shouldSaveManyProductsToOneCategory() {
-		Category category = new Category("Category");
+		Category category = new Category("Category", false);
 		category = categoryRepo.save(category);
 		long categoryId = category.getId();
-		Product product = productRepo.save(new Product("First Product", category, ""));
-		Product anotherProduct = productRepo.save(new Product("Second Product", category, ""));
+		Product product = productRepo.save(new Product("First Product", category, "", false));
+		Product anotherProduct = productRepo.save(new Product("Second Product", category, "", false));
 		entityManager.flush();
 		entityManager.clear();
 		category = categoryRepo.findById(categoryId).get();

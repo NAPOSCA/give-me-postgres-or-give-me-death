@@ -71,7 +71,7 @@ public class CurrencyJpaTest {
 		Currency underTest = new Currency("Coupons");
 		underTest = currencyRepo.save(underTest);
 		long underTestId = underTest.getId();
-		PricedProduct product = new PricedProduct("Product", null, 1, underTest, 1, "");
+		PricedProduct product = new PricedProduct("Product", null, "", false, 1, underTest, 1);
 		product = productRepo.save(product);
 		long productId = product.getId();
 		entityManager.flush();

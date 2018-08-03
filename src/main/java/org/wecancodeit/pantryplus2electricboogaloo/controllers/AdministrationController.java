@@ -53,9 +53,9 @@ public class AdministrationController {
 
 	@PostMapping("/admin/categories")
 	public String receivePostRequestOnCategories(@AuthenticationPrincipal OAuth2User googleId,
-			@RequestParam String categoryName) {
+			@RequestParam String categoryName, boolean schoolAgeChildrenRequired) {
 		checkClearance(googleId);
-		categoryRepo.save(new Category(categoryName));
+		categoryRepo.save(new Category(categoryName, schoolAgeChildrenRequired));
 		return "redirect:/admin/categories";
 	}
 
@@ -77,7 +77,7 @@ public class AdministrationController {
 			@PathVariable long categoryId, String productName, @RequestParam String type,
 			@RequestParam(defaultValue = "0") int maximumQuantity,
 			@RequestParam(defaultValue = "0") int valueInCurrency, @RequestParam(defaultValue = "0") long currencyId,
-			@RequestParam String image) {
+			@RequestParam String image, @RequestParam boolean infantsRequired) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (!potentialCategory.isPresent()) {
@@ -85,17 +85,17 @@ public class AdministrationController {
 		}
 		Category category = potentialCategory.get();
 		if (type.equals("Product")) {
-			Product product = new Product(productName, category, image);
+			Product product = new Product(productName, category, image, infantsRequired);
 			productRepo.save(product);
 		} else if (type.equals("LimitedProduct")) {
-			LimitedProduct product = new LimitedProduct(productName, category, maximumQuantity, image);
+			LimitedProduct product = new LimitedProduct(productName, category, image, infantsRequired, maximumQuantity);
 			productRepo.save(product);
 		} else if (type.equals("PricedProduct")) {
 			Optional<Currency> potentialCurrency = currencyRepo.findById(currencyId);
 			if (potentialCurrency.isPresent()) {
 				Currency currency = potentialCurrency.get();
-				PricedProduct product = new PricedProduct(productName, category, maximumQuantity, currency,
-						valueInCurrency, image);
+				PricedProduct product = new PricedProduct(productName, category, image, infantsRequired,
+						maximumQuantity, currency, valueInCurrency);
 				productRepo.save(product);
 			} else {
 				return "redirect:/admin/currencies";

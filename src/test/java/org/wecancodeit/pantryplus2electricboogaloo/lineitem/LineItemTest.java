@@ -10,7 +10,7 @@ public class LineItemTest {
 	
 	@Test
 	public void shouldHaveProduct() {
-		Product product = new Product("Product", null, "");
+		Product product = new Product("Product", null, "", false);
 		LineItem underTest = new LineItem(null, product);
 		Product actual = underTest.getProduct();
 		assertThat(actual, is(product));

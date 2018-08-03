@@ -31,7 +31,7 @@ public class CategoryJpaTest {
 
 	@Test
 	public void shouldSaveAndLoadCategory() {
-		Category underTest = new Category("underTest");
+		Category underTest = new Category("underTest", false);
 		underTest = categoryRepo.save(underTest);
 		long categoryId = underTest.getId();
 		entityManager.flush();
@@ -42,10 +42,10 @@ public class CategoryJpaTest {
 
 	@Test
 	public void shouldHaveOneProductInCategory() {
-		Category underTest = new Category("underTest");
+		Category underTest = new Category("underTest", false);
 		underTest = categoryRepo.save(underTest);
 		long underTestId = underTest.getId();
-		productRepo.save(new Product("", underTest, ""));
+		productRepo.save(new Product("", underTest, "", false));
 		entityManager.flush();
 		entityManager.clear();
 		underTest = categoryRepo.findById(underTestId).get();
@@ -55,11 +55,11 @@ public class CategoryJpaTest {
 
 	@Test
 	public void shouldHaveTwoProductsInCategory() {
-		Category underTest = new Category("underTest");
+		Category underTest = new Category("underTest", false);
 		underTest = categoryRepo.save(underTest);
 		long underTestId = underTest.getId();
-		productRepo.save(new Product("", underTest, ""));
-		productRepo.save(new LimitedProduct("", underTest, 1, ""));
+		productRepo.save(new Product("", underTest, "", false));
+		productRepo.save(new LimitedProduct("", underTest, "", false, 1));
 		entityManager.flush();
 		entityManager.clear();
 		underTest = categoryRepo.findById(underTestId).get();
@@ -69,10 +69,10 @@ public class CategoryJpaTest {
 
 	@Test
 	public void shouldDeleteProductsInsideCategoryWhenCategoryIsDeleted() {
-		Category underTest = new Category("underTest");
+		Category underTest = new Category("underTest", false);
 		underTest = categoryRepo.save(underTest);
 		long underTestId = underTest.getId();
-		Product product = new Product("Product", underTest, "");
+		Product product = new Product("Product", underTest, "", false);
 		product = productRepo.save(product);
 		long productId = product.getId();
 		entityManager.flush();

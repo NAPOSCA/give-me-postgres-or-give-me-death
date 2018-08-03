@@ -25,7 +25,7 @@ public class LineItemJpaTest {
 
 	@Test
 	public void shouldLoadLineItemFromProduct() {
-		Product product = new Product("", null, "");
+		Product product = new Product("", null, "", false);
 		product = productRepo.save(product);
 		long productId = product.getId();
 		LineItem lineItem = new LineItem(null, product);

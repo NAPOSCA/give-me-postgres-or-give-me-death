@@ -17,8 +17,9 @@ public class PricedProduct extends LimitedProduct {
 	public PricedProduct() {
 	}
 
-	public PricedProduct(String name, Category category, int maximumQuantity, Currency currency, int cost, String imagePath) {
-		super(name, category, maximumQuantity, imagePath);
+	public PricedProduct(String name, Category category, String imagePath, boolean infantsRequired, int maximumQuantity,
+			Currency currency, int cost) {
+		super(name, category, imagePath, infantsRequired, maximumQuantity);
 		this.currency = currency;
 		this.cost = cost;
 	}
@@ -30,7 +31,7 @@ public class PricedProduct extends LimitedProduct {
 	public Currency getCurrency() {
 		return currency;
 	}
-	
+
 	@Override
 	public String getType() {
 		return "PricedProduct";
