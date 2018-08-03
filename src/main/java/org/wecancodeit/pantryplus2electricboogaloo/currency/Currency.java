@@ -26,14 +26,16 @@ public class Currency {
 	@OneToMany(mappedBy = "currency", orphanRemoval = true)
 	private Collection<PricedProduct> pricedProducts;
 	private HashMap<Integer, Integer> familySizeToAllowance;
+	private String unit;
 
 	public Currency() {
 	}
 
-	public Currency(String name, String allowanceMap) {
+	public Currency(String name, String allowanceMap, String unit) {
 		this(name);
 		this.familySizeToAllowance = new HashMap<>();
 		setAllowanceMap(allowanceMap);
+		this.unit = unit;
 	}
 
 	public Currency(String name) {
@@ -101,6 +103,10 @@ public class Currency {
 			int value = parseInt(pair.substring(equalsIndex + 1));
 			familySizeToAllowance.put(key, value);
 		});
+	}
+
+	public String getUnit() {
+		return unit;
 	}
 
 }
