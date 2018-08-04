@@ -1,7 +1,7 @@
 <div class="dichotomous interface">
 	<label class="switch switch_type1" role="switch">
-		<input th:if="!${cart.has(product.id)}" th:value="${product.id}"  type="checkbox" class="value switch__toggle"/>
-		<input th:if="${cart.has(product.id)}" th:value="${product.id}"  type="checkbox" class="value switch__toggle" checked="true"/>
+		<input th:if="!${cart.has(product.id)}" th:value="${product.id}" type="checkbox" class="value switch__toggle" />
+		<input th:if="${cart.has(product.id)}" th:value="${product.id}" type="checkbox" class="value switch__toggle" checked="true" />
 		<span class="switch__label"></span>
 	</label>
 </div>
@@ -9,26 +9,27 @@
 <div class="meat interface">
 	<button class="remove" th:value="${product.id}">-</button>
 	<p>
-		<span class="value" th:text="${cart.getLineItemQuantityByProductId(product.id)}"/>
-		
-		<span th:if="${product.name == 'Ground Beef'}" th:text="'/ ' + ${product.maximumQuantity}"/>
+		<span class="value" th:text="${cart.getLineItemQuantityByProductId(product.id)}" />
+
+		<span th:if="${product.name == 'Ground Beef'}" th:text="'/ ' + ${product.maximumQuantity}" />
 		<span class="units">lbs.</span>
 	</p>
 	<button class="add" th:value="${product.id}">+</button>
 </div>
+
 <div class="coupon interface">
 	<div>
 		<p class="cost">
 			<span class="cost-big">Cost:</span>
 			<span class="cost-small">$</span>
-			<span th:text="${product.price}"/>
+			<span th:text="${product.price}" />
 		</p>
 	</div>
 	<button class="remove" th:value="${product.id}">-</button>
 	<p>
-		<span class="value" th:text="${cart.getLineItemQuantityByProductId(product.id)}"/>
+		<span class="value" th:text="${cart.getLineItemQuantityByProductId(product.id)}" />
 		<span>/</span>
-		<span th:text="${product.maximumQuantity}"/>
+		<span th:text="${product.maximumQuantity}" />
 	</p>
 	<button class="add" th:value="${product.id}">+</button>
 </div>
