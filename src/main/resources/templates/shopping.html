@@ -65,16 +65,14 @@
 				</a>
 			</aside>
 			<main>
-				<div th:each="category : ${categories}" class="category-items" th:unless="${category.name == 'After School Snacks' and cart.user.schoolAgeChildren == 0}">
-					<!-- Uses string comparison, has got to go -->
+				<div th:each="category : ${categories}" class="category-items" th:if="${category.isVisibleTo(user)}">
 					<section class="category">
 						<h2 th:text="${category.name}" />
 						<p class="indicator visible">+</p>
 						<p class="indicator hidden">-</p>
 					</section>
 					<ul class="items hidden">
-						<li class="item" th:each="product : ${category.products}" th:unless="${product.name == 'Diapers' and cart.user.hasInfants() == false}">
-							<!-- Uses string comparison, has got to go -->
+						<li class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">
 							<img class="product-image" th:src="${product.image}" draggable="false" />
 							<h3 th:text="${product.name}" />
 							<div th:id="'product-'+${product.id}" th:switch="true" class="switch">
