@@ -3,8 +3,8 @@ function initialize() {
 	const detailsForm = document.querySelector(".category-details");
 	const updateButton = document.querySelector("#update");
 	updateButton.addEventListener("click", () => {
-		const name = detailsForm.querySelector("#name").value;
-		const schoolAgeChildrenRequired = detailsForm.querySelector("#schoolAgeChildrenRequired").checked;
+		const name = detailsForm.querySelector("input.name").value;
+		const schoolAgeChildrenRequired = detailsForm.querySelector("input.schoolAgeChildrenRequired").checked;
 		request(response => {
 			document.location.reload(true);
 		}, "PUT", `/admin/category/${categoryId}?name=${name}&schoolAgeChildrenRequired=${schoolAgeChildrenRequired}`);

@@ -30,12 +30,12 @@
 					</p>
 
 					<label for="name">Name:</label>
-					<input type="text" th:field="*{name}" />
+					<input class="name" type="text" th:field="*{name}" />
 
 					<br />
 
 					<label>Only visible if user has school aged children:</label>
-					<input type="checkbox" th:field="*{schoolAgeChildrenRequired}" />
+					<input class="schoolAgeChildrenRequired" type="checkbox" th:field="*{schoolAgeChildrenRequired}" />
 				</form>
 				<button id="update">Update</button>
 				<button id="delete">Delete</button>
