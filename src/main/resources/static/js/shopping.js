@@ -21,5 +21,7 @@ function toggleClasses(element) {
 }
 
 function toggleVisibility(element) {
-    toggleClasses(element, "hidden", "visible");
+    // toggleClasses(element, "hidden", "visible");
+    element.classList.toggle("hidden");
+    element.classList.toggle("visible");
 }
