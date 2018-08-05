@@ -16,7 +16,6 @@
 	transform-origin: right;
 	transition-duration: var(--transition-duration);
 	transform: rotate(45deg);
-	margin-top: 26px;
 }
 
 .indicator::after {
@@ -27,19 +26,26 @@
 	position: absolute;
 	transform-origin: left;
 	transition-duration: var(--transition-duration);
-	margin-left: 20px;
 	transform: rotate(-45deg);
-	margin-top: 26px;
 }
 
 .indicator.expanded::before {
+	width: 40px;
+	margin-top: 33px;
+	margin-left: -6px;
 }
 
 .indicator.expanded::after {
+	width: 40px;
+	margin-left: 6px;
+	margin-top: 33px
 }
 
 .indicator.collapsed::before {
+	margin-top: 26px;
 }
 
 .indicator.collapsed::after {
+	margin-top: 26px;
+	margin-left: 20px;
 }
