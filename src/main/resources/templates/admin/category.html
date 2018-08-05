@@ -24,8 +24,6 @@
 			<section class="category-details">
 				<h2>Category Details</h2>
 				<form th:object="${category}">
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
 					<p>
 						<span>ID:</span>
 						<span id="id" th:text="*{id}" />
