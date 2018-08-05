@@ -39,8 +39,10 @@ public class AdministrationController {
 	private LoginService loginService;
 
 	@GetMapping("/admin")
-	public String displayAdminView(@AuthenticationPrincipal OAuth2User googleId) {
+	public String displayAdminView(@AuthenticationPrincipal OAuth2User googleId, Model model) {
 		checkClearance(googleId);
+		model.addAttribute("currencyCount", currencyRepo.count());
+		model.addAttribute("categoryCount", categoryRepo.count());
 		return "admin/index";
 	}
 
