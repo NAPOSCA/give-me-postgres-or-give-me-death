@@ -55,7 +55,7 @@ public class AdministrationController {
 
 	@PostMapping("/admin/categories")
 	public String receivePostRequestOnCategories(@AuthenticationPrincipal OAuth2User googleId,
-			@RequestParam String categoryName, @RequestParam boolean schoolAgeChildrenRequired) {
+			@RequestParam String categoryName, @RequestParam(defaultValue = "false") boolean schoolAgeChildrenRequired) {
 		checkClearance(googleId);
 		categoryRepo.save(new Category(categoryName, schoolAgeChildrenRequired));
 		return "redirect:/admin/categories";
