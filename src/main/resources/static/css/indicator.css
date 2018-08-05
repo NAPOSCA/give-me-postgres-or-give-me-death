@@ -1,0 +1,47 @@
+:root {
+	--transition-duration: 300ms;
+}
+
+.indicator {
+	width: 40px;
+	height: 40px;
+}
+
+.indicator::before {
+	width: 20px;
+	height: 2px;
+	background-color: black;
+	content: "";
+	position: absolute;
+	transform-origin: right;
+	transition-duration: var(--transition-duration);
+}
+
+.indicator::after {
+	width: 20px;
+	height: 2px;
+	background-color: black;
+	content: "";
+	position: absolute;
+	transform-origin: left;
+	transition-duration: var(--transition-duration);
+	margin-left: 20px;
+}
+
+.indicator.expanded::before {
+	margin-top: 26px;
+	transform: rotate(45deg);
+}
+
+.indicator.expanded::after {
+	margin-top: 26px;
+	transform: rotate(-45deg);
+}
+
+.indicator.collapsed::before {
+	margin-top: 20px;
+}
+
+.indicator.collapsed::after {
+	margin-top: 20px;
+}
