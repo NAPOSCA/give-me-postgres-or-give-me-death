@@ -60,4 +60,8 @@ public class Category {
 		return schoolAgeChildrenRequired;
 	}
 
+	public void updateSchoolAgeChildrenRequired(boolean schoolAgeChildrenRequired) {
+		this.schoolAgeChildrenRequired = schoolAgeChildrenRequired;
+	}
+
 }

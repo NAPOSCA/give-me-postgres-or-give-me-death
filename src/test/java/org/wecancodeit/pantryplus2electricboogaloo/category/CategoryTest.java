@@ -84,5 +84,14 @@ public class CategoryTest {
 		boolean actual = underTest.isVisibleTo(user);
 		assertThat(actual, is(true));
 	}
+	
+	@Test
+	public void shouldUpdateSchoolAgeChildrenRequiredAsTrue() {
+		boolean schoolAgeChildrenRequired = true;
+		Category underTest = new Category("", false);
+		underTest.updateSchoolAgeChildrenRequired(schoolAgeChildrenRequired);
+		boolean actual = underTest.getSchoolAgeChildrenRequired();
+		assertThat(actual, is(schoolAgeChildrenRequired));
+	}
 
 }

@@ -120,7 +120,7 @@ public class AdminRestControllerMockTest {
 		long categoryId = 1L;
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
 		String name = "Foo";
-		underTest.receivePutOnCategory(googleId, categoryId, name);
+		underTest.receivePutOnCategory(googleId, categoryId, name, false);
 		verify(category).updateName(name);
 	}
 
@@ -130,7 +130,7 @@ public class AdminRestControllerMockTest {
 		long categoryId = 1L;
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
 		String name = "Foo";
-		underTest.receivePutOnCategory(googleId, categoryId, name);
+		underTest.receivePutOnCategory(googleId, categoryId, name, false);
 		verify(category, never()).updateName(name);
 	}
 
@@ -139,10 +139,20 @@ public class AdminRestControllerMockTest {
 		long categoryId = 1L;
 		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
 		String name = "Bar";
-		underTest.receivePutOnCategory(googleId, categoryId, name);
+		underTest.receivePutOnCategory(googleId, categoryId, name, false);
 		InOrder inOrder = inOrder(categoryRepo, category);
 		inOrder.verify(category).updateName(name);
 		inOrder.verify(categoryRepo).save(category);
+	}
+	
+	@Test
+	public void shouldUpdateCategorySchoolAgeChildrenRequiredRuleAsTrue() {
+		boolean schoolAgeChildrenRequired = true;
+		long categoryId = 1L;
+		String name = "";
+		when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+		underTest.receivePutOnCategory(googleId, categoryId, name, schoolAgeChildrenRequired);
+		verify(category).updateSchoolAgeChildrenRequired(schoolAgeChildrenRequired);
 	}
 
 }
