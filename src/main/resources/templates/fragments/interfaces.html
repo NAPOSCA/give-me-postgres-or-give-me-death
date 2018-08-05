@@ -7,6 +7,7 @@
 </div>
 
 <div class="meat interface">
+	<!-- This refers to a particular category name, should instead refer to a LimitedProduct -->
 	<button class="remove" th:value="${product.id}">-</button>
 	<p>
 		<span class="value" th:text="${cart.getLineItemQuantityByProductId(product.id)}" />
@@ -18,6 +19,7 @@
 </div>
 
 <div class="coupon interface">
+	<!-- This refers to a particular category name, should instead refer to a PricedProduct -->
 	<div>
 		<p class="cost">
 			<span class="cost-big">Cost:</span>
