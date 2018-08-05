@@ -76,6 +76,11 @@ public class Product {
 	}
 
 	public boolean isVisibleTo(PantryUser user) {
-		return user.getHasInfants() || !infantsRequired;
+		return user.getHasInfants() || !getInfantsRequired();
 	}
+	
+	public boolean getInfantsRequired() {
+		return infantsRequired;
+	}
+	
 }
