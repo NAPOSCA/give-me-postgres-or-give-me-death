@@ -69,7 +69,7 @@
 				<div th:each="category : ${categories}" class="category-items" th:if="${category.isVisibleTo(user)}">
 					<section class="category">
 						<h2 th:text="${category.name}" />
-						<div class="indicator hidden" ></div>
+						<div class="indicator collapsed" ></div>
 					</section>
 					<ul class="items hidden">
 						<li class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">

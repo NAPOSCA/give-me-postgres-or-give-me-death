@@ -8,7 +8,7 @@ function initialize() {
 		categorySection.addEventListener("click", () => {
 			toggleVisibility(items);
 			indicators.forEach(indicator => {
-				toggleVisibility(indicator);
+				toggleClasses(indicator, "collapsed", "expanded");
 			});
 		});
 	}
@@ -43,6 +43,11 @@ function initialize() {
 			}
 		});
 	}
+}
+
+function toggleClasses(item, firstClass, secondClass) {
+	item.classList.toggle(firstClass);
+	item.classList.toggle(secondClass);
 }
 
 function toggleVisibility(items) {
