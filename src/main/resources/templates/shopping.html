@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Pantry+</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="/css/animation.css" />
+	<link rel="stylesheet" type="text/css" href="/css/slide-toggle.css" />
+	<link rel="stylesheet" type="text/css" href="/css/shopping.media-queries.css" />
+	<link rel="stylesheet" type="text/css" href="/css/indicator.css" />
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+	<script type="text/javascript" src="/js/shopping.js"></script>
+</head>
+
+<body onload="initialize()">
+	<div class="container shopping">
+		<header>
+			<nav>
+				<ul>
+					<li>
+						<h2>
+							<a href="/">Welcome</a>
+						</h2>
+					</li>
+					<li>
+						<h2>
+							<a href="/settings">Settings</a>
+						</h2>
+					</li>
+					<li class="current">
+						<h2>Shopping</h2>
+					</li>
+					<li>
+						<h2>
+							<a href="/cart">Cart</a>
+						</h2>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		<div class="aside-main">
+			<aside>
+				<img th:replace="user-form :: img.logo" />
+				<div th:replace="user-form :: div.address" />
+				<div class="stats">
+					<p class="currency" th:id="'currency-' + ${currency.id}" th:each="currency : ${currencies}" th:object="${currency}">
+						<span th:text="*{name} + ':'" />
+						<span class="amountUsed" th:text="${cart.amountUsed(currency)}" />
+						<span>/</span>
+						<span class="allowance" th:text="${currency.allowanceOf(user.familySize)}" />
+						<span th:text="*{unit}">
+					</p>
+				</div>
+				<a class="button" href="/cart">
+					Go to Cart
+				</a>
+			</aside>
+			<main>
+				<div th:each="category : ${categories}" class="category-items" th:if="${category.isVisibleTo(user)}">
+					<section class="category">
+						<h2 th:text="${category.name}" />
+						<div class="indicator collapsed"></div>
+					</section>
+					<ul class="items hidden">
+						<li class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">
+							<img class="product-image" th:src="${product.image}" draggable="false" />
+							<h3 th:text="${product.name}" />
+						</li>
+					</ul>
+				</div>
+			</main>
+		</div>
+	</div>
+	<footer th:replace="user-form :: footer" />
+	</div>
+</body>
+
+</html>
