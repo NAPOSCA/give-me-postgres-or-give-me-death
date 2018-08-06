@@ -66,7 +66,7 @@
 						<div class="icon accordion collapsed"></div>
 					</section>
 					<ul class="items hidden">
-						<li th:id="'product-' + ${product.id}" class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">
+						<li th:id="'product-' + ${product.id}" th:value="${product.id}" class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">
 							<img class="product-image" th:src="${product.image}" draggable="false" />
 							<h3 th:text="${product.name}" />
 							<div class="interface" th:if="${product.getType() == 'Product'}">
