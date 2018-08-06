@@ -29,23 +29,23 @@
 	transform: rotate(-45deg);
 }
 
-.indicator.expanded::before {
+.indicator.bix-x::before {
 	width: 40px;
 	margin-top: 33px;
 	margin-left: -6px;
 }
 
-.indicator.expanded::after {
+.indicator.bix-x::after {
 	width: 40px;
 	margin-left: 6px;
 	margin-top: 33px
 }
 
-.indicator.collapsed::before {
+.indicator.accordion::before {
 	margin-top: 26px;
 }
 
-.indicator.collapsed::after {
+.indicator.accordion::after {
 	margin-top: 26px;
 	margin-left: 20px;
 }
