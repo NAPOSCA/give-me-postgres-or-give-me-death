@@ -66,10 +66,10 @@
 						<div class="icon accordion collapsed"></div>
 					</section>
 					<ul class="items hidden">
-						<li class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">
-							<img class="product-image" th:src="${product.image}" draggable="false" />
-							<h3 th:text="${product.name}" />
-							<div class="interface" th:if="${product.getType() == 'Product'}">
+						<li th:id="'product-' + *{id}" class="item" th:each="product : ${category.products}" th:object="${product}" th:if="*{isVisibleTo(user)}">
+							<img class="product-image" th:src="*{image}" draggable="false" />
+							<h3 th:text="*{name}" />
+							<div class="interface" th:if="*{getType() == 'Product'}">
 								<div class="icon dichotomous-product plus"></div>
 							</div>
 						</li>
