@@ -2,12 +2,12 @@
 	--transition-duration: 300ms;
 }
 
-.indicator {
+.icon {
 	width: 40px;
 	height: 40px;
 }
 
-.indicator::before {
+.icon::before {
 	width: 20px;
 	height: 2px;
 	background-color: black;
@@ -18,7 +18,7 @@
 	transform: rotate(45deg);
 }
 
-.indicator::after {
+.icon::after {
 	width: 20px;
 	height: 2px;
 	background-color: black;
@@ -29,23 +29,23 @@
 	transform: rotate(-45deg);
 }
 
-.indicator.bix-x::before {
+.icon.bix-x::before {
 	width: 40px;
 	margin-top: 33px;
 	margin-left: -6px;
 }
 
-.indicator.bix-x::after {
+.icon.bix-x::after {
 	width: 40px;
 	margin-left: 6px;
 	margin-top: 33px
 }
 
-.indicator.accordion::before {
+.icon.accordion::before {
 	margin-top: 26px;
 }
 
-.indicator.accordion::after {
+.icon.accordion::after {
 	margin-top: 26px;
 	margin-left: 20px;
 }
