@@ -3,11 +3,11 @@ function initialize() {
 	for (let i = 0; i < manyCategoryItemsDivs.length; i++) {
 		const categoryDiv = manyCategoryItemsDivs[i];
 		const categorySection = categoryDiv.querySelector(".category");
-		const indicators = categorySection.querySelectorAll(".icon.big-x");
+		const accordionIcons = categorySection.querySelectorAll(".icon.accordion");
 		const items = categoryDiv.querySelector(".items");
 		categorySection.addEventListener("click", () => {
 			toggleVisibility(items);
-			indicators.forEach(indicator => {
+			accordionIcons.forEach(indicator => {
 				toggleClasses(indicator, "collapsed", "expanded");
 			});
 		});
