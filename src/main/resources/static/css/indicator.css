@@ -2,12 +2,12 @@
 	--transition-duration: 300ms;
 }
 
-.icon {
+.icon.accordion {
 	width: 40px;
 	height: 40px;
 }
 
-.icon::before {
+.icon.accordion::before {
 	width: 20px;
 	height: 2px;
 	background-color: black;
@@ -18,7 +18,7 @@
 	transform: rotate(45deg);
 }
 
-.icon::after {
+.icon.accordion::after {
 	width: 20px;
 	height: 2px;
 	background-color: black;
@@ -29,23 +29,23 @@
 	transform: rotate(-45deg);
 }
 
-.icon.big-x::before {
+.icon.accordion.expanded::before {
 	width: 40px;
 	margin-top: 33px;
 	margin-left: -6px;
 }
 
-.icon.big-x::after {
+.icon.accordion.expanded::after {
 	width: 40px;
 	margin-left: 6px;
 	margin-top: 33px
 }
 
-.icon.accordion::before {
+.icon.accordion.collapsed::before {
 	margin-top: 26px;
 }
 
-.icon.accordion::after {
+.icon.accordion.collapsed::after {
 	margin-top: 26px;
 	margin-left: 20px;
 }
