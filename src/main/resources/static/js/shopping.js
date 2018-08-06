@@ -15,13 +15,11 @@ function initialize() {
 }
 
 function toggleClasses(element) {
-    for(let i = 0; i < arguments.length; i++) {
+    for(let i = 1; i < arguments.length; i++) {
         element.classList.toggle(arguments[i]);
     }
 }
 
 function toggleVisibility(element) {
-    // toggleClasses(element, "hidden", "visible");
-    element.classList.toggle("hidden");
-    element.classList.toggle("visible");
+    toggleClasses(element, "hidden", "visible");
 }
