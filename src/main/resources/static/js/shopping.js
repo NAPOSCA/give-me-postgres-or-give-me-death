@@ -12,6 +12,13 @@ function initialize() {
 			});
 		});
 	}
+	const dichotomousProductButtons = document.querySelectorAll(".icon.dichotomous-product");
+	for (let i = 0; i < dichotomousProductButtons.length; i++) {
+		const dichotomousProductButton = dichotomousProductButtons[i];
+		dichotomousProductButton.addEventListener("click", () => {
+			toggleClasses(dichotomousProductButton, "plus", "x");
+		});
+	}
 }
 
 function toggleClasses(element) {
