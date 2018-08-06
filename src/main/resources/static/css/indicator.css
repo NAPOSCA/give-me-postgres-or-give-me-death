@@ -2,6 +2,24 @@
 	--transition-duration: 300ms;
 }
 
+.icon {
+	color: black;
+}
+
+.icon::before {
+	content: "";
+	position: absolute;
+	background-color: currentColor;
+	transition-duration: var(--transition-duration);
+}
+
+.icon::after {
+	content: "";
+	position: absolute;
+	background-color: currentColor;
+	transition-duration: var(--transition-duration);
+}
+
 .icon.accordion {
 	width: 40px;
 	height: 40px;
@@ -10,22 +28,14 @@
 .icon.accordion::before {
 	width: 20px;
 	height: 2px;
-	background-color: black;
-	content: "";
-	position: absolute;
 	transform-origin: right;
-	transition-duration: var(--transition-duration);
 	transform: rotate(45deg);
 }
 
 .icon.accordion::after {
 	width: 20px;
 	height: 2px;
-	background-color: black;
-	content: "";
-	position: absolute;
 	transform-origin: left;
-	transition-duration: var(--transition-duration);
 	transform: rotate(-45deg);
 }
 
@@ -53,5 +63,26 @@
 .icon.dichotomous-product {
 	width: 30px;
 	height: 30px;
-	border: 1px black solid;
+}
+
+.icon.dichotomous-product::before {
+	width: 25px;
+	height: 2px;
+	margin-top: 13px;
+	margin-left: 3px;
+}
+
+.icon.dichotomous-product::after {
+	width: 2px;
+	height: 25px;
+	margin-top: 2px;
+	margin-left: 14px;
+}
+
+.icon.dichotomous-product.x::before {
+	transform: rotate(45deg);
+}
+ 
+.icon.dichotomous-product.x::after {
+	transform: rotate(45deg);
 }
