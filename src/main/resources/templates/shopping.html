@@ -69,6 +69,9 @@
 						<li class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">
 							<img class="product-image" th:src="${product.image}" draggable="false" />
 							<h3 th:text="${product.name}" />
+							<div class="interface" th:if="${product.getType() == 'Product'}">
+								<div class="icon plus"></div>
+							</div>
 						</li>
 					</ul>
 				</div>
