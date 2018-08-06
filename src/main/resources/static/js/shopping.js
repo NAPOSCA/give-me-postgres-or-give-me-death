@@ -8,7 +8,7 @@ function initialize() {
 		categorySection.addEventListener("click", () => {
 			toggleVisibility(items);
 			indicators.forEach(indicator => {
-				toggleClasses(indicator, "bix-x", "accordion");
+				toggleClasses(indicator, "big-x", "accordion");
 			});
 		});
 	}

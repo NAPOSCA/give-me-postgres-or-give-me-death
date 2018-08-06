@@ -29,13 +29,13 @@
 	transform: rotate(-45deg);
 }
 
-.icon.bix-x::before {
+.icon.big-x::before {
 	width: 40px;
 	margin-top: 33px;
 	margin-left: -6px;
 }
 
-.icon.bix-x::after {
+.icon.big-x::after {
 	width: 40px;
 	margin-left: 6px;
 	margin-top: 33px
