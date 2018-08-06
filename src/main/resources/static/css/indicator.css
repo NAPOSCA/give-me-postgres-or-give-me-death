@@ -1,6 +1,6 @@
 :root {
 	--accordion-transition-duration: 300ms;
-	--dichotomous-product-transition-duration: 200ms;
+	--dichotomous-product-transition-duration: 500ms;
 }
 
 .icon {
@@ -84,9 +84,9 @@
 }
 
 .icon.dichotomous-product.x::before {
-	transform: rotate(45deg);
+	transform: rotate(135deg);
 }
  
 .icon.dichotomous-product.x::after {
-	transform: rotate(45deg);
+	transform: rotate(135deg);
 }
