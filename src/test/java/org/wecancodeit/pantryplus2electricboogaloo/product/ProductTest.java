@@ -15,10 +15,10 @@ public class ProductTest {
 
 	@Mock
 	private Category category;
-	
+
 	@Mock
 	private PantryUser user;
-	
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -83,7 +83,7 @@ public class ProductTest {
 		String actual = underTest.getType();
 		assertThat(actual, is("Product"));
 	}
-	
+
 	@Test
 	public void shouldBeVisibleIfUserHasInfantsAndProductHasRule() {
 		boolean infantsRequired = true;
@@ -92,7 +92,7 @@ public class ProductTest {
 		boolean actual = underTest.isVisibleTo(user);
 		assertThat(actual, is(true));
 	}
-	
+
 	@Test
 	public void shouldNotBeVisibleIfUserHasNoInfantsAndProductHasRule() {
 		boolean infantsRequired = true;
@@ -101,7 +101,7 @@ public class ProductTest {
 		boolean actual = underTest.isVisibleTo(user);
 		assertThat(actual, is(false));
 	}
-	
+
 	@Test
 	public void shouldBeVisibleIfUserHasNoInfantsAndProductDoesNotHaveRule() {
 		boolean infantsRequired = false;

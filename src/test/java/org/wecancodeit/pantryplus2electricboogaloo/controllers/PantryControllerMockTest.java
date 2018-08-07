@@ -72,7 +72,7 @@ public class PantryControllerMockTest {
 
 	@Mock
 	private Currency anotherCurrency;
-	
+
 	@Mock
 	private CurrencyRepository currencyRepo;
 
@@ -220,14 +220,14 @@ public class PantryControllerMockTest {
 		underTest.displayWelcomeView(model, googleId);
 		verify(model).addAttribute("isAdmin", isAdmin);
 	}
-	
+
 	@Test
 	public void shouldHaveWelcomeViewAttachIsAdminToModelAsFalseIfUserNotSignedIn() {
 		googleId = null;
 		underTest.displayWelcomeView(model, googleId);
 		verify(model).addAttribute("isAdmin", false);
 	}
-	
+
 	@Test
 	public void shouldHaveShoppingViewAttachTheCurrenciesToModel() {
 		Iterable<Currency> currencies = asList(currency, anotherCurrency);
@@ -236,14 +236,14 @@ public class PantryControllerMockTest {
 		underTest.displayShopping(model, googleId);
 		verify(model).addAttribute("currencies", currencies);
 	}
-	
+
 	@Test
 	public void shouldHaveShoppingViewAttachTheUserToModel() {
 		when(user.isValid()).thenReturn(true);
 		underTest.displayShopping(model, googleId);
 		verify(model).addAttribute("user", user);
 	}
-	
+
 	@Test
 	public void shouldHaveCartViewAttachTheCurrenciesToModel() {
 		Iterable<Currency> currencies = asList(currency, anotherCurrency);
@@ -251,7 +251,7 @@ public class PantryControllerMockTest {
 		underTest.displayCart(model, googleId);
 		verify(model).addAttribute("currencies", currencies);
 	}
-	
+
 	@Test
 	public void shouldHaveCartViewAttachTheUserToModel() {
 		underTest.displayCart(model, googleId);

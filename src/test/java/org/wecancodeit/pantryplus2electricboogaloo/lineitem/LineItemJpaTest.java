@@ -16,10 +16,10 @@ public class LineItemJpaTest {
 
 	@Resource
 	private ProductRepository productRepo;
-	
+
 	@Resource
 	private TestEntityManager entityManager;
-	
+
 	@Resource
 	private LineItemRepository lineItemRepo;
 
@@ -34,5 +34,5 @@ public class LineItemJpaTest {
 		entityManager.clear();
 		product = productRepo.findById(productId).get();
 	}
-	
+
 }

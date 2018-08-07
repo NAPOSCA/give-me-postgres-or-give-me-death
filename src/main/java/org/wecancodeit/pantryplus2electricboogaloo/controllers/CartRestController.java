@@ -18,13 +18,13 @@ public class CartRestController {
 
 	@Resource
 	private LoginService loginService;
-	
+
 	@Resource
 	private ProductRepository productRepo;
-	
+
 	@Resource
 	private LineItemRepository lineItemRepo;
-	
+
 	@PostMapping("/cart/products/{productId}")
 	public String receivePostOnProduct(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long productId) {
 		PantryUser user = loginService.resolveUser(googleId);

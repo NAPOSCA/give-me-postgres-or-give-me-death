@@ -206,7 +206,7 @@ public class CartJpaTest {
 		int actual = underTest.amountUsed(currency);
 		assertThat(actual, is(4));
 	}
-	
+
 	@Test
 	public void shouldHaveCartContainProduct() {
 		Cart underTest = cartRepo.save(new Cart(null));
@@ -223,7 +223,7 @@ public class CartJpaTest {
 		boolean actual = underTest.has(product);
 		assertThat(actual, is(true));
 	}
-	
+
 	@Test
 	public void shouldHaveCartNotContainProduct() {
 		Cart underTest = cartRepo.save(new Cart(null));

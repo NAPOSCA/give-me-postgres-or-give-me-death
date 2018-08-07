@@ -78,9 +78,9 @@ public class Product {
 	public boolean isVisibleTo(PantryUser user) {
 		return user.getHasInfants() || !getInfantsRequired();
 	}
-	
+
 	public boolean getInfantsRequired() {
 		return infantsRequired;
 	}
-	
+
 }

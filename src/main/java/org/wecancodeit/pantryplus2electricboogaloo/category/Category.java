@@ -55,7 +55,7 @@ public class Category {
 	public boolean isVisibleTo(PantryUser user) {
 		return user.getSchoolAgeChildren() > 0 || !schoolAgeChildrenRequired;
 	}
-	
+
 	public boolean getSchoolAgeChildrenRequired() {
 		return schoolAgeChildrenRequired;
 	}

@@ -22,7 +22,7 @@ public class PantryController {
 
 	@Resource
 	private LoginService loginService;
-	
+
 	@Resource
 	private CurrencyRepository currencyRepo;
 

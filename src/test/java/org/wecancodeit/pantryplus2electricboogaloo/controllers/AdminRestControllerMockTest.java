@@ -144,7 +144,7 @@ public class AdminRestControllerMockTest {
 		inOrder.verify(category).updateName(name);
 		inOrder.verify(categoryRepo).save(category);
 	}
-	
+
 	@Test
 	public void shouldUpdateCategorySchoolAgeChildrenRequiredRuleAsTrue() {
 		boolean schoolAgeChildrenRequired = true;

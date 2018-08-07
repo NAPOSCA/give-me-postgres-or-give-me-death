@@ -64,7 +64,7 @@ public class CategoryTest {
 		boolean actual = underTest.isVisibleTo(user);
 		assertThat(actual, is(false));
 	}
-	
+
 	@Test
 	public void shouldBeVisibleIfUserHasNoSchoolAgeChildrenAndDoesNotHaveRule() {
 		boolean schoolAgeChildrenRequired = false;
@@ -74,7 +74,7 @@ public class CategoryTest {
 		boolean actual = underTest.isVisibleTo(user);
 		assertThat(actual, is(true));
 	}
-	
+
 	@Test
 	public void shouldBeVisibleIfUserHasOneSchoolAgeChildAndDoesNotHaveRule() {
 		boolean schoolAgeChildrenRequired = false;
@@ -84,7 +84,7 @@ public class CategoryTest {
 		boolean actual = underTest.isVisibleTo(user);
 		assertThat(actual, is(true));
 	}
-	
+
 	@Test
 	public void shouldUpdateSchoolAgeChildrenRequiredAsTrue() {
 		boolean schoolAgeChildrenRequired = true;

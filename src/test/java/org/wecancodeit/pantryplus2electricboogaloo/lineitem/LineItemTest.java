@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 
 public class LineItemTest {
-	
+
 	@Test
 	public void shouldHaveProduct() {
 		Product product = new Product("Product", null, "", false);
@@ -15,5 +15,5 @@ public class LineItemTest {
 		Product actual = underTest.getProduct();
 		assertThat(actual, is(product));
 	}
-	
+
 }

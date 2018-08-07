@@ -16,10 +16,10 @@ public class LineItem {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
-	
+
 	@ManyToOne
 	private Cart cart;
-	
+
 	@ManyToOne
 	private Product product;
 
