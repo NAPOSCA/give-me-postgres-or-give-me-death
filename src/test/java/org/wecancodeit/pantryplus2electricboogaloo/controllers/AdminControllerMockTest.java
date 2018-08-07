@@ -30,7 +30,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 public class AdminControllerMockTest {
 
 	@InjectMocks
-	private AdministrationController underTest;
+	private AdminController underTest;
 
 	@Mock
 	private Model model;

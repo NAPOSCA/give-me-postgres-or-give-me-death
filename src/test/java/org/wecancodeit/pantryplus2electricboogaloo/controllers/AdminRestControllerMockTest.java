@@ -23,7 +23,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 public class AdminRestControllerMockTest {
 
 	@InjectMocks
-	private AdministrationRestController underTest;
+	private AdminRestController underTest;
 
 	@Mock
 	private CurrencyRepository currencyRepo;

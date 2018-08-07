@@ -16,7 +16,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
 @RestController
-public class AdministrationRestController {
+public class AdminRestController {
 
 	@Resource
 	private CurrencyRepository currencyRepo;

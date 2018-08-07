@@ -24,7 +24,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
 @Controller
-public class AdministrationController {
+public class AdminController {
 
 	@Resource
 	private CategoryRepository categoryRepo;
