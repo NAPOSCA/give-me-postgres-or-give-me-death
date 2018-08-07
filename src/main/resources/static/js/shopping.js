@@ -1,5 +1,5 @@
 function initialize() {
-    const manyCategoryItemsDivs = document.querySelectorAll(".category-items");
+	const manyCategoryItemsDivs = document.querySelectorAll(".category-items");
 	for (let i = 0; i < manyCategoryItemsDivs.length; i++) {
 		const categoryDiv = manyCategoryItemsDivs[i];
 		const categorySection = categoryDiv.querySelector(".category");
@@ -17,20 +17,27 @@ function initialize() {
 		const dichotomousProductButton = dichotomousProductButtons[i];
 		const productId = dichotomousProductButton.parentElement.parentElement.value;
 		dichotomousProductButton.addEventListener("click", () => {
-			request(response => {}, "POST", `/cart/products/${productId}`);
-			toggleClasses(dichotomousProductButton, "plus", "x");
+			const callback = response => {
+				toggleClasses(dichotomousProductButton, "plus", "x");
+			};
+			if (dichotomousProductButton.classList.contains("plus")) {
+				request(callback, "POST", `/cart/products/${productId}`);
+			}
+			if (dichotomousProductButton.classList.contains("x")) {
+				request(callback, "DELETE", `/cart/products/${productId}`);
+			}
 		});
 	}
 }
 
 function toggleClasses(element) {
-    for(let i = 1; i < arguments.length; i++) {
-        element.classList.toggle(arguments[i]);
-    }
+	for (let i = 1; i < arguments.length; i++) {
+		element.classList.toggle(arguments[i]);
+	}
 }
 
 function toggleVisibility(element) {
-    toggleClasses(element, "hidden", "visible");
+	toggleClasses(element, "hidden", "visible");
 }
 
 const request = (callback, method, url) => {
