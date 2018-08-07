@@ -25,12 +25,13 @@ public class CartRestController {
 	private LineItemRepository lineItemRepo;
 	
 	@PostMapping("/cart/products/1")
-	public void receivePostOnProduct(@AuthenticationPrincipal OAuth2User googleId, long productId) {
+	public String receivePostOnProduct(@AuthenticationPrincipal OAuth2User googleId, long productId) {
 		PantryUser user = loginService.resolveUser(googleId);
 		Cart cart = user.getCart();
 		Product product = productRepo.findById(productId).get();
 		LineItem lineItem = new LineItem(cart, product);
 		lineItemRepo.save(lineItem);
+		return "success";
 	}
 
 }
