@@ -72,7 +72,8 @@
 							<img class="product-image" th:src="${product.image}" draggable="false" />
 							<h3 th:text="${product.name}" />
 							<div class="interface" th:if="${product.getType() == 'Product'}">
-								<div class="icon dichotomous-product plus"></div>
+								<div th:unless="${cart.has(product)}" class="icon dichotomous-product plus"></div>
+								<div th:if="${cart.has(product)}" class="icon dichotomous-product x"></div>
 							</div>
 						</li>
 					</ul>
