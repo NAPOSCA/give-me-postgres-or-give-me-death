@@ -1,9 +1,12 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
+import java.util.Optional;
+
 import javax.annotation.Resource;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +38,16 @@ public class CartRestController {
 		if (!cart.has(product)) {
 			LineItem lineItem = new LineItem(cart, product);
 			lineItemRepo.save(lineItem);
+		}
+	}
+
+	@DeleteMapping("/cart/products/{productId}")
+	public void receiveDeleteOnProduct(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long productId) {
+		PantryUser user = loginService.resolveUser(googleId);
+		Cart cart = user.getCart();
+		Optional<LineItem> potentialLineItem = cart.getLineItemContaining(productId);
+		if (potentialLineItem.isPresent()) {
+			lineItemRepo.delete(potentialLineItem.get());
 		}
 	}
 

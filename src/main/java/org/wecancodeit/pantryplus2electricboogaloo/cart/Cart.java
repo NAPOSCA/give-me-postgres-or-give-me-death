@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -110,6 +111,10 @@ public class Cart {
 
 	public boolean has(Product product) {
 		return getAllLineItems().stream().anyMatch(lineItem -> lineItem.getProduct().equals(product));
+	}
+
+	public Optional<LineItem> getLineItemContaining(long productId) {
+		return getAllLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId).findFirst();
 	}
 
 }
