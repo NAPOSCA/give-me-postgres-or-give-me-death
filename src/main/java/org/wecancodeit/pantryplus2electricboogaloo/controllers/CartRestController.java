@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
@@ -14,6 +15,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
+@Controller
 public class CartRestController {
 
 	@Resource
