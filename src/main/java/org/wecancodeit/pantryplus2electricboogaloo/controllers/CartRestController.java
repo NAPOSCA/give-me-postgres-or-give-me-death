@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
@@ -24,8 +25,8 @@ public class CartRestController {
 	@Resource
 	private LineItemRepository lineItemRepo;
 	
-	@PostMapping("/cart/products/1")
-	public String receivePostOnProduct(@AuthenticationPrincipal OAuth2User googleId, long productId) {
+	@PostMapping("/cart/products/{productId}")
+	public String receivePostOnProduct(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long productId) {
 		PantryUser user = loginService.resolveUser(googleId);
 		Cart cart = user.getCart();
 		Product product = productRepo.findById(productId).get();
