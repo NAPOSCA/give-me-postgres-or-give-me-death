@@ -17,10 +17,7 @@ function initialize() {
 		const dichotomousProductButton = dichotomousProductButtons[i];
 		const productId = dichotomousProductButton.parentElement.parentElement.value;
 		dichotomousProductButton.addEventListener("click", () => {
-			request(response => {
-				console.log("Added product");
-				console.log(JSON.parse(response));
-			}, "POST", `/cart/products/${productId}`);
+			request(response => {}, "POST", `/cart/products/${productId}`);
 			toggleClasses(dichotomousProductButton, "plus", "x");
 		});
 	}
