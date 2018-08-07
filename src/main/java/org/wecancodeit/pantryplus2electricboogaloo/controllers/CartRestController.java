@@ -32,8 +32,10 @@ public class CartRestController {
 		PantryUser user = loginService.resolveUser(googleId);
 		Cart cart = user.getCart();
 		Product product = productRepo.findById(productId).get();
-		LineItem lineItem = new LineItem(cart, product);
-		lineItemRepo.save(lineItem);
+		if (!cart.has(product)) {
+			LineItem lineItem = new LineItem(cart, product);
+			lineItemRepo.save(lineItem);
+		}
 	}
 
 }
