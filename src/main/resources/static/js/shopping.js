@@ -31,7 +31,7 @@ function initialize() {
 	const quantifiedProductPlusButtons = document.querySelectorAll(".icon.quantified-product.plus");
 	quantifiedProductPlusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
-		const quantity = button.parentElement.querySelector(".quantity").textContent;
+		const quantity = parseInt(button.parentElement.querySelector(".quantity").textContent);
 		button.addEventListener("click", () => {
 			request(response => {}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
 		});
