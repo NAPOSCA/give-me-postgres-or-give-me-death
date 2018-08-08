@@ -37,33 +37,30 @@ function initialize() {
 		} else if (quantity === 0) {
 			minusButton.classList.add("hidden");
 		}
-		if(quantity === maxQuantity) {
+		if (quantity === maxQuantity) {
 			plusButton.classList.add("hidden");
 		} else {
 			plusButton.classList.remove("hidden");
 		}
 	};
-	const interfaces = document.querySelectorAll(".interface");
-	interfaces.forEach(interface => {
+	document.querySelectorAll(".interface").forEach(interface => {
 		const productId = interface.parentElement.value;
 		const quantitySpan = interface.querySelector(".quantity");
 		updatedQuantifiedButtonVisibility(interface);
-		const plusButton = interface.querySelector(".icon.quantified-product.plus");
-		const successfulAjaxCallback = response => {
+		const successfulAjaxPut = response => {
 			const json = JSON.parse(response);
-				console.log(json);
-				const updatedQuantity = json.quantity;
-				quantitySpan.textContent = updatedQuantity;
-				updatedQuantifiedButtonVisibility(interface);
+			console.log(json);
+			const updatedQuantity = json.quantity;
+			quantitySpan.textContent = updatedQuantity;
+			updatedQuantifiedButtonVisibility(interface);
 		};
-		plusButton.addEventListener("click", () => {
+		interface.querySelector(".quantified-product.plus").addEventListener("click", () => {
 			const quantity = parseInt(quantitySpan.textContent);
-			request(successfulAjaxCallback, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
+			request(successfulAjaxPut, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
 		});
-		const minusButton = interface.querySelector(".icon.quantified-product.minus");
-		minusButton.addEventListener("click", () => {
+		interface.querySelector(".quantified-product.minus").addEventListener("click", () => {
 			const quantity = parseInt(quantitySpan.textContent);
-			request(successfulAjaxCallback, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
+			request(successfulAjaxPut, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
 		});
 	});
 }
