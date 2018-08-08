@@ -54,13 +54,15 @@ function initialize() {
 			quantitySpan.textContent = updatedQuantity;
 			updatedQuantifiedButtonVisibility(interface);
 		};
-		interface.querySelector(".quantified-product.plus").addEventListener("click", () => {
+		const putEventListener = quantityCallback => {
 			const quantity = parseInt(quantitySpan.textContent);
-			request(successfulAjaxPut, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
+			request(successfulAjaxPut, "PUT", `/cart/products/${productId}?quantity=${quantityCallback(quantity)}`);
+		};
+		interface.querySelector(".quantified-product.plus").addEventListener("click", () => {
+			putEventListener(quantity => quantity + 1);
 		});
 		interface.querySelector(".quantified-product.minus").addEventListener("click", () => {
-			const quantity = parseInt(quantitySpan.textContent);
-			request(successfulAjaxPut, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
+			putEventListener(quantity => quantity - 1);
 		});
 	});
 }
