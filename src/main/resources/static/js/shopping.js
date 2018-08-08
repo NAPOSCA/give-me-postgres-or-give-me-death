@@ -27,6 +27,14 @@ function initialize() {
 			}
 		});
 	});
+	const updatedQuantifiedButtonVisibility = (minusButton, quantity) => {
+		if (quantity > 0) {
+			minusButton.classList.remove("hidden");
+		}
+		if (quantity === 0) {
+			minusButton.classList.add("hidden");
+		}
+	};
 	const quantifiedProductPlusButtons = document.querySelectorAll(".icon.quantified-product.plus");
 	quantifiedProductPlusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
@@ -36,10 +44,8 @@ function initialize() {
 			request(response => {
 				const updatedQuantity = JSON.parse(response);
 				quantitySpan.textContent = updatedQuantity;
-				if (updatedQuantity > 0) {
-					const minusButton = button.parentElement.querySelector(".minus");
-					minusButton.classList.remove("hidden");
-				}
+				const minusButton = button.parentElement.querySelector(".minus");
+				updatedQuantifiedButtonVisibility(minusButton, updatedQuantity);
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
 		});
 	});
@@ -47,14 +53,13 @@ function initialize() {
 	quantifiedProductMinusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
 		const quantitySpan = button.parentElement.querySelector(".quantity");
+		updatedQuantifiedButtonVisibility(button, parseInt(quantitySpan.textContent));
 		button.addEventListener("click", () => {
 			const quantity = parseInt(quantitySpan.textContent);
 			request(response => {
 				const updatedQuantity = JSON.parse(response);
 				quantitySpan.textContent = updatedQuantity;
-				if (updatedQuantity === 0) {
-					button.classList.add("hidden");
-				}
+				updatedQuantifiedButtonVisibility(button, updatedQuantity);
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
 		});
 	});
