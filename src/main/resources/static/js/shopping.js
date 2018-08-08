@@ -27,11 +27,20 @@ function initialize() {
 			}
 		});
 	});
-	const updatedQuantifiedButtonVisibility = (minusButton, quantity) => {
+	const updatedQuantifiedButtonVisibility = (interface) => {
+		const quantity = parseInt(interface.querySelector(".quantity"));
+		const maxQuantity = parseInt(interface.querySelector(".maximum"));
+		const plusButton = interface.querySelector(".plus");
+		const minusButton = interface.querySelector(".minus");
 		if (quantity > 0) {
 			minusButton.classList.remove("hidden");
 		} else if (quantity === 0) {
 			minusButton.classList.add("hidden");
+		}
+		if(quantity === maxQuantity) {
+			plusButton.classList.add("hidden");
+		} else {
+			plusButton.classList.remove("hidden");
 		}
 	};
 	const quantifiedProductPlusButtons = document.querySelectorAll(".icon.quantified-product.plus");
@@ -43,8 +52,8 @@ function initialize() {
 			request(response => {
 				const updatedQuantity = JSON.parse(response);
 				quantitySpan.textContent = updatedQuantity;
-				const minusButton = button.parentElement.querySelector(".minus");
-				updatedQuantifiedButtonVisibility(minusButton, updatedQuantity);
+				const interface = button.parentElement;
+				updatedQuantifiedButtonVisibility(interface);
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
 		});
 	});
@@ -52,13 +61,14 @@ function initialize() {
 	quantifiedProductMinusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
 		const quantitySpan = button.parentElement.querySelector(".quantity");
-		updatedQuantifiedButtonVisibility(button, parseInt(quantitySpan.textContent));
+		const interface = button.parentElement;
+		updatedQuantifiedButtonVisibility(interface);
 		button.addEventListener("click", () => {
 			const quantity = parseInt(quantitySpan.textContent);
 			request(response => {
 				const updatedQuantity = JSON.parse(response);
 				quantitySpan.textContent = updatedQuantity;
-				updatedQuantifiedButtonVisibility(button, updatedQuantity);
+				updatedQuantifiedButtonVisibility(interface);
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
 		});
 	});
