@@ -77,6 +77,11 @@
 							</div>
 							<div class="interface" th:if="${product.getType() == 'LimitedProduct'}">
 								<div class="icon quantified-product minus"></div>
+								<p>
+									<span th:text="${cart.getQuantityByProductId(product.id)}" />
+									<span>/</span>
+									<span th:text="${product.maximumQuantity}" />
+								</p>
 								<div class="icon quantified-product plus"></div>
 							</div>
 						</li>
