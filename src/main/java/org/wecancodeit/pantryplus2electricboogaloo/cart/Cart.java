@@ -116,5 +116,17 @@ public class Cart {
 	public Optional<LineItem> getLineItemContaining(long productId) {
 		return getAllLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId).findFirst();
 	}
+	
+	public int getQuantityOf(long productId) {
+		return has(productId) ? getCountedLineItemContaining(productId).get().getQuantity() : 0; 
+	}
+
+	private boolean has(long productId) {
+		return getAllLineItems().stream().anyMatch(lineItem -> lineItem.getProduct().getId() == productId);
+	}
+
+	private Optional<CountedLineItem> getCountedLineItemContaining(long productId) {
+		return getCountedLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId).findFirst();
+	}
 
 }
