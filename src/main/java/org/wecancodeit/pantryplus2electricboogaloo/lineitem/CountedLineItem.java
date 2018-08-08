@@ -26,4 +26,8 @@ public class CountedLineItem extends LineItem {
 		return quantity;
 	}
 
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 }
