@@ -28,8 +28,8 @@ function initialize() {
 		});
 	});
 	const updatedQuantifiedButtonVisibility = (interface) => {
-		const quantity = parseInt(interface.querySelector(".quantity"));
-		const maxQuantity = parseInt(interface.querySelector(".maximum"));
+		const quantity = parseInt(interface.querySelector(".quantity").textContent);
+		const maxQuantity = parseInt(interface.querySelector(".maximum").textContent);
 		const plusButton = interface.querySelector(".plus");
 		const minusButton = interface.querySelector(".minus");
 		if (quantity > 0) {
