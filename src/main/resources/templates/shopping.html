@@ -94,7 +94,8 @@
 									<span class="quantity" th:text="${cart.getQuantityOf(product.id)}" />
 									<span>/</span>
 									<span class="maximum" th:text="${product.maximumQuantity}" />
-									<span class="unit" th:text="${product.currency.unit}" />
+									<span th:unless="${product.currency.unit == ''}" class="unit" th:text="${product.currency.unit}" />
+									<span th:if="${product.currency.unit == ''}" class="unit" th:text="${product.currency.name}" />
 								</p>
 								<div class="icon quantified-product plus"></div>
 							</div>
