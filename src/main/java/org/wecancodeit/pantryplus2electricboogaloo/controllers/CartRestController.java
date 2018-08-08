@@ -63,7 +63,7 @@ public class CartRestController {
 			LimitedProduct product = (LimitedProduct) productRepo.findById(productId).get();
 			return new CountedLineItem(cart, product);
 		});
-		if (quantity == 0) {
+		if (quantity <= 0) {
 			lineItemRepo.delete(lineItem);
 			return 0;
 		}
