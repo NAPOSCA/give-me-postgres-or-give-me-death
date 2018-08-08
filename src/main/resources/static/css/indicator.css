@@ -8,6 +8,11 @@
 	cursor: pointer;
 }
 
+.icon.hidden {
+	pointer-events: none;
+	opacity: 0;
+}
+
 .icon::before {
 	content: "";
 	position: absolute;
@@ -99,6 +104,7 @@
 	border-radius: 50%;
 	border: 2px black solid;
 	background-color: hsla(358, 10%, 90%, 1);
+	transition-duration: 400ms;
 }
 
 .icon.quantified-product:active {
@@ -117,5 +123,4 @@
 	height: 25px;
 	margin-left: 15px;
 	margin-top: 3px;
-}  
-  
+}
