@@ -32,8 +32,8 @@ function initialize() {
 	quantifiedProductPlusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
 		const quantitySpan = button.parentElement.querySelector(".quantity");
-		const quantity = parseInt(quantitySpan.textContent);
 		button.addEventListener("click", () => {
+			const quantity = parseInt(quantitySpan.textContent);
 			request(response => {
 				quantitySpan.textContent = JSON.parse(response);
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
@@ -43,8 +43,8 @@ function initialize() {
 	quantifiedProductMinusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
 		const quantitySpan = button.parentElement.querySelector(".quantity");
-		const quantity = parseInt(quantitySpan.textContent);
 		button.addEventListener("click", () => {
+			const quantity = parseInt(quantitySpan.textContent);
 			request(response => {
 				quantitySpan.textContent = JSON.parse(response);
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
