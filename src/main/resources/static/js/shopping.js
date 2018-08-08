@@ -34,7 +34,12 @@ function initialize() {
 		button.addEventListener("click", () => {
 			const quantity = parseInt(quantitySpan.textContent);
 			request(response => {
-				quantitySpan.textContent = JSON.parse(response);
+				const updatedQuantity = JSON.parse(response);
+				quantitySpan.textContent = updatedQuantity;
+				if (updatedQuantity > 0) {
+					const minusButton = button.parentElement.querySelector(".minus");
+					minusButton.classList.remove("hidden");
+				}
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
 		});
 	});
