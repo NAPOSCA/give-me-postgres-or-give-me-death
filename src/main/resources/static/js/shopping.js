@@ -31,17 +31,23 @@ function initialize() {
 	const quantifiedProductPlusButtons = document.querySelectorAll(".icon.quantified-product.plus");
 	quantifiedProductPlusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
-		const quantity = parseInt(button.parentElement.querySelector(".quantity").textContent);
+		const quantitySpan = button.parentElement.querySelector(".quantity");
+		const quantity = parseInt(quantitySpan.textContent);
 		button.addEventListener("click", () => {
-			request(response => {}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
+			request(response => {
+				quantitySpan.textContent = JSON.parse(response);
+			}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
 		});
 	});
 	const quantifiedProductMinusButtons = document.querySelectorAll(".icon.quantified-product.minus");
 	quantifiedProductMinusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
-		const quantity = parseInt(button.parentElement.querySelector(".quantity").textContent);
+		const quantitySpan = button.parentElement.querySelector(".quantity");
+		const quantity = parseInt(quantitySpan.textContent);
 		button.addEventListener("click", () => {
-			request(response => {}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
+			request(response => {
+				quantitySpan.textContent = JSON.parse(response);
+			}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
 		});
 	});
 }
