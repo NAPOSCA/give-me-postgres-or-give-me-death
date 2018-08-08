@@ -41,7 +41,7 @@ function initialize() {
 		const productId = button.parentElement.parentElement.value;
 		const quantity = parseInt(button.parentElement.querySelector(".quantity").textContent);
 		button.addEventListener("click", () => {
-			request(response => {}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`)
+			request(response => {}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
 		});
 	});
 }
