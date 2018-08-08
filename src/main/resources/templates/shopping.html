@@ -76,7 +76,8 @@
 								<div th:if="${cart.has(product)}" class="icon dichotomous-product x"></div>
 							</div>
 							<div class="interface" th:if="${product.getType() == 'LimitedProduct'}">
-								<p>LimitedProduct</p>
+								<div class="icon quantified-product plus"></div>
+								<div class="icon quantified-product minus"></div>
 							</div>
 						</li>
 					</ul>
