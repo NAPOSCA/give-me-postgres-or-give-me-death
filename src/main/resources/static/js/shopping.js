@@ -13,21 +13,20 @@ function initialize() {
 		});
 	}
 	const dichotomousProductButtons = document.querySelectorAll(".icon.dichotomous-product");
-	for (let i = 0; i < dichotomousProductButtons.length; i++) {
-		const dichotomousProductButton = dichotomousProductButtons[i];
-		const productId = dichotomousProductButton.parentElement.parentElement.value;
-		dichotomousProductButton.addEventListener("click", () => {
+	dichotomousProductButtons.forEach(button => {
+		const productId = button.parentElement.parentElement.value;
+		button.addEventListener("click", () => {
 			const callback = response => {
-				toggleClasses(dichotomousProductButton, "plus", "x");
+				toggleClasses(button, "plus", "x");
 			};
-			if (dichotomousProductButton.classList.contains("plus")) {
+			if (button.classList.contains("plus")) {
 				request(callback, "POST", `/cart/products/${productId}`);
 			}
-			if (dichotomousProductButton.classList.contains("x")) {
+			if (button.classList.contains("x")) {
 				request(callback, "DELETE", `/cart/products/${productId}`);
 			}
 		});
-	}
+	});
 	const quantifiedProductPlusButtons = document.querySelectorAll(".icon.quantified-product.plus");
 	quantifiedProductPlusButtons.forEach(button => {
 		const productId = button.parentElement.parentElement.value;
