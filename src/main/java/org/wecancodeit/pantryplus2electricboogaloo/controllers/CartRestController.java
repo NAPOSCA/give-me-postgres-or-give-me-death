@@ -56,7 +56,7 @@ public class CartRestController {
 	}
 
 	@PutMapping("/cart/products/{productId}")
-	public void receivePutOnProduct(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long productId,
+	public int receivePutOnProduct(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long productId,
 			@RequestParam int quantity) {
 		Cart cart = loginService.resolveUser(googleId).getCart();
 		CountedLineItem lineItem = cart.getCountedLineItemContaining(productId).orElseGet(() -> {
@@ -64,7 +64,8 @@ public class CartRestController {
 			return new CountedLineItem(cart, product);
 		});
 		lineItem.setQuantity(quantity);
-		lineItemRepo.save(lineItem);
+		lineItem = lineItemRepo.save(lineItem);
+		return lineItem.getQuantity();
 	}
 
 }
