@@ -59,13 +59,16 @@ public class CartRestController {
 	public int receivePutOnProduct(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long productId,
 			@RequestParam int quantity) {
 		Cart cart = loginService.resolveUser(googleId).getCart();
-		CountedLineItem lineItem = cart.getCountedLineItemContaining(productId).orElseGet(() -> {
-			LimitedProduct product = (LimitedProduct) productRepo.findById(productId).get();
-			return new CountedLineItem(cart, product);
-		});
+		LimitedProduct product = (LimitedProduct) productRepo.findById(productId).get();
+		CountedLineItem lineItem = cart.getCountedLineItemContaining(productId)
+				.orElseGet(() -> new CountedLineItem(cart, product));
 		if (quantity <= 0) {
 			lineItemRepo.delete(lineItem);
 			return 0;
+		}
+		int maxQuantity = product.getMaximumQuantity();
+		if (quantity > maxQuantity) {
+			quantity = maxQuantity;
 		}
 		lineItem.setQuantity(quantity);
 		lineItem = lineItemRepo.save(lineItem);
