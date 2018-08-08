@@ -92,3 +92,29 @@
 .icon.dichotomous-product.x::after {
 	transform: rotate(135deg);
 }
+
+.icon.quantified-product {
+	height: 31px;
+	width: 31px;
+	border-radius: 50%;
+	border: 2px black solid;
+}
+
+.icon.quantified-product:active {
+	box-shadow: inset 0px 9px 15px -5px rgba(1, 1, 1, 0.3);
+}
+
+.icon.quantified-product::before {
+	margin-top: 15px;
+	width: 25px;
+	height: 2px;
+	margin-left: 3px;
+}
+
+.icon.quantified-product.plus::after {
+	width: 2px;
+	height: 25px;
+	margin-left: 15px;
+	margin-top: 3px;
+}  
+  
