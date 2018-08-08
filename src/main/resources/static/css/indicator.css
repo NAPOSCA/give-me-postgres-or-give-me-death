@@ -98,6 +98,7 @@
 	width: 31px;
 	border-radius: 50%;
 	border: 2px black solid;
+	background-color: hsla(358, 10%, 90%, 1);
 }
 
 .icon.quantified-product:active {
