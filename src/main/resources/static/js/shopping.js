@@ -50,7 +50,9 @@ function initialize() {
 		button.addEventListener("click", () => {
 			const quantity = parseInt(quantitySpan.textContent);
 			request(response => {
-				const updatedQuantity = JSON.parse(response);
+				const json = JSON.parse(response);
+				console.log(json);
+				const updatedQuantity = json.quantity;
 				quantitySpan.textContent = updatedQuantity;
 				const interface = button.parentElement;
 				updatedQuantifiedButtonVisibility(interface);
@@ -66,7 +68,9 @@ function initialize() {
 		button.addEventListener("click", () => {
 			const quantity = parseInt(quantitySpan.textContent);
 			request(response => {
-				const updatedQuantity = JSON.parse(response);
+				const json = JSON.parse(response);
+				console.log(json);
+				const updatedQuantity = json.quantity;
 				quantitySpan.textContent = updatedQuantity;
 				updatedQuantifiedButtonVisibility(interface);
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
