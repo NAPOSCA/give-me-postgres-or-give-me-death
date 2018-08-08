@@ -45,7 +45,11 @@ function initialize() {
 		button.addEventListener("click", () => {
 			const quantity = parseInt(quantitySpan.textContent);
 			request(response => {
-				quantitySpan.textContent = JSON.parse(response);
+				const updatedQuantity = JSON.parse(response);
+				quantitySpan.textContent = updatedQuantity;
+				if (updatedQuantity === 0) {
+					button.classList.add("hidden");
+				}
 			}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
 		});
 	});
