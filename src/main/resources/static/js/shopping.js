@@ -43,37 +43,27 @@ function initialize() {
 			plusButton.classList.remove("hidden");
 		}
 	};
-	const quantifiedProductPlusButtons = document.querySelectorAll(".icon.quantified-product.plus");
-	quantifiedProductPlusButtons.forEach(button => {
-		const productId = button.parentElement.parentElement.value;
-		const quantitySpan = button.parentElement.querySelector(".quantity");
-		button.addEventListener("click", () => {
-			const quantity = parseInt(quantitySpan.textContent);
-			request(response => {
-				const json = JSON.parse(response);
-				console.log(json);
-				const updatedQuantity = json.quantity;
-				quantitySpan.textContent = updatedQuantity;
-				const interface = button.parentElement;
-				updatedQuantifiedButtonVisibility(interface);
-			}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
-		});
-	});
-	const quantifiedProductMinusButtons = document.querySelectorAll(".icon.quantified-product.minus");
-	quantifiedProductMinusButtons.forEach(button => {
-		const productId = button.parentElement.parentElement.value;
-		const quantitySpan = button.parentElement.querySelector(".quantity");
-		const interface = button.parentElement;
+	const interfaces = document.querySelectorAll(".interface");
+	interfaces.forEach(interface => {
+		const productId = interface.parentElement.value;
+		const quantitySpan = interface.querySelector(".quantity");
 		updatedQuantifiedButtonVisibility(interface);
-		button.addEventListener("click", () => {
-			const quantity = parseInt(quantitySpan.textContent);
-			request(response => {
-				const json = JSON.parse(response);
+		const plusButton = interface.querySelector(".icon.quantified-product.plus");
+		const successfulAjaxCallback = response => {
+			const json = JSON.parse(response);
 				console.log(json);
 				const updatedQuantity = json.quantity;
 				quantitySpan.textContent = updatedQuantity;
 				updatedQuantifiedButtonVisibility(interface);
-			}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
+		};
+		plusButton.addEventListener("click", () => {
+			const quantity = parseInt(quantitySpan.textContent);
+			request(successfulAjaxCallback, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
+		});
+		const minusButton = interface.querySelector(".icon.quantified-product.minus");
+		minusButton.addEventListener("click", () => {
+			const quantity = parseInt(quantitySpan.textContent);
+			request(successfulAjaxCallback, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`);
 		});
 	});
 }
