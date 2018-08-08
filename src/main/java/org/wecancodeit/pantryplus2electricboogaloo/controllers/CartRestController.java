@@ -9,11 +9,15 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItemRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
@@ -49,6 +53,18 @@ public class CartRestController {
 		if (potentialLineItem.isPresent()) {
 			lineItemRepo.delete(potentialLineItem.get());
 		}
+	}
+
+	@PutMapping("/cart/products/{productId}")
+	public void receivePutOnProduct(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long productId,
+			@RequestParam int quantity) {
+		Cart cart = loginService.resolveUser(googleId).getCart();
+		CountedLineItem lineItem = cart.getCountedLineItemContaining(productId).orElseGet(() -> {
+			LimitedProduct product = (LimitedProduct) productRepo.findById(productId).get();
+			return new CountedLineItem(cart, product);
+		});
+		lineItem.setQuantity(quantity);
+		lineItemRepo.save(lineItem);
 	}
 
 }
