@@ -28,6 +28,15 @@ function initialize() {
 			}
 		});
 	}
+	const quantifiedProductPlusButtons = document.querySelectorAll(".icon.quantified-product.plus");
+	quantifiedProductPlusButtons.forEach(button => {
+		const productId = button.value;
+		const quantity = button.parentElement.querySelector(".quantity");
+		button.addEventListener("click", () => {
+			request(response => {}, "PUT", `/cart/products/${productId}?quantity=${quantity + 1}`);
+		});
+	});
+	const quantifiedProductMinusButtons = document.querySelectorAll(".icon.quantified-product.minus");
 }
 
 function toggleClasses(element) {
