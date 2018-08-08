@@ -125,7 +125,7 @@ public class Cart {
 		return getAllLineItems().stream().anyMatch(lineItem -> lineItem.getProduct().getId() == productId);
 	}
 
-	private Optional<CountedLineItem> getCountedLineItemContaining(long productId) {
+	public Optional<CountedLineItem> getCountedLineItemContaining(long productId) {
 		return getCountedLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId).findFirst();
 	}
 
