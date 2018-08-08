@@ -37,6 +37,13 @@ function initialize() {
 		});
 	});
 	const quantifiedProductMinusButtons = document.querySelectorAll(".icon.quantified-product.minus");
+	quantifiedProductMinusButtons.forEach(button => {
+		const productId = button.parentElement.parentElement.value;
+		const quantity = parseInt(button.parentElement.querySelector(".quantity").textContent);
+		button.addEventListener("click", () => {
+			request(response => {}, "PUT", `/cart/products/${productId}?quantity=${quantity - 1}`)
+		});
+	});
 }
 
 function toggleClasses(element) {
