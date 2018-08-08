@@ -30,8 +30,7 @@ function initialize() {
 	const updatedQuantifiedButtonVisibility = (minusButton, quantity) => {
 		if (quantity > 0) {
 			minusButton.classList.remove("hidden");
-		}
-		if (quantity === 0) {
+		} else if (quantity === 0) {
 			minusButton.classList.add("hidden");
 		}
 	};
