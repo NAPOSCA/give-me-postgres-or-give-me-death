@@ -51,7 +51,7 @@
 				<div class="stats">
 					<p class="currency" th:id="'currency-' + ${currency.id}" th:each="currency : ${currencies}" th:object="${currency}">
 						<span th:text="*{name} + ':'" />
-						<span class="amountUsed" th:text="${cart.amountUsed(currency)}" />
+						<span class="amountUsed" th:text="${cart.allowanceUsed(currency)}" />
 						<span>/</span>
 						<span class="allowance" th:text="${currency.allowanceOf(user.familySize)}" />
 						<span th:text="*{unit}">
