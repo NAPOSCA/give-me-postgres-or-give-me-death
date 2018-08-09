@@ -137,12 +137,27 @@ public class Cart {
 		}
 		if (product instanceof PricedProduct) {
 			PricedProduct pricedProduct = (PricedProduct) product;
-			Currency currency = pricedProduct.getCurrency();
-			if (allowanceUsed(currency) + pricedProduct.getPrice() * quantity > currency.allowanceOf(getUser())) {
+			int allowanceUsedByOthersProducts = allowanceUsedExceptBy(pricedProduct);
+			int allowanceUsedByPricedProduct = pricedProduct.getPrice() * quantity;
+			int totalAvailableAllowance = pricedProduct.getCurrency().allowanceOf(getUser());
+			if (allowanceUsedByOthersProducts + allowanceUsedByPricedProduct > totalAvailableAllowance) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private int allowanceUsedExceptBy(PricedProduct excludedProduct) {
+		Currency currency = excludedProduct.getCurrency();
+		return getCountedLineItems().stream().mapToInt(lineItem -> {
+			if (lineItem.getProduct() instanceof PricedProduct) {
+				PricedProduct pricedProduct = (PricedProduct) lineItem.getProduct();
+				if (pricedProduct.getCurrency().equals(currency) && !pricedProduct.equals(excludedProduct)) {
+					return pricedProduct.getPrice() * lineItem.getQuantity();
+				}
+			}
+			return 0;
+		}).sum();
 	}
 
 }

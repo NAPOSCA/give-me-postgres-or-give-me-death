@@ -310,5 +310,28 @@ public class CartJpaTest {
 		boolean actual = underTest.canSetQuantityOfProductTo(quantity, product);
 		assertThat(actual, is(true));
 	}
+	
+	@Test
+	public void shouldHaveCanSetQuantityBeTrueWhenPricedProductIsAlreadyAlmostAtAllowanceLimit() {
+		PantryUser user = new PantryUser(googleId);
+		user.updateFamilySize(1);
+		user = userRepo.save(user);
+		Cart underTest = cartRepo.save(new Cart(user));
+		long underTestId = underTest.getId();
+		Currency currency = currencyRepo.save(new Currency("", "{1=10}", ""));
+		PricedProduct product = new PricedProduct("", null, "", false, 5, currency, 2);
+		product = productRepo.save(product);
+		long productId = product.getId();
+		CountedLineItem lineItem = new CountedLineItem(underTest, product);
+		lineItem.setQuantity(4);
+		lineItemRepo.save(lineItem);
+		entityManager.flush();
+		entityManager.clear();
+		underTest = cartRepo.findById(underTestId).get();
+		product = (PricedProduct) productRepo.findById(productId).get();
+		int quantity = 5;
+		boolean actual = underTest.canSetQuantityOfProductTo(quantity, product);
+		assertThat(actual, is(true));
+	}
 
 }
