@@ -49,13 +49,11 @@ function initialize() {
 		updatedQuantifiedButtonVisibility(interface);
 		const successfulAjaxPut = response => {
 			const json = JSON.parse(response);
-			console.log(json);
-			const currencyId = json.currencyId;
-			console.log(currencyId);
-			const amountUsed = json.amountUsed;
-			console.log(amountUsed);
-			const updatedQuantity = json.quantity;
-			quantitySpan.textContent = updatedQuantity;
+			quantitySpan.textContent = json.quantity;
+			if (currencyId > 0) {
+				const amountUsedSpan = document.querySelector(`#currency-${json.currencyId} .amountUsed`);
+				amountUsedSpan.textContent = json.amountUsed;
+			}
 			updatedQuantifiedButtonVisibility(interface);
 		};
 		const putEventListener = quantityCallback => {
