@@ -100,11 +100,11 @@
 
 .icon.quantified-product {
 	height: 31px;
-	width: 31px;
-	border-radius: 50%;
-	border: 2px black solid;
-	background-color: hsla(358, 10%, 90%, 1);
-	transition-duration: 200ms;
+    width: 31px;
+    border-radius: 50%;
+    background-color: hsla(37, 68%, 90%, 1);
+    transition-duration: 200ms;
+    box-shadow: 0px 1px 0px 0px;
 }
 
 .icon.quantified-product:active {
