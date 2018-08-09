@@ -47,5 +47,20 @@
 }
 
 @media screen and (max-width: 451px) {
+    .aside-main {
+        width: auto;
+    }
+
+    header {
+        padding: 0;
+    }
+
+    aside {
+        border-radius: 0;
+        padding: 0.3rem 0.5rem;
+    }
+}
+
+@media screen and (max-width: 383px) {
 
 }
