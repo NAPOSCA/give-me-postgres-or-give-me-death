@@ -1,0 +1,17 @@
+@media screen and (max-width: 795px) {
+    .aside-main {
+        width: 40.7rem;
+    }
+}
+
+@media screen and (max-width: 651px) {
+    .aside-main {
+        width: 33rem;
+    }
+}
+
+@media screen and (max-width: 528px) {
+    nav ul li {
+        padding: 0.3rem;
+    }
+}
