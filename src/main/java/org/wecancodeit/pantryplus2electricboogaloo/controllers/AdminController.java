@@ -24,7 +24,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
 @Controller
-public class AdministrationController {
+public class AdminController {
 
 	@Resource
 	private CategoryRepository categoryRepo;
@@ -39,8 +39,10 @@ public class AdministrationController {
 	private LoginService loginService;
 
 	@GetMapping("/admin")
-	public String displayAdminView(@AuthenticationPrincipal OAuth2User googleId) {
+	public String displayAdminView(@AuthenticationPrincipal OAuth2User googleId, Model model) {
 		checkClearance(googleId);
+		model.addAttribute("currencyCount", currencyRepo.count());
+		model.addAttribute("categoryCount", categoryRepo.count());
 		return "admin/index";
 	}
 
@@ -53,9 +55,10 @@ public class AdministrationController {
 
 	@PostMapping("/admin/categories")
 	public String receivePostRequestOnCategories(@AuthenticationPrincipal OAuth2User googleId,
-			@RequestParam String categoryName) {
+			@RequestParam String categoryName,
+			@RequestParam(defaultValue = "false") boolean schoolAgeChildrenRequired) {
 		checkClearance(googleId);
-		categoryRepo.save(new Category(categoryName));
+		categoryRepo.save(new Category(categoryName, schoolAgeChildrenRequired));
 		return "redirect:/admin/categories";
 	}
 
@@ -74,10 +77,10 @@ public class AdministrationController {
 
 	@PostMapping("/admin/categories/{categoryId}/products")
 	public String receivePostRequestOnProductsOfCategory(@AuthenticationPrincipal OAuth2User googleId,
-			@PathVariable long categoryId, String productName, @RequestParam String type,
+			@PathVariable long categoryId, @RequestParam String productName, @RequestParam String type,
 			@RequestParam(defaultValue = "0") int maximumQuantity,
 			@RequestParam(defaultValue = "0") int valueInCurrency, @RequestParam(defaultValue = "0") long currencyId,
-			@RequestParam String image) {
+			@RequestParam String image, @RequestParam(defaultValue = "false") boolean infantsRequired) {
 		checkClearance(googleId);
 		Optional<Category> potentialCategory = categoryRepo.findById(categoryId);
 		if (!potentialCategory.isPresent()) {
@@ -85,17 +88,17 @@ public class AdministrationController {
 		}
 		Category category = potentialCategory.get();
 		if (type.equals("Product")) {
-			Product product = new Product(productName, category, image);
+			Product product = new Product(productName, category, image, infantsRequired);
 			productRepo.save(product);
 		} else if (type.equals("LimitedProduct")) {
-			LimitedProduct product = new LimitedProduct(productName, category, maximumQuantity, image);
+			LimitedProduct product = new LimitedProduct(productName, category, image, infantsRequired, maximumQuantity);
 			productRepo.save(product);
 		} else if (type.equals("PricedProduct")) {
 			Optional<Currency> potentialCurrency = currencyRepo.findById(currencyId);
 			if (potentialCurrency.isPresent()) {
 				Currency currency = potentialCurrency.get();
-				PricedProduct product = new PricedProduct(productName, category, maximumQuantity, currency,
-						valueInCurrency, image);
+				PricedProduct product = new PricedProduct(productName, category, image, infantsRequired,
+						maximumQuantity, currency, valueInCurrency);
 				productRepo.save(product);
 			} else {
 				return "redirect:/admin/currencies";
@@ -132,9 +135,9 @@ public class AdministrationController {
 
 	@PostMapping("/admin/currencies")
 	public String receivePostRequestOnCurrencies(@AuthenticationPrincipal OAuth2User googleId,
-			@RequestParam String name) {
+			@RequestParam String name, @RequestParam String allowanceMap, @RequestParam String unit) {
 		checkClearance(googleId);
-		currencyRepo.save(new Currency(name));
+		currencyRepo.save(new Currency(name, allowanceMap, unit));
 		return "redirect:/admin/currencies";
 	}
 

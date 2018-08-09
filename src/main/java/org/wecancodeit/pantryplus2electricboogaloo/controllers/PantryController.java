@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Controller
@@ -22,6 +23,9 @@ public class PantryController {
 	@Resource
 	private LoginService loginService;
 
+	@Resource
+	private CurrencyRepository currencyRepo;
+
 	@Transactional
 	@RequestMapping("/settings")
 	public String displayUserForm(Model model, @AuthenticationPrincipal OAuth2User googleId) {
@@ -32,23 +36,27 @@ public class PantryController {
 	@Transactional
 	@RequestMapping("/shopping")
 	public String displayShopping(Model model, @AuthenticationPrincipal OAuth2User googleId) {
-		model.addAttribute("categories", categoryRepo.findAll());
 		PantryUser user = loginService.resolveUser(googleId);
 		if (!user.isValid()) {
 			return "redirect:/settings";
 		}
 		model.addAttribute("cart", user.getCart());
-
+		model.addAttribute("currencies", currencyRepo.findAll());
+		model.addAttribute("categories", categoryRepo.findAll());
+		model.addAttribute("user", user);
 		return "shopping";
 	}
 
 	@Transactional
 	@RequestMapping("/cart")
 	public String displayCart(Model model, @AuthenticationPrincipal OAuth2User googleId) {
-		Cart cart = loginService.resolveUser(googleId).getCart();
+		PantryUser user = loginService.resolveUser(googleId);
+		Cart cart = user.getCart();
 		model.addAttribute("cart", cart);
 		model.addAttribute("lineItems", cart.getLineItems());
 		model.addAttribute("countedLineItems", cart.getCountedLineItems());
+		model.addAttribute("currencies", currencyRepo.findAll());
+		model.addAttribute("user", user);
 		return "cart";
 	}
 

@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
+import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
@@ -18,11 +20,15 @@ public class LoginService {
 	@Resource
 	private EntityManager entityManager;
 
+	@Resource
+	private CartRepository cartRepo;
+
 	@Transactional
 	public PantryUser resolveUser(OAuth2User googleId) {
 		String googleName = googleId.getName();
 		return userRepo.findByGoogleName(googleName).orElseGet(() -> {
-			userRepo.save(new PantryUser(googleId));
+			PantryUser user = userRepo.save(new PantryUser(googleId));
+			cartRepo.save(new Cart(user));
 			entityManager.flush();
 			entityManager.clear();
 			return userRepo.findByGoogleName(googleName).get();

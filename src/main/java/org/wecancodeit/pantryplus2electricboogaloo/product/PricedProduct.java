@@ -9,7 +9,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 @Entity
 public class PricedProduct extends LimitedProduct {
 
-	private int cost;
+	private int price;
 
 	@ManyToOne
 	private Currency currency;
@@ -17,20 +17,21 @@ public class PricedProduct extends LimitedProduct {
 	public PricedProduct() {
 	}
 
-	public PricedProduct(String name, Category category, int maximumQuantity, Currency currency, int cost, String imagePath) {
-		super(name, category, maximumQuantity, imagePath);
+	public PricedProduct(String name, Category category, String imagePath, boolean infantsRequired, int maximumQuantity,
+			Currency currency, int price) {
+		super(name, category, imagePath, infantsRequired, maximumQuantity);
 		this.currency = currency;
-		this.cost = cost;
+		this.price = price;
 	}
 
 	public int getPrice() {
-		return cost;
+		return price;
 	}
 
 	public Currency getCurrency() {
 		return currency;
 	}
-	
+
 	@Override
 	public String getType() {
 		return "PricedProduct";

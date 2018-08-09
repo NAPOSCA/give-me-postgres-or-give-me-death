@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
+import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 
 @Entity
 public class LineItem {
@@ -15,14 +16,19 @@ public class LineItem {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	private long id;
+
 	@ManyToOne
 	private Cart cart;
+
+	@ManyToOne
+	private Product product;
 
 	public LineItem() {
 	}
 
-	public LineItem(Cart cart) {
+	public LineItem(Cart cart, Product product) {
 		this.cart = cart;
+		this.product = product;
 	}
 
 	@Override
@@ -45,6 +51,10 @@ public class LineItem {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public Product getProduct() {
+		return product;
 	}
 
 }

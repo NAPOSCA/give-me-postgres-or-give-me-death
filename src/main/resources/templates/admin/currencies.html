@@ -8,28 +8,44 @@
 
 <body>
 	<div class="container admin currencies">
-		<h1>Currencies</h1>
-		<section class="currency-creator">
-			<form action="/admin/currencies" method="post">
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<header>
+			<a href="/admin">Go Back</a>
+			<h1>Currencies</h1>
+		</header>
+		<main>
+			<section class="currency-creator">
+				<h2>Currency Creator</h2>
+				<form action="/admin/currencies" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-				<br />
+					<br />
 
-				<label for="name">Name:</label>
-				<input type="text" name="name" id="name" />
+					<label for="name">Name:</label>
+					<input type="text" name="name" id="name" />
 
-				<br />
+					<br />
 
-				<input type="submit" />
-			</form>
-		</section>
-		<section>
-			<div th:each="currency : ${currencies}">
-				<p>
-					<a th:href="@{'/admin/currencies/' + ${currency.id}}" th:text="${currency.name}" />
-				</p>
-			</div>
-		</section>
+					<label for="allowanceMap">Allowance:</label>
+					<input type="text" name="allowanceMap" id="allowanceMap" />
+
+					<br />
+
+					<label for="unit">Unit:</label>
+					<input type="text" name="unit" id="unit" />
+
+					<br />
+
+					<input type="submit" />
+				</form>
+			</section>
+			<section>
+				<div th:each="currency : ${currencies}">
+					<p>
+						<a th:href="@{'/admin/currencies/' + ${currency.id}}" th:text="${currency.name}" />
+					</p>
+				</div>
+			</section>
+		</main>
 	</div>
 </body>
 

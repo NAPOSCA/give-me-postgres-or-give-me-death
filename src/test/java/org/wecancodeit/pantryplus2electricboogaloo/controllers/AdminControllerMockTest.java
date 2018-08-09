@@ -30,7 +30,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 public class AdminControllerMockTest {
 
 	@InjectMocks
-	private AdministrationController underTest;
+	private AdminController underTest;
 
 	@Mock
 	private Model model;
@@ -146,7 +146,7 @@ public class AdminControllerMockTest {
 		long currencyId = 1L;
 		String imagePath = "";
 		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
-				maximumQuantity, valueInCurrency, currencyId, imagePath);
+				maximumQuantity, valueInCurrency, currencyId, imagePath, false);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
@@ -161,20 +161,20 @@ public class AdminControllerMockTest {
 		long currencyId = 1L;
 		String imagePath = "";
 		String templateName = underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type,
-				maximumQuantity, valueInCurrency, currencyId, imagePath);
+				maximumQuantity, valueInCurrency, currencyId, imagePath, false);
 		assertThat(templateName, is("redirect:/admin/categories/" + categoryId));
 	}
 
 	@Test
 	public void shouldDisplayMainAdminView() {
-		String templateName = underTest.displayAdminView(googleId);
+		String templateName = underTest.displayAdminView(googleId, model);
 		assertThat(templateName, is("admin/index"));
 	}
 
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeDisplayingTheAdminView() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		underTest.displayAdminView(googleId);
+		underTest.displayAdminView(googleId, model);
 	}
 
 	@Test(expected = AccessDeniedException.class)
@@ -198,7 +198,7 @@ public class AdminControllerMockTest {
 	@Test(expected = AccessDeniedException.class)
 	public void shouldDenyAccessIfUserIsNotAdminBeforeSavingACategory() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		underTest.receivePostRequestOnCategories(googleId, "");
+		underTest.receivePostRequestOnCategories(googleId, "", false);
 	}
 
 	@Test(expected = AccessDeniedException.class)
@@ -212,7 +212,7 @@ public class AdminControllerMockTest {
 		long currencyId = 1L;
 		String imagePath = "";
 		underTest.receivePostRequestOnProductsOfCategory(googleId, categoryId, productName, type, maximumQuantity,
-				valueInCurrency, currencyId, imagePath);
+				valueInCurrency, currencyId, imagePath, false);
 	}
 
 	@Test(expected = AccessDeniedException.class)
@@ -224,7 +224,7 @@ public class AdminControllerMockTest {
 	@Test(expected = AccessDeniedException.class)
 	public void shouldReceivePostRequestOnCurrenciesAndDenyIfUserIsNotAdmin() {
 		when(loginService.isAdmin(googleId)).thenReturn(false);
-		underTest.receivePostRequestOnCurrencies(googleId, "Coupons");
+		underTest.receivePostRequestOnCurrencies(googleId, "Coupons", "{1=1}", "coups");
 	}
 
 	@Test(expected = AccessDeniedException.class)
@@ -305,6 +305,38 @@ public class AdminControllerMockTest {
 		when(productRepo.findById(productId)).thenReturn(Optional.of(limitedProduct));
 		String templateName = underTest.displayProductView(googleId, model, categoryId, productId);
 		assertThat(templateName, is("admin/limited-product"));
+	}
+
+	@Test
+	public void shouldHaveDisplayAdminViewAttachNumberOfCurrenciesAsTwo() {
+		long currencyCount = 2;
+		when(currencyRepo.count()).thenReturn(currencyCount);
+		underTest.displayAdminView(googleId, model);
+		verify(model).addAttribute("currencyCount", currencyCount);
+	}
+
+	@Test
+	public void shouldHaveDisplayAdminViewAttachNumberOfCurrenciesAsThree() {
+		long currencyCount = 3;
+		when(currencyRepo.count()).thenReturn(currencyCount);
+		underTest.displayAdminView(googleId, model);
+		verify(model).addAttribute("currencyCount", currencyCount);
+	}
+
+	@Test
+	public void shouldHaveDisplayAdminViewAttachNumberOfCategoriesAsTwo() {
+		long categoryCount = 2;
+		when(categoryRepo.count()).thenReturn(categoryCount);
+		underTest.displayAdminView(googleId, model);
+		verify(model).addAttribute("categoryCount", categoryCount);
+	}
+
+	@Test
+	public void shouldHaveDisplayAdminViewAttachNumberOfCategoriesAsThree() {
+		long categoryCount = 3;
+		when(categoryRepo.count()).thenReturn(categoryCount);
+		underTest.displayAdminView(googleId, model);
+		verify(model).addAttribute("categoryCount", categoryCount);
 	}
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Entity
 public class Category {
@@ -21,12 +22,14 @@ public class Category {
 
 	@OneToMany(mappedBy = "category", orphanRemoval = true)
 	Collection<Product> products;
+	private boolean schoolAgeChildrenRequired;
 
 	public Category() {
 	}
 
-	public Category(String name) {
+	public Category(String name, boolean schoolAgeChildrenRequired) {
 		this.name = name;
+		this.schoolAgeChildrenRequired = schoolAgeChildrenRequired;
 	}
 
 	public String getName() {
@@ -47,6 +50,18 @@ public class Category {
 
 	public void updateName(String name) {
 		this.name = name;
+	}
+
+	public boolean isVisibleTo(PantryUser user) {
+		return user.getSchoolAgeChildren() > 0 || !schoolAgeChildrenRequired;
+	}
+
+	public boolean getSchoolAgeChildrenRequired() {
+		return schoolAgeChildrenRequired;
+	}
+
+	public void updateSchoolAgeChildrenRequired(boolean schoolAgeChildrenRequired) {
+		this.schoolAgeChildrenRequired = schoolAgeChildrenRequired;
 	}
 
 }

@@ -3,19 +3,23 @@
 
 <head>
 	<title>Pantry+</title>
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
-	<meta name="_csrf" th:content="${_csrf.token}" />
-	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
 	<link rel="stylesheet" type="text/css" href="/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="/css/animation.css" />
 	<link rel="stylesheet" type="text/css" href="/css/slide-toggle.css" />
-	<!-- <link rel="stylesheet" type="text/css" href="/css/shopping.media-queries.css" /> -->
+	<link rel="stylesheet" type="text/css" href="/css/shopping.media-queries.css" />
 	<link rel="stylesheet" type="text/css" href="/css/indicator.css" />
 	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 	<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
 	<script type="text/javascript" src="/js/shopping.js"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		const cartId = /*[[${cart.id}]]*/;
+		/*]]>*/
+	</script>
+	<!-- Totally unneeded now, cart doesn't need an id at all since we can use loginService to get it -->
 </head>
 
 <body onload="initialize()">
@@ -51,7 +55,7 @@
 				<div class="stats">
 					<p class="currency" th:id="'currency-' + ${currency.id}" th:each="currency : ${currencies}" th:object="${currency}">
 						<span th:text="*{name} + ':'" />
-						<span class="amountUsed" th:text="${cart.allowanceUsed(currency)}" />
+						<span class="amountUsed" th:text="${cart.amountUsed(currency)}" />
 						<span>/</span>
 						<span class="allowance" th:text="${currency.allowanceOf(user.familySize)}" />
 						<span th:text="*{unit}">
@@ -65,46 +69,34 @@
 				<div th:each="category : ${categories}" class="category-items" th:if="${category.isVisibleTo(user)}">
 					<section class="category">
 						<h2 th:text="${category.name}" />
-						<div class="icon accordion collapsed"></div>
+						<div class="indicator collapsed" ></div>
 					</section>
 					<ul class="items hidden">
-						<li th:id="'product-' + ${product.id}" th:value="${product.id}" class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">
+						<li class="item" th:each="product : ${category.products}" th:if="${product.isVisibleTo(user)}">
 							<img class="product-image" th:src="${product.image}" draggable="false" />
 							<h3 th:text="${product.name}" />
-							<div class="interface" th:if="${product.getType() == 'Product'}">
-								<div th:unless="${cart.has(product)}" class="icon dichotomous-product plus"></div>
-								<div th:if="${cart.has(product)}" class="icon dichotomous-product x"></div>
-							</div>
-							<div class="interface" th:if="${product.getType() == 'LimitedProduct'}">
-								<div class="icon quantified-product minus"></div>
-								<p>
-									<span class="quantity" th:text="${cart.getQuantityOf(product.id)}" />
-									<span>/</span>
-									<span class="maximum" th:text="${product.maximumQuantity}" />
-								</p>
-								<div class="icon quantified-product plus"></div>
-							</div>
-							<div class="interface" th:if="${product.getType() == 'PricedProduct'}">
-								<p>
-									<span>Cost:</span>
-									<span class="price" th:text="${product.price}" />
-								</p>
-								<div class="icon quantified-product minus"></div>
-								<p>
-									<span class="quantity" th:text="${cart.getQuantityOf(product.id)}" />
-									<span>/</span>
-									<span class="maximum" th:text="${product.maximumQuantity}" />
-									<span th:unless="${product.currency.unit == ''}" class="unit" th:text="${product.currency.unit}" />
-									<span th:if="${product.currency.unit == ''}" class="unit" th:text="${product.currency.name}" />
-								</p>
-								<div class="icon quantified-product plus"></div>
+							<div th:id="'product-'+${product.id}" th:switch="true" class="switch">
+								<div th:case="${category.name == 'Choice Items'}" class="case">
+									<!-- Uses string comparison, has got to go -->
+									<div th:replace="fragments/interfaces :: .coupon" />
+									<!-- This is a reference to coupons, should be tweeked -->
+								</div>
+								<div th:case="${category.name == 'Meat'}" class="case">
+									<!-- Uses string comparison, has got to go -->
+									<div th:replace="fragments/interfaces :: .meat" />
+									<!-- This is a reference to meat, should be tweeked -->
+								</div>
+								<div th:case="true" class="case">
+									<div th:replace="fragments/interfaces :: .dichotomous" />
+								</div>
 							</div>
 						</li>
 					</ul>
 				</div>
 			</main>
 		</div>
-		<footer th:replace="user-form :: footer" />
+	</div>
+	<footer th:replace="user-form :: footer" />
 	</div>
 </body>
 

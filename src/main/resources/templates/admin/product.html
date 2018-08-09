@@ -28,6 +28,10 @@
 				</p>
 				<p>Image:</p>
 				<img th:src="${product.image}" />
+				<p>
+					<span>Only visible if user has infants:</span>
+					<span th:text="${product.infantsRequired}" />
+				</p>
 			</div>
 		</main>
 	</div>

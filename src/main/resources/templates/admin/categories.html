@@ -2,39 +2,50 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Categories</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Categories</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 
 <body>
-    <div class="container admin categories">
-        <header>
-            <a href="/admin">Go Back</a>
-            <h1>Administration Page</h1>
-        </header>
-        <section class="category-creator">
-            <h2>Category Creator</h2>
-            <form action="/admin/categories" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <label for="category-name">Category name</label>
-                <input id="category-name" type="text" name="categoryName" />
-                <input type="submit" />
-            </form>
-        </section>
-        <section>
-            <h2>Categories</h2>
-            <div>
-                <p th:each="category : ${categories}">
-                    <a th:href="@{'/admin/categories/' + ${category.id}}" th:text="${category.name}" />
-                    <span th:text="${category.numberOfProducts()}" />
-                </p>
-            </div>
-        </section>
-    </div>
+	<div class="container admin categories">
+		<header>
+			<a href="/admin">Go Back</a>
+			<h1>Administration Page</h1>
+		</header>
+		<main>
+			<section class="category-creator">
+				<h2>Category Creator</h2>
+				<form action="/admin/categories" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+					<label for="category-name">Category name</label>
+					<input id="category-name" type="text" name="categoryName" />
+
+					<br />
+
+					<label for="schoolAgeChildrenRequired">Only visible if user has school aged children:</label>
+					<input type="checkbox" name="schoolAgeChildrenRequired" id="schoolAgeChildrenRequired" />
+
+					<br />
+
+					<input type="submit" />
+				</form>
+			</section>
+			<section>
+				<h2>Categories</h2>
+				<div>
+					<p th:each="category : ${categories}">
+						<a th:href="@{'/admin/categories/' + ${category.id}}" th:text="${category.name}" />
+						<span th:text="${category.numberOfProducts()}" />
+					</p>
+				</div>
+			</section>
+		</main>
+	</div>
 </body>
 
 </html>

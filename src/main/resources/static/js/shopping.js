@@ -3,142 +3,94 @@ function initialize() {
 	for (let i = 0; i < manyCategoryItemsDivs.length; i++) {
 		const categoryDiv = manyCategoryItemsDivs[i];
 		const categorySection = categoryDiv.querySelector(".category");
-		const indicators = categorySection.querySelectorAll(".indicator");
+		const accordionIcons = categorySection.querySelectorAll(".icon.accordion");
 		const items = categoryDiv.querySelector(".items");
 		categorySection.addEventListener("click", () => {
 			toggleVisibility(items);
-			indicators.forEach(indicator => {
-				toggleVisibility(indicator);
+			accordionIcons.forEach(indicator => {
+				toggleClasses(indicator, "collapsed", "expanded");
 			});
 		});
 	}
-
-	const addButtons = document.querySelectorAll("button.add");
-	for(let i = 0; i < addButtons.length; i++) {
-		const button = addButtons[i];
-		const productId = parseInt(button.value);
+	const dichotomousProductButtons = document.querySelectorAll(".icon.dichotomous-product");
+	dichotomousProductButtons.forEach(button => {
+		const productId = button.parentElement.parentElement.value;
 		button.addEventListener("click", () => {
-			addToCart(productId);
-		});
-	}
-	
-	const removeButtons = document.querySelectorAll("button.remove");
-	for(let i = 0; i < removeButtons.length; i++) {
-		const button = removeButtons[i];
-		const productId = parseInt(button.value);
-		button.addEventListener("click", () => {
-			removeFromCart(productId);
-		});
-	}
-
-	const switchButtons = document.querySelectorAll(".switch__toggle");
-	for(let i = 0; i < switchButtons.length; i++) {
-		const button = switchButtons[i];
-		const productId = parseInt(button.value);
-		button.addEventListener("change", () => {
-			if(button.checked === true){
-				createLineItem(productId);
-			} else{
-				removeItemFromCart(productId);
+			const callback = response => {
+				toggleClasses(button, "plus", "x");
+			};
+			if (button.classList.contains("plus")) {
+				request(callback, "POST", `/cart/products/${productId}`);
+			}
+			if (button.classList.contains("x")) {
+				request(callback, "DELETE", `/cart/products/${productId}`);
 			}
 		});
-	}
-}
-
-function toggleVisibility(items) {
-	items.classList.toggle("hidden");
-	items.classList.toggle("visible");
-}
-
-function request(method, path, productId) {
-	const xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = () => {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			let cart = JSON.parse(xhr.response);
-			const lineItem = getLineItemByProductId(cart, productId);
-			let quantity = 0;
-			if(lineItem) {
-				quantity = lineItem.quantity;
-			}
-			updateProductQuantity(productId, quantity);
-			setTotalCouponsUsed(cart.couponsUsed);
-			setTotalMeatUsed(cart.meatPoundsUsed);
+	});
+	const updatedQuantifiedButtonVisibility = (interface) => {
+		const quantity = parseInt(interface.querySelector(".quantity").textContent);
+		const maxQuantity = parseInt(interface.querySelector(".maximum").textContent);
+		const plusButton = interface.querySelector(".plus");
+		const minusButton = interface.querySelector(".minus");
+		if (quantity > 0) {
+			minusButton.classList.remove("hidden");
+		} else if (quantity === 0) {
+			minusButton.classList.add("hidden");
+		}
+		if (quantity === maxQuantity) {
+			plusButton.classList.add("hidden");
+		} else {
+			plusButton.classList.remove("hidden");
 		}
 	};
-	xhr.open(method, path, true);
+	document.querySelectorAll(".interface").forEach(interface => {
+		const productId = interface.parentElement.value;
+		const quantitySpan = interface.querySelector(".quantity");
+		updatedQuantifiedButtonVisibility(interface);
+		const successfulAjaxPut = response => {
+			const json = JSON.parse(response);
+			quantitySpan.textContent = json.quantity;
+			if (json.currencyId > 0) {
+				const amountUsedSpan = document.querySelector(`#currency-${json.currencyId} .amountUsed`);
+				amountUsedSpan.textContent = json.amountUsed;
+			}
+			updatedQuantifiedButtonVisibility(interface);
+		};
+		const putEventListener = quantityCallback => {
+			const quantity = parseInt(quantitySpan.textContent);
+			request(successfulAjaxPut, "PUT", `/cart/products/${productId}?quantity=${quantityCallback(quantity)}`);
+		};
+		interface.querySelector(".quantified-product.plus").addEventListener("click", () => {
+			putEventListener(quantity => quantity + 1);
+		});
+		interface.querySelector(".quantified-product.minus").addEventListener("click", () => {
+			putEventListener(quantity => quantity - 1);
+		});
+	});
+}
+
+function toggleClasses(element) {
+	for (let i = 1; i < arguments.length; i++) {
+		element.classList.toggle(arguments[i]);
+	}
+}
+
+function toggleVisibility(element) {
+	toggleClasses(element, "hidden", "visible");
+}
+
+const request = (callback, method, url) => {
+	const xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = () => {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			callback(xhr.response);
+		}
+	};
+	xhr.open(method, url, true);
+	const token = getMetaContent("name", "_csrf");
+	const header = getMetaContent("name", "_csrf_header");
+	xhr.setRequestHeader(header, token);
 	xhr.send();
-}
+};
 
-function getLineItemByProductId(cart, productId) {
-	const lineItems = cart.lineItems;
-	for (var i = 0; i < lineItems.length; i++) {
-		const lineItem = lineItems[i];
-		const product = lineItem.product;
-		const id = product.id;
-		if(id === productId) {
-			return lineItem;
-		}
-	}
-}
-
-function updateProductQuantity(productId, quantity) {
-	const interface = document.querySelector(`div#product-${productId}`);
-	const value = interface.querySelector("span.value");
-	value.innerText = quantity;
-}
-
-function addToCart(productId) {
-	request("PATCH", `/carts/${cartId}/items/${productId}?increase=true`, productId);
-}
-
-function removeFromCart(productId) {
-	request("PATCH", `/carts/${cartId}/items/${productId}?increase=false`, productId);
-}
-
-function createLineItem(productId) {
-	request("POST", `/carts/${cartId}/items/${productId}?dichotomous=true`, productId);
-}
-
-function removeItemFromCart(productId) {
-	request("DELETE", `/carts/${cartId}/items/${productId}`, productId);
-}
-
-function updateTotals(response) {
-	if(response.cart) {
-		const couponsUsed = parseInt(response.cart.couponsUsed);
-		setTotalCouponsUsed(couponsUsed);
-		const meatUsed = parseInt(response.cart.meatPoundsUsed);
-		setTotalMeatUsed(meatUsed);
-	} else {
-		if(response.product.cost) {
-			const cost = response.product.cost;
-			const pageCouponsUsed = getTotalCouponsUsedFromPage();
-			const serverCouponsUsed = pageCouponsUsed - cost;
-			setTotalCouponsUsed(serverCouponsUsed);
-		} else {
-			const pageMeatUsed = getTotalMeatUsedFromPage();
-			const serverMeatUsed = pageMeatUsed - 1;
-			setTotalMeatUsed(serverMeatUsed);
-		}
-	}
-}
-
-function setTotalCouponsUsed(couponsUsed) {
-	const couponsUsedSpan = document.querySelector("span.coupon-used");
-	couponsUsedSpan.innerText = couponsUsed;
-}
-
-function setTotalMeatUsed(meatUsed) {
-	const meatUsedSpan = document.querySelector("span.meat-used");
-	meatUsedSpan.innerText = meatUsed;
-}
-
-function getTotalCouponsUsedFromPage() {
-	const couponsUsedSpan = document.querySelector("span.coupon-used");
-	return parseInt(couponsUsedSpan.innerText);
-}
-
-function getTotalMeatUsedFromPage() {
-	const meatUsedSpan = document.querySelector("span.meat-used");
-	return parseInt(meatUsedSpan.innerText);
-}
+const getMetaContent = (property, name) => document.head.querySelector("[" + property + "=" + name + "]").content;

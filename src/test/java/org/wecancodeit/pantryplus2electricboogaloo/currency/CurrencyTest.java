@@ -23,4 +23,20 @@ public class CurrencyTest {
 		assertThat(actual, is(name));
 	}
 
+	@Test
+	public void shouldHaveUnitLbs() {
+		String unit = "Lbs";
+		Currency underTest = new Currency("", "", unit);
+		String actual = underTest.getUnit();
+		assertThat(actual, is(unit));
+	}
+
+	@Test
+	public void shouldHaveUnitCoupons() {
+		String unit = "Coupons";
+		Currency underTest = new Currency("", "", unit);
+		String actual = underTest.getUnit();
+		assertThat(actual, is(unit));
+	}
+
 }

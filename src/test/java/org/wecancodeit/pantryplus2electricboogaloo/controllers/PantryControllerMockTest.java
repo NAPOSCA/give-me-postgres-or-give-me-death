@@ -20,6 +20,8 @@ import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
@@ -65,6 +67,15 @@ public class PantryControllerMockTest {
 	@Mock
 	private LoginService loginService;
 
+	@Mock
+	private Currency currency;
+
+	@Mock
+	private Currency anotherCurrency;
+
+	@Mock
+	private CurrencyRepository currencyRepo;
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -102,6 +113,7 @@ public class PantryControllerMockTest {
 	public void shouldHaveDisplayShoppingAddCategoriesToModel() {
 		Iterable<Category> categories = asList(category, anotherCategory);
 		when(categoryRepo.findAll()).thenReturn(categories);
+		when(user.isValid()).thenReturn(true);
 		underTest.displayShopping(model, googleId);
 		verify(model).addAttribute("categories", categories);
 	}
@@ -208,12 +220,42 @@ public class PantryControllerMockTest {
 		underTest.displayWelcomeView(model, googleId);
 		verify(model).addAttribute("isAdmin", isAdmin);
 	}
-	
+
 	@Test
 	public void shouldHaveWelcomeViewAttachIsAdminToModelAsFalseIfUserNotSignedIn() {
 		googleId = null;
 		underTest.displayWelcomeView(model, googleId);
 		verify(model).addAttribute("isAdmin", false);
+	}
+
+	@Test
+	public void shouldHaveShoppingViewAttachTheCurrenciesToModel() {
+		Iterable<Currency> currencies = asList(currency, anotherCurrency);
+		when(currencyRepo.findAll()).thenReturn(currencies);
+		when(user.isValid()).thenReturn(true);
+		underTest.displayShopping(model, googleId);
+		verify(model).addAttribute("currencies", currencies);
+	}
+
+	@Test
+	public void shouldHaveShoppingViewAttachTheUserToModel() {
+		when(user.isValid()).thenReturn(true);
+		underTest.displayShopping(model, googleId);
+		verify(model).addAttribute("user", user);
+	}
+
+	@Test
+	public void shouldHaveCartViewAttachTheCurrenciesToModel() {
+		Iterable<Currency> currencies = asList(currency, anotherCurrency);
+		when(currencyRepo.findAll()).thenReturn(currencies);
+		underTest.displayCart(model, googleId);
+		verify(model).addAttribute("currencies", currencies);
+	}
+
+	@Test
+	public void shouldHaveCartViewAttachTheUserToModel() {
+		underTest.displayCart(model, googleId);
+		verify(model).addAttribute("user", user);
 	}
 
 }

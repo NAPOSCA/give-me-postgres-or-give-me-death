@@ -24,15 +24,18 @@
 			<section class="category-details">
 				<h2>Category Details</h2>
 				<form th:object="${category}">
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
 					<p>
 						<span>ID:</span>
 						<span id="id" th:text="*{id}" />
 					</p>
 
-					<label>Name:</label>
-					<input type="text" th:field="*{name}" />
+					<label for="name">Name:</label>
+					<input class="name" type="text" th:field="*{name}" />
+
+					<br />
+
+					<label>Only visible if user has school aged children:</label>
+					<input class="schoolAgeChildrenRequired" type="checkbox" th:field="*{schoolAgeChildrenRequired}" />
 				</form>
 				<button id="update">Update</button>
 				<button id="delete">Delete</button>
@@ -44,31 +47,52 @@
 					<h3>Type</h3>
 					<label for="type-product">Product</label>
 					<input type="radio" name="type" value="Product" id="type-product" />
+
 					<br />
+
 					<label for="type-limited-product">Limited Product</label>
 					<input type="radio" name="type" value="LimitedProduct" id="type-limited-product" />
+
 					<br />
+
 					<label for="type-priced-product">Priced Product</label>
 					<input type="radio" name="type" value="PricedProduct" id="type-priced-product" />
+
 					<br />
+
 					<label for="product-name">Name</label>
 					<input id="product-name" type="text" name="productName" />
+
 					<br />
+
 					<label for="image">Image Path</label>
 					<input id="image" type="text" name="image" />
+
 					<br />
+
+					<label for="infantsRequired">Only visible if user has infants:</label>
+					<input type="checkbox" name="infantsRequired" id="infantsRequired" />
+
+					<br />
+
 					<label for="maximumQuantity" class="reveal-if-limited-product reveal-if-priced-product">Maximum Quantity</label>
 					<input type="number" name="maximumQuantity" id="maximumQuantity" class="reveal-if-limited-product reveal-if-priced-product" />
+
 					<br />
+
 					<label for="valueInCurrency" class="reveal-if-priced-product">Price</label>
 					<input type="number" name="valueInCurrency" id="valueInCurrency" class="reveal-if-priced-product" />
+
 					<br />
+
 					<label for="currencyId" class="reveal-if-priced-product">Currency</label>
 					<select name="currencyId" id="currencyId" class="reveal-if-priced-product">
 						<option disabled>Currency</option>
 						<option th:each="currency : ${currencies}" th:value="${currency.id}" th:text="${currency.name}" />
 					</select>
+
 					<br />
+
 					<input type="submit" />
 				</form>
 			</section>
@@ -79,6 +103,7 @@
 						<th>Name</th>
 						<th>Type</th>
 						<th>Image</th>
+						<th>Infants Required</th>
 						<th>Maximum Quantity</th>
 						<th>Price</th>
 						<th>Currency</th>
@@ -91,6 +116,7 @@
 						<td>
 							<img th:src="*{image}" />
 						</td>
+						<td th:text="*{infantsRequired}" />
 						<td th:if="${product.type == 'LimitedProduct' or product.type == 'PricedProduct'}" th:text="*{maximumQuantity}" />
 						<td th:if="${product.type == 'PricedProduct'}" th:text="${product.price}" />
 						<td th:if="${product.type == 'PricedProduct'}">

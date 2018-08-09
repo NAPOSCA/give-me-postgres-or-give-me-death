@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Entity
 public class Product {
@@ -20,14 +21,16 @@ public class Product {
 	@ManyToOne
 	private Category category;
 	private String image;
+	private boolean infantsRequired;
 
 	public Product() {
 	}
 
-	public Product(String name, Category category, String imagePath) {
+	public Product(String name, Category category, String imagePath, boolean infantsRequired) {
 		this.name = name;
 		this.category = category;
 		this.image = imagePath;
+		this.infantsRequired = infantsRequired;
 	}
 
 	public String getName() {
@@ -71,4 +74,13 @@ public class Product {
 	public String getType() {
 		return "Product";
 	}
+
+	public boolean isVisibleTo(PantryUser user) {
+		return user.getHasInfants() || !getInfantsRequired();
+	}
+
+	public boolean getInfantsRequired() {
+		return infantsRequired;
+	}
+
 }

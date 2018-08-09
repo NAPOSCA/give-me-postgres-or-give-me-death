@@ -16,7 +16,7 @@ import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
 @RestController
-public class AdministrationRestController {
+public class AdminRestController {
 
 	@Resource
 	private CurrencyRepository currencyRepo;
@@ -53,10 +53,11 @@ public class AdministrationRestController {
 
 	@PutMapping("/admin/category/{categoryId}")
 	public void receivePutOnCategory(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long categoryId,
-			@RequestParam String name) {
+			@RequestParam String name, boolean schoolAgeChildrenRequired) {
 		if (loginService.isAdmin(googleId)) {
 			Category category = categoryRepo.findById(categoryId).get();
 			category.updateName(name);
+			category.updateSchoolAgeChildrenRequired(schoolAgeChildrenRequired);
 			categoryRepo.save(category);
 		}
 	}

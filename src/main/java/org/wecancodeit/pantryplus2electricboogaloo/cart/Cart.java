@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -13,8 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
+import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
+import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Entity
@@ -90,6 +95,69 @@ public class Cart {
 
 	private boolean isCountedLineItem(LineItem item) {
 		return item instanceof CountedLineItem;
+	}
+
+	public int allowanceUsed(Currency currency) {
+		return getCountedLineItems().stream().mapToInt(lineItem -> {
+			Product product = lineItem.getProduct();
+			if (product instanceof PricedProduct) {
+				PricedProduct pricedProduct = (PricedProduct) product;
+				if (pricedProduct.getCurrency().equals(currency)) {
+					return pricedProduct.getPrice() * lineItem.getQuantity();
+				}
+			}
+			return 0;
+		}).sum();
+	}
+
+	public boolean has(Product product) {
+		return getAllLineItems().stream().anyMatch(lineItem -> lineItem.getProduct().equals(product));
+	}
+
+	public Optional<LineItem> getLineItemContaining(long productId) {
+		return getAllLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId).findFirst();
+	}
+
+	public int getQuantityOf(long productId) {
+		return has(productId) ? getCountedLineItemContaining(productId).get().getQuantity() : 0;
+	}
+
+	private boolean has(long productId) {
+		return getAllLineItems().stream().anyMatch(lineItem -> lineItem.getProduct().getId() == productId);
+	}
+
+	public Optional<CountedLineItem> getCountedLineItemContaining(long productId) {
+		return getCountedLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId)
+				.findFirst();
+	}
+
+	public boolean canSetQuantityOfProductTo(int quantity, LimitedProduct product) {
+		if (product.getMaximumQuantity() < quantity) {
+			return false;
+		}
+		if (product instanceof PricedProduct) {
+			PricedProduct pricedProduct = (PricedProduct) product;
+			int allowanceUsedByOthersProducts = allowanceUsedExceptBy(pricedProduct);
+			int allowanceUsedByPricedProduct = pricedProduct.getPrice() * quantity;
+			int totalAvailableAllowance = pricedProduct.getCurrency().allowanceOf(getUser());
+			if (allowanceUsedByOthersProducts + allowanceUsedByPricedProduct > totalAvailableAllowance) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private int allowanceUsedExceptBy(PricedProduct excludedProduct) {
+		Currency currency = excludedProduct.getCurrency();
+		return getCountedLineItems().stream().mapToInt(lineItem -> {
+			if (lineItem.getProduct() instanceof PricedProduct) {
+				PricedProduct pricedProduct = (PricedProduct) lineItem.getProduct();
+				if (pricedProduct.getCurrency().equals(currency) && !pricedProduct.equals(excludedProduct)) {
+					return pricedProduct.getPrice() * lineItem.getQuantity();
+				}
+			}
+			return 0;
+		}).sum();
 	}
 
 }
