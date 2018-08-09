@@ -12,7 +12,7 @@ div.aside-main {
 	grid-template-columns: 613fr 1390fr;
 }
 
-div.aside-main {
+.aside-main {
 	margin: 0rem auto;
 	width: 49.7rem;
 }
