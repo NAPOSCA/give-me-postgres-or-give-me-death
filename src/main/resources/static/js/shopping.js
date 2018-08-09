@@ -50,7 +50,7 @@ function initialize() {
 		const successfulAjaxPut = response => {
 			const json = JSON.parse(response);
 			quantitySpan.textContent = json.quantity;
-			if (currencyId > 0) {
+			if (json.currencyId > 0) {
 				const amountUsedSpan = document.querySelector(`#currency-${json.currencyId} .amountUsed`);
 				amountUsedSpan.textContent = json.amountUsed;
 			}
