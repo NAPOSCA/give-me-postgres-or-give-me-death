@@ -7,7 +7,7 @@ div.container {
 	overflow-y: hidden; 
 }
 
-div.aside-main {
+.aside-main {
 	display: grid;
 	grid-template-columns: 613fr 1390fr;
 }
