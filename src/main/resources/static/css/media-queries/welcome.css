@@ -16,7 +16,7 @@
     }
 
     .aside-main {
-        width: 28.2;
+        width: 28.2rem;
         grid-template-columns: 1fr;
     }
 
@@ -47,5 +47,5 @@
 }
 
 @media screen and (max-width: 451px) {
-    
+
 }
