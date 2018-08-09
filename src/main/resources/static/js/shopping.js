@@ -50,6 +50,10 @@ function initialize() {
 		const successfulAjaxPut = response => {
 			const json = JSON.parse(response);
 			console.log(json);
+			const currencyId = json.currencyId;
+			console.log(currencyId);
+			const amountUsed = json.amountUsed;
+			console.log(amountUsed);
 			const updatedQuantity = json.quantity;
 			quantitySpan.textContent = updatedQuantity;
 			updatedQuantifiedButtonVisibility(interface);
