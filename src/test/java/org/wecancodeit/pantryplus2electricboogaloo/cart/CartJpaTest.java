@@ -163,7 +163,7 @@ public class CartJpaTest {
 		entityManager.clear();
 		currency = currencyRepo.findById(currencyId).get();
 		underTest = cartRepo.findById(underTestId).get();
-		int actual = underTest.amountUsed(currency);
+		int actual = underTest.allowanceUsed(currency);
 		assertThat(actual, is(cost));
 	}
 
@@ -180,7 +180,7 @@ public class CartJpaTest {
 		entityManager.clear();
 		currency = currencyRepo.findById(currencyId).get();
 		underTest = cartRepo.findById(underTestId).get();
-		int actual = underTest.amountUsed(currency);
+		int actual = underTest.allowanceUsed(currency);
 		assertThat(actual, is(cost));
 	}
 
@@ -203,7 +203,7 @@ public class CartJpaTest {
 		entityManager.clear();
 		currency = currencyRepo.findById(currencyId).get();
 		underTest = cartRepo.findById(underTestId).get();
-		int actual = underTest.amountUsed(currency);
+		int actual = underTest.allowanceUsed(currency);
 		assertThat(actual, is(4));
 	}
 
@@ -237,6 +237,78 @@ public class CartJpaTest {
 		product = productRepo.findById(productId).get();
 		boolean actual = underTest.has(product);
 		assertThat(actual, is(false));
+	}
+
+	@Test
+	public void shouldHaveCanSetQuantityToBeTrueWhenQuantityIsWithinLimitedProductMaximum() {
+		Cart underTest = cartRepo.save(new Cart(null));
+		long underTestId = underTest.getId();
+		LimitedProduct product = new LimitedProduct("", null, "", false, 5);
+		product = productRepo.save(product);
+		long productId = product.getId();
+		entityManager.flush();
+		entityManager.clear();
+		underTest = cartRepo.findById(underTestId).get();
+		product = (LimitedProduct) productRepo.findById(productId).get();
+		int quantity = 5;
+		boolean actual = underTest.canSetQuantityOfProductTo(quantity, product);
+		assertThat(actual, is(true));
+	}
+
+	@Test
+	public void shouldHaveCanSetQuantityToBeFalseWhenQuantityIsNotWithinLimitedProductMaximum() {
+		Cart underTest = cartRepo.save(new Cart(null));
+		long underTestId = underTest.getId();
+		LimitedProduct product = new LimitedProduct("", null, "", false, 5);
+		product = productRepo.save(product);
+		long productId = product.getId();
+		entityManager.flush();
+		entityManager.clear();
+		underTest = cartRepo.findById(underTestId).get();
+		product = (LimitedProduct) productRepo.findById(productId).get();
+		int quantity = 6;
+		boolean actual = underTest.canSetQuantityOfProductTo(quantity, product);
+		assertThat(actual, is(false));
+	}
+
+	@Test
+	public void shouldHaveCanSetQuantityToBeFalseWhenCostAndQuantityWouldExceedCurrencyAllowance() {
+		PantryUser user = new PantryUser(googleId);
+		user.updateFamilySize(1);
+		user = userRepo.save(user);
+		Cart underTest = cartRepo.save(new Cart(user));
+		long underTestId = underTest.getId();
+		Currency currency = currencyRepo.save(new Currency("", "{1=2}", ""));
+		PricedProduct product = new PricedProduct("", null, "", false, 5, currency, 2);
+		product = productRepo.save(product);
+		long productId = product.getId();
+		entityManager.flush();
+		entityManager.clear();
+		underTest = cartRepo.findById(underTestId).get();
+		product = (PricedProduct) productRepo.findById(productId).get();
+		int quantity = 2;
+		boolean actual = underTest.canSetQuantityOfProductTo(quantity, product);
+		assertThat(actual, is(false));
+	}
+	
+	@Test
+	public void shouldHaveCanSetQuantityToBeTrueWhenCostAndQuantityWillNotExceedCurrencyAllowance() {
+		PantryUser user = new PantryUser(googleId);
+		user.updateFamilySize(1);
+		user = userRepo.save(user);
+		Cart underTest = cartRepo.save(new Cart(user));
+		long underTestId = underTest.getId();
+		Currency currency = currencyRepo.save(new Currency("", "{1=2}", ""));
+		PricedProduct product = new PricedProduct("", null, "", false, 5, currency, 2);
+		product = productRepo.save(product);
+		long productId = product.getId();
+		entityManager.flush();
+		entityManager.clear();
+		underTest = cartRepo.findById(underTestId).get();
+		product = (PricedProduct) productRepo.findById(productId).get();
+		int quantity = 1;
+		boolean actual = underTest.canSetQuantityOfProductTo(quantity, product);
+		assertThat(actual, is(true));
 	}
 
 }

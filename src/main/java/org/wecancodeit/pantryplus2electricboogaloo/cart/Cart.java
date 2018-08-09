@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.CountedLineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
+import org.wecancodeit.pantryplus2electricboogaloo.product.LimitedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.PricedProduct;
 import org.wecancodeit.pantryplus2electricboogaloo.product.Product;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
@@ -96,7 +97,7 @@ public class Cart {
 		return item instanceof CountedLineItem;
 	}
 
-	public int amountUsed(Currency currency) {
+	public int allowanceUsed(Currency currency) {
 		return getCountedLineItems().stream().mapToInt(lineItem -> {
 			Product product = lineItem.getProduct();
 			if (product instanceof PricedProduct) {
@@ -116,9 +117,9 @@ public class Cart {
 	public Optional<LineItem> getLineItemContaining(long productId) {
 		return getAllLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId).findFirst();
 	}
-	
+
 	public int getQuantityOf(long productId) {
-		return has(productId) ? getCountedLineItemContaining(productId).get().getQuantity() : 0; 
+		return has(productId) ? getCountedLineItemContaining(productId).get().getQuantity() : 0;
 	}
 
 	private boolean has(long productId) {
@@ -126,7 +127,22 @@ public class Cart {
 	}
 
 	public Optional<CountedLineItem> getCountedLineItemContaining(long productId) {
-		return getCountedLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId).findFirst();
+		return getCountedLineItems().stream().filter(lineItem -> lineItem.getProduct().getId() == productId)
+				.findFirst();
+	}
+
+	public boolean canSetQuantityOfProductTo(int quantity, LimitedProduct product) {
+		if (product.getMaximumQuantity() < quantity) {
+			return false;
+		}
+		if (product instanceof PricedProduct) {
+			PricedProduct pricedProduct = (PricedProduct) product;
+			Currency currency = pricedProduct.getCurrency();
+			if (allowanceUsed(currency) + pricedProduct.getPrice() * quantity > currency.allowanceOf(getUser())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

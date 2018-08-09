@@ -76,34 +76,30 @@ public class CartRestController {
 	@PutMapping("/cart/products/{productId}")
 	public Map<String, Object> receivePutOnProduct(@AuthenticationPrincipal OAuth2User googleId,
 			@PathVariable long productId, @RequestParam int quantity) {
-		Cart cart = loginService.resolveUser(googleId).getCart();
+		PantryUser user = loginService.resolveUser(googleId);
+		Cart cart = user.getCart();
 		LimitedProduct product = (LimitedProduct) productRepo.findById(productId).get();
 		CountedLineItem lineItem = cart.getCountedLineItemContaining(productId)
-				.orElseGet(() -> new CountedLineItem(cart, product));
-		Map<String, Object> json = new HashMap<>();
+				.orElseGet(() -> new CountedLineItem(user.getCart(), product));
 		if (quantity <= 0) {
 			lineItemRepo.delete(lineItem);
-			json.put("quantity", 0);
-		} else {
-			int maxQuantity = product.getMaximumQuantity();
-			if (quantity > maxQuantity) {
-				quantity = maxQuantity;
-			}
-			lineItem.setQuantity(quantity);
-			lineItem = lineItemRepo.save(lineItem);
-			json.put("quantity", lineItem.getQuantity());
-		}
-		if (product.getType().equals("PricedProduct")) {
-			PricedProduct pricedProduct = (PricedProduct) product;
-			long currencyId = pricedProduct.getCurrency().getId();
-			json.put("currencyId", currencyId);
-			long cartId = cart.getId();
 			entityManager.flush();
 			entityManager.clear();
-			Cart cartAgain = cartRepo.findById(cartId).get();
-			Currency currency = currencyRepo.findById(currencyId).get();
-			int amountUsed = cartAgain.amountUsed(currency);
-			json.put("amountUsed", amountUsed);
+			cart = cartRepo.findById(cart.getId()).get();
+		} else if (cart.canSetQuantityOfProductTo(quantity, product)) {
+			lineItem.setQuantity(quantity);
+			lineItemRepo.save(lineItem);
+			entityManager.flush();
+			entityManager.clear();
+			cart = cartRepo.findById(cart.getId()).get();
+		}
+		Map<String, Object> json = new HashMap<>();
+		json.put("quantity", cart.getQuantityOf(productId));
+		if (product instanceof PricedProduct) {
+			PricedProduct pricedProduct = (PricedProduct) product;
+			Currency currency = pricedProduct.getCurrency();
+			json.put("currencyId", currency.getId());
+			json.put("amountUsed", cart.allowanceUsed(currency));
 		}
 		return json;
 	}
