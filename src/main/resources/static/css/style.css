@@ -128,7 +128,6 @@ nav ul li.current {
 
 div.address {
 	text-align: right;
-	margin-right: 0.2rem;
 }
 
 div.address a {
@@ -136,7 +135,7 @@ div.address a {
 	color: black;
 }
 
-div.stats {
+.stats {
 	margin-top: 1rem;
 	position: sticky;
 	width: 13.4rem;
@@ -165,6 +164,7 @@ a.button {
 	color: white;
 	box-shadow: 0 10px 8px -10px black;
 	border: none;
+	height: min-content
 }
 
 input[type="submit"] {

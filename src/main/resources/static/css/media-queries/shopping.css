@@ -1,5 +1,23 @@
 @media screen and (max-width: 796px) {
     .aside-main {
         grid-template-columns: 1fr;
+        width: 33.3rem;
+    }
+
+    aside {
+        border-top-right-radius: var(--border-radius);
+        border-bottom-left-radius: 0;
+    }
+
+    main {
+
+    }
+
+    .go-to-cart {
+        width: max-content;
+    }
+
+    .stats {
+        margin-top: 0;
     }
 }
