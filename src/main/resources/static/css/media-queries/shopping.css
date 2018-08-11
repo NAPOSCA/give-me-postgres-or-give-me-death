@@ -61,5 +61,11 @@
 }
 
 @media screen and (max-width: 456px) {
-	
+	div.interface p {
+		font-size: 1rem;
+	}
+
+	.aside-main {
+		width: 20rem;
+	}
 }
