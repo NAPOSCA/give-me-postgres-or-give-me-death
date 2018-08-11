@@ -49,6 +49,7 @@
 @media screen and (max-width: 451px) {
     .aside-main {
         width: auto;
+        margin: 0 1rem;
     }
 
     header {
@@ -65,7 +66,7 @@
     }
 }
 
-@media screen and (max-width: 383px) {
+/* @media screen and (max-width: 383px) {
     li {
         border-radius: 0!important;
     }
@@ -75,4 +76,4 @@
     aside {
         border-radius: 0;
     }
-}
+} */
