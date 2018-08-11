@@ -202,3 +202,7 @@ td img {
 	max-width: 12rem;
 	max-height: 12rem;
 }
+
+.currency {
+	width: max-content;
+}
