@@ -56,7 +56,7 @@
     }
 
     aside {
-        border-radius: 0.3rem;
+        border-radius: 0.7rem;
         padding: 0.3rem 0.5rem;
     }
 
@@ -68,5 +68,11 @@
 @media screen and (max-width: 383px) {
     li {
         border-radius: 0!important;
+    }
+}
+
+@media screen and (max-width: 329px) {
+    aside {
+        border-radius: 0;
     }
 }
