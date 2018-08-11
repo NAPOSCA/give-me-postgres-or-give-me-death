@@ -7,6 +7,7 @@
     aside {
         border-top-right-radius: var(--border-radius);
         border-bottom-left-radius: 0;
+        display: grid;
     }
 
     main {
@@ -14,8 +15,13 @@
         border-bottom-left-radius: var(--border-radius);
     }
 
+    div.address {
+        grid-column: 2;
+    }
+
     .go-to-cart {
         width: max-content;
+        margin: auto;
     }
 
     .stats {
