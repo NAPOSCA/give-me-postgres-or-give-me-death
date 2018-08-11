@@ -1,0 +1,5 @@
+@media screen and (max-width: 796px) {
+    .aside-main {
+        grid-template-columns: 1fr;
+    }
+}
