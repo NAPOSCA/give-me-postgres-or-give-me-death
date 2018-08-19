@@ -1,5 +1,6 @@
 package org.wecancodeit.pantryplus2electricboogaloo.category;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Collection;
@@ -20,7 +21,7 @@ public class Category {
 	private long id;
 	private String name;
 
-	@OneToMany(mappedBy = "category", orphanRemoval = true)
+	@OneToMany(mappedBy = "category", orphanRemoval = true, cascade = ALL)
 	Collection<Product> products;
 	private boolean schoolAgeChildrenRequired;
 
