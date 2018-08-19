@@ -2,12 +2,16 @@ package org.wecancodeit.pantryplus2electricboogaloo.product;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
+import org.wecancodeit.pantryplus2electricboogaloo.lineitem.LineItem;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 @Entity
@@ -22,6 +26,9 @@ public class Product {
 	private Category category;
 	private String image;
 	private boolean infantsRequired;
+	
+	@OneToMany(orphanRemoval = true)
+	private Collection<LineItem> lineItems;
 
 	public Product() {
 	}
