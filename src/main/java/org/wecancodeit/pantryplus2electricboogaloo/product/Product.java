@@ -1,5 +1,6 @@
 package org.wecancodeit.pantryplus2electricboogaloo.product;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Collection;
@@ -27,7 +28,7 @@ public class Product {
 	private String image;
 	private boolean infantsRequired;
 	
-	@OneToMany(orphanRemoval = true)
+	@OneToMany(orphanRemoval = true, cascade = ALL)
 	private Collection<LineItem> lineItems;
 
 	public Product() {
