@@ -27,8 +27,8 @@ public class Product {
 	private Category category;
 	private String image;
 	private boolean infantsRequired;
-	
-	@OneToMany(orphanRemoval = true, cascade = ALL)
+
+	@OneToMany(orphanRemoval = true, cascade = ALL, mappedBy = "product")
 	private Collection<LineItem> lineItems;
 
 	public Product() {
