@@ -109,4 +109,12 @@ public class Currency {
 		return unit;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
 }
