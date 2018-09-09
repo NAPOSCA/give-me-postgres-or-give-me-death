@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.category.Category;
 import org.wecancodeit.pantryplus2electricboogaloo.category.CategoryRepository;
+import org.wecancodeit.pantryplus2electricboogaloo.currency.Currency;
 import org.wecancodeit.pantryplus2electricboogaloo.currency.CurrencyRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.product.ProductRepository;
 
@@ -59,6 +60,18 @@ public class AdminRestController {
 			category.updateName(name);
 			category.updateSchoolAgeChildrenRequired(schoolAgeChildrenRequired);
 			categoryRepo.save(category);
+		}
+	}
+
+	@PutMapping("/admin/currencies/{currencyId}")
+	public void receivePutOnCurrency(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long currencyId,
+			@RequestParam String name, @RequestParam String unit, @RequestParam String representationMap) {
+		if (loginService.isAdmin(googleId)) {
+			Currency currency = currencyRepo.findById(currencyId).get();
+			currency.setName(name);
+			currency.setUnit(unit);
+			currency.setAllowanceMap(representationMap);
+			currencyRepo.save(currency);
 		}
 	}
 
