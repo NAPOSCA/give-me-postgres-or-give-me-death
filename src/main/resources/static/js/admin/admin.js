@@ -13,3 +13,5 @@ const request = (callback, method, url) => {
 };
 
 const getMetaContent = (property, name) => document.head.querySelector("[" + property + "=" + name + "]").content;
+
+const reload = () => {document.location.reload(true)};

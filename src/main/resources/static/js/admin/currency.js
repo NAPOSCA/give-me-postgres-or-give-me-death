@@ -7,7 +7,7 @@ function initialize() {
 		const unit = detailsForm.querySelector("input.unit").value;
 		const allowanceMap = detailsForm.querySelector("input.allowanceMap");
 		request(response => {
-			document.location.reload(true);
+			reload();
 		}, "PUT", `/admin/currency/${currencyId}?name=${name}&unit=${unit}&allowanceMap=${allowanceMap}`);
 	});
 	const deleteButton = document.querySelector("#delete");
@@ -15,7 +15,7 @@ function initialize() {
 		const confirmation = confirm("Are you sure that you want to delete this currency and all products inside it?");
 		if (confirmation) {
 			request(response => {
-				document.location.reload(true);
+				reload();
 			}, "DELETE", `/admin/currency/${currencyId}`);
 		}
 	});
