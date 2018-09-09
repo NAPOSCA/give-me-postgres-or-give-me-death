@@ -6,6 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css" />
 	<script type="text/javascript" src="/js/admin/admin.js"></script>
 	<script type="text/javascript" src="/js/admin/currency.js"></script>
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 
 <body onload="initialize()">
