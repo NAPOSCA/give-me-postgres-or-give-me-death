@@ -7,7 +7,7 @@ function initialize() {
 		const schoolAgeChildrenRequired = detailsForm.querySelector("input.schoolAgeChildrenRequired").checked;
 		request(response => {
 			reload();
-		}, "PUT", `/admin/category/${categoryId}?name=${name}&schoolAgeChildrenRequired=${schoolAgeChildrenRequired}`);
+		}, "PUT", `/admin/categories/${categoryId}?name=${name}&schoolAgeChildrenRequired=${schoolAgeChildrenRequired}`);
 	});
 	const deleteButton = document.querySelector("#delete");
 	deleteButton.addEventListener("click", () => {
@@ -15,7 +15,7 @@ function initialize() {
 		if (confirmation) {
 			request(response => {
 				reload();
-			}, "DELETE", `/admin/category/${categoryId}`);
+			}, "DELETE", `/admin/categories/${categoryId}`);
 		}
 	}); 
 }

@@ -8,7 +8,7 @@ function initialize() {
 		const allowanceMap = encodeURIComponent(detailsForm.querySelector("input.allowanceMap").value);
 		request(response => {
 			reload();
-		}, "PUT", `/admin/currency/${currencyId}?name=${name}&unit=${unit}&allowanceMap=${allowanceMap}`);
+		}, "PUT", `/admin/currencies/${currencyId}?name=${name}&unit=${unit}&allowanceMap=${allowanceMap}`);
 	});
 	const deleteButton = document.querySelector("#delete");
 	deleteButton.addEventListener("click", () => {
@@ -16,7 +16,7 @@ function initialize() {
 		if (confirmation) {
 			request(response => {
 				reload();
-			}, "DELETE", `/admin/currency/${currencyId}`);
+			}, "DELETE", `/admin/currencies/${currencyId}`);
 		}
 	});
 }
