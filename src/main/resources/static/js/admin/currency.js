@@ -1,6 +1,6 @@
 function initialize() {
 	const currencyId = document.querySelector("#id").textContent;
-	const detailsForm = document.querySelector(".category-details");
+	const detailsForm = document.querySelector(".currency-details");
 	const updateButton = document.querySelector("#update");
 	updateButton.addEventListener("click", () => {
 		const name = detailsForm.querySelector("input.name").value;
