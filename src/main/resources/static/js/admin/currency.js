@@ -5,7 +5,7 @@ function initialize() {
 	updateButton.addEventListener("click", () => {
 		const name = detailsForm.querySelector("input.name").value;
 		const unit = detailsForm.querySelector("input.unit").value;
-		const allowanceMap = detailsForm.querySelector("input.allowanceMap");
+		const allowanceMap = detailsForm.querySelector("input.allowanceMap").value;
 		request(response => {
 			reload();
 		}, "PUT", `/admin/currency/${currencyId}?name=${name}&unit=${unit}&allowanceMap=${allowanceMap}`);
