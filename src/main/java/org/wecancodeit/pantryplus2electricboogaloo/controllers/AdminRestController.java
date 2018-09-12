@@ -65,12 +65,12 @@ public class AdminRestController {
 
 	@PutMapping("/admin/currencies/{currencyId}")
 	public void receivePutOnCurrency(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long currencyId,
-			@RequestParam String name, @RequestParam String unit, @RequestParam String representationMap) {
+			@RequestParam String name, @RequestParam String unit, @RequestParam String allowanceMap) {
 		if (loginService.isAdmin(googleId)) {
 			Currency currency = currencyRepo.findById(currencyId).get();
 			currency.setName(name);
 			currency.setUnit(unit);
-			currency.setAllowanceMap(representationMap);
+			currency.setAllowanceMap(allowanceMap);
 			currencyRepo.save(currency);
 		}
 	}
