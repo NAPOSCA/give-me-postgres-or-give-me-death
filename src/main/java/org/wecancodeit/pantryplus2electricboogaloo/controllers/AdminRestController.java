@@ -38,21 +38,21 @@ public class AdminRestController {
 		}
 	}
 
-	@DeleteMapping("/admin/category/{categoryId}")
+	@DeleteMapping("/admin/categories/{categoryId}")
 	public void receiveDeleteOnCategory(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long categoryId) {
 		if (loginService.isAdmin(googleId)) {
 			categoryRepo.deleteById(categoryId);
 		}
 	}
 
-	@DeleteMapping("/admin/category/{categoryId}/products/{productId}")
+	@DeleteMapping("/admin/categories/{categoryId}/products/{productId}")
 	public void receiveDeleteOnProduct(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long productId) {
 		if (loginService.isAdmin(googleId)) {
 			productRepo.deleteById(productId);
 		}
 	}
 
-	@PutMapping("/admin/category/{categoryId}")
+	@PutMapping("/admin/categories/{categoryId}")
 	public void receivePutOnCategory(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long categoryId,
 			@RequestParam String name, boolean schoolAgeChildrenRequired) {
 		if (loginService.isAdmin(googleId)) {
@@ -65,12 +65,12 @@ public class AdminRestController {
 
 	@PutMapping("/admin/currencies/{currencyId}")
 	public void receivePutOnCurrency(@AuthenticationPrincipal OAuth2User googleId, @PathVariable long currencyId,
-			@RequestParam String name, @RequestParam String unit, @RequestParam String representationMap) {
+			@RequestParam String name, @RequestParam String unit, @RequestParam String allowanceMap) {
 		if (loginService.isAdmin(googleId)) {
 			Currency currency = currencyRepo.findById(currencyId).get();
 			currency.setName(name);
 			currency.setUnit(unit);
-			currency.setAllowanceMap(representationMap);
+			currency.setAllowanceMap(allowanceMap);
 			currencyRepo.save(currency);
 		}
 	}
