@@ -46,7 +46,15 @@ function initialize() {
 	document.querySelectorAll(".interface").forEach(interface => {
 		const productId = interface.parentElement.value;
 		const quantitySpan = interface.querySelector(".quantity");
-		updatedQuantifiedButtonVisibility(interface);
+		if (interface.querySelector(".quantified-product")) {
+			updatedQuantifiedButtonVisibility(interface);
+			interface.querySelector(".quantified-product.plus").addEventListener("click", () => {
+				putEventListener(quantity => quantity + 1);
+			});
+			interface.querySelector(".quantified-product.minus").addEventListener("click", () => {
+				putEventListener(quantity => quantity - 1);
+			});
+		}
 		const successfulAjaxPut = response => {
 			const json = JSON.parse(response);
 			quantitySpan.textContent = json.quantity;
@@ -60,12 +68,6 @@ function initialize() {
 			const quantity = parseInt(quantitySpan.textContent);
 			request(successfulAjaxPut, "PUT", `/cart/products/${productId}?quantity=${quantityCallback(quantity)}`);
 		};
-		interface.querySelector(".quantified-product.plus").addEventListener("click", () => {
-			putEventListener(quantity => quantity + 1);
-		});
-		interface.querySelector(".quantified-product.minus").addEventListener("click", () => {
-			putEventListener(quantity => quantity - 1);
-		});
 	});
 }
 
