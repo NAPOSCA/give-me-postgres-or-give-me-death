@@ -191,9 +191,9 @@ public class PantryUser {
 		model.put("firstName", getFirstName());
 		model.put("lastName", getLastName());
 		model.put("familySize", getFamilySize());
-		model.put("birthDate", getBirthdate());
+		model.put("birthdate", getBirthdate());
 		model.put("address", getAddress());
-		model.put("SchoolAgeChildren", getSchoolAgeChildren());
+		model.put("schoolAgeChildren", getSchoolAgeChildren());
 		return model;
 	}
 
