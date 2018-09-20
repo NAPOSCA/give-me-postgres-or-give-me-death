@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.transaction.Transactional;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -41,7 +40,6 @@ public class EmailController {
 		return "email-failure";
 	}
 
-	@Transactional
 	@RequestMapping("/email")
 	public String home(@AuthenticationPrincipal OAuth2User googleId) {
 		try {
