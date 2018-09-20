@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,9 +19,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
 import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
-import org.wecancodeit.pantryplus2electricboogaloo.cart.CartRepository;
 import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
-import org.wecancodeit.pantryplus2electricboogaloo.user.UserRepository;
 
 @Controller
 public class EmailController {
@@ -31,15 +28,6 @@ public class EmailController {
 
 	@Resource
 	private JavaMailSender sender;
-
-	@Resource
-	private CartRepository cartRepo;
-
-	@Resource
-	private UserRepository userRepo;
-
-	@Resource
-	private EntityManager entityManager;
 
 	@Resource
 	private SpringTemplateEngine templateEngine;
@@ -58,13 +46,10 @@ public class EmailController {
 	public String home(@AuthenticationPrincipal OAuth2User googleId) {
 		try {
 			PantryUser user = loginService.resolveUser(googleId);
-			Long cartId = user.getCart().getId();
-			Cart cart = cartRepo.findById(cartId).orElse(null);
-			String name;
+			Cart cart = user.getCart();
 			String firstName = user.getFirstName();
 			String lastName = user.getLastName();
-			name = firstName + " " + lastName;
-			String subject = name + "s Order";
+			String subject = firstName + " " + lastName + "s Order";
 			Map<String, Object> message = cart.toModel();
 			sendEmail(subject, message);
 			return "redirect:/email-success.html";
