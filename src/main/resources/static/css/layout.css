@@ -97,5 +97,5 @@ div section.category{
 
 .admin header {
     align-items: center;
-    width: 25rem;
+    width: max-content;
 }

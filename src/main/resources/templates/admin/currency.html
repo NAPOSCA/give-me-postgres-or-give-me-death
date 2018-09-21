@@ -4,15 +4,46 @@
 	<title th:text="${currency.name}" />
 	<link rel="stylesheet" type="text/css" href="/css/layout.css" />
 	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<script type="text/javascript" src="/js/admin/admin.js"></script>
+	<script type="text/javascript" src="/js/admin/currency.js"></script>
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 
-<body>
+<body onload="initialize()">
 	<div class="container admin currency">
 		<header>
 			<a href="/admin/currencies">Go Back</a>
 			<h1 th:text="${currency.name}" />
 		</header>
 		<main>
+			<section class="currency-details">
+				<h2>Currency Details</h2>
+
+				<form th:object="${currency}">
+					<p>
+						<span>ID:</span>
+						<span id="id" th:text="*{id}" />
+					</p>
+
+					<label for="name">Name:</label>
+					<input class="name" type="text" th:field="*{name}" />
+
+					<br />
+
+					<label for="unit">Unit:</label>
+					<input class="unit" type="text" th:field=*{unit} />
+
+					<br />
+
+					<label for="name">Allowance:</label>
+					<input class="allowanceMap" type="text" th:field="*{allowanceMap}" />
+				</form>
+				<button id="update">Update</button>
+				<button id="delete">Delete</button>
+
+
+			</section>
 			<section class="products">
 				<h2>Products</h2>
 				<table>
