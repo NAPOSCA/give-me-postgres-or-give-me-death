@@ -38,8 +38,8 @@ public class EmailControllerMockTest {
 	@Mock
 	private Model model;
 
-	String recipient = "bsfppantryplus@gmail.com";
-	String template = "order";
+	private String recipient = "bsfppantryplus@gmail.com";
+	private String template = "order";
 
 	@Mock
 	private PantryUser user;
@@ -78,20 +78,24 @@ public class EmailControllerMockTest {
 
 	@Test
 	public void shouldAddUserToModelBeforeSendingEmail() throws MessagingException {
+		when(user.getFirstName()).thenReturn("Scooby");
+		when(user.getLastName()).thenReturn("Doo");
 		underTest.sendEmail(googleId, model);
 		InOrder inOrder = inOrder(model, sender);
 		inOrder.verify(model).addAttribute("user", user);
-		inOrder.verify(sender).sendMail(recipient, "", model, template);
+		inOrder.verify(sender).sendMail(recipient, "Scooby Doo's Order", model, template);
 	}
 
 	@Test
 	public void shouldAddCartToModelBeforeSendingEmail() throws MessagingException {
+		when(user.getFirstName()).thenReturn("Scrappy");
+		when(user.getLastName()).thenReturn("Doo");
 		Cart cart = new Cart(user);
 		when(user.getCart()).thenReturn(cart);
 		underTest.sendEmail(googleId, model);
 		InOrder inOrder = inOrder(model, sender);
 		inOrder.verify(model).addAttribute("cart", cart);
-		inOrder.verify(sender).sendMail(recipient, "", model, template);
+		inOrder.verify(sender).sendMail(recipient, "Scrappy Doo's Order", model, template);
 	}
 
 }
