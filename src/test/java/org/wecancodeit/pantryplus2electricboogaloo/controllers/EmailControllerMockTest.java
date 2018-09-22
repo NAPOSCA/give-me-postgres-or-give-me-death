@@ -1,92 +1,101 @@
 package org.wecancodeit.pantryplus2electricboogaloo.controllers;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.Model;
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.wecancodeit.pantryplus2electricboogaloo.HtmlMailSender;
+import org.wecancodeit.pantryplus2electricboogaloo.LoginService;
+import org.wecancodeit.pantryplus2electricboogaloo.cart.Cart;
+import org.wecancodeit.pantryplus2electricboogaloo.user.PantryUser;
 
 public class EmailControllerMockTest {
 
 	@InjectMocks
-	private EmailController controller;
+	private EmailController underTest;
 
 	@Mock
-	private JavaMailSender sender;
+	private LoginService loginService;
 
 	@Mock
-	private SpringTemplateEngine templateEngine;
+	private HtmlMailSender sender;
 
 	@Mock
-	private MimeMessageHelper helper;
-
-	private MimeMessage message;
+	private OAuth2User googleId;
 
 	@Mock
-	Model springModel;
+	private Model model;
+
+	private String recipient = "bsfppantryplus@gmail.com";
+	private String template = "order";
+
+	@Mock
+	private PantryUser user;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
+		when(loginService.resolveUser(googleId)).thenReturn(user);
 	}
 
 	@Test
-	public void shouldSetRecipientEmailAddressMimeMessageHelper() throws MessagingException {
-		String address = "bsfppantryplus@gmail.com";
-		controller.setRecipient(helper);
-		verify(helper).setTo(address);
+	public void shouldRedirectToSuccessPageAfterEmailIsSent() throws MessagingException {
+		String redirect = underTest.sendEmail(googleId, model);
+		assertThat(redirect, Matchers.is("redirect:/email-success.html"));
 	}
 
 	@Test
-	public void shouldSetSubjectOfMimeMessageHelper() throws MessagingException {
-		String subject = "subject";
-		controller.setSubject(subject, helper);
-		verify(helper).setSubject(subject);
+	public void shouldSendEmailWithCorrectData() throws MessagingException {
+		String firstName = "Scooby";
+		String lastName = "Doo";
+		when(user.getFirstName()).thenReturn(firstName);
+		when(user.getLastName()).thenReturn(lastName);
+		underTest.sendEmail(googleId, model);
+		verify(sender).sendMail(recipient, firstName + " " + lastName + "'s Order", model, template);
 	}
 
 	@Test
-	public void shouldSetBodyOfMimeMessageHelper() throws MessagingException {
-		String html = "<p>Hello World</p>";
-		controller.setBody(html, helper);
-		verify(helper).setText(html, true);
+	public void shouldSendEmailWithMyNameOnTheOrder() throws MessagingException {
+		String firstName = "Alex";
+		String lastName = "Malcolm";
+		when(user.getFirstName()).thenReturn(firstName);
+		when(user.getLastName()).thenReturn(lastName);
+		underTest.sendEmail(googleId, model);
+		verify(sender).sendMail(recipient, firstName + " " + lastName + "'s Order", model, template);
 	}
 
 	@Test
-	public void shouldReturnEmailFailureView() {
-		String actual = controller.emailFailure("error", springModel);
-		assertThat(actual, is("email-failure"));
+	public void shouldAddUserToModelBeforeSendingEmail() throws MessagingException {
+		when(user.getFirstName()).thenReturn("Scooby");
+		when(user.getLastName()).thenReturn("Doo");
+		underTest.sendEmail(googleId, model);
+		InOrder inOrder = inOrder(model, sender);
+		inOrder.verify(model).addAttribute("user", user);
+		inOrder.verify(sender).sendMail(recipient, "Scooby Doo's Order", model, template);
 	}
 
 	@Test
-	public void shouldAttachTheErrorToTheModel() {
-		String error = "Off by 1";
-		controller.emailFailure(error, springModel);
-		verify(springModel).addAttribute("error", error);
-	}
-
-	@Test
-	public void shouldSendEmail() {
-		controller.sendEmail(message);
-		verify(sender).send(message);
-	}
-
-	@Test
-	public void shouldGetANewMimeMessageFromTheJavaMailSender() {
-		when(sender.createMimeMessage()).thenReturn(message);
-		MimeMessage actual = controller.createMimeMessage();
-		assertThat(actual, is(message));
+	public void shouldAddCartToModelBeforeSendingEmail() throws MessagingException {
+		when(user.getFirstName()).thenReturn("Scrappy");
+		when(user.getLastName()).thenReturn("Doo");
+		Cart cart = new Cart(user);
+		when(user.getCart()).thenReturn(cart);
+		underTest.sendEmail(googleId, model);
+		InOrder inOrder = inOrder(model, sender);
+		inOrder.verify(model).addAttribute("cart", cart);
+		inOrder.verify(sender).sendMail(recipient, "Scrappy Doo's Order", model, template);
 	}
 
 }
