@@ -43,7 +43,7 @@
 				<img th:replace="user-form :: img.logo" />
 				<div th:replace="user-form :: div.address" />
 				<div th:replace="shopping :: div.stats" />
-				<a class="button" th:href="'/email?cartId=' + ${cart.getId()}">Send Order</a>
+				<a class="button" href="/email">Send Order</a>
 			</aside>
 			<main>
 				<section class="line-item">
