@@ -67,14 +67,9 @@
     }
 }
 
-/* @media screen and (max-width: 383px) {
-    li {
-        border-radius: 0!important;
+@media screen and (max-width: 360px) {
+    .aside-main {
+        margin: auto;
+        width: 320px;
     }
 }
-
-@media screen and (max-width: 329px) {
-    aside {
-        border-radius: 0;
-    }
-} */
