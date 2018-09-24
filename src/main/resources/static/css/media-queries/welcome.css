@@ -57,7 +57,8 @@
     }
 
     aside {
-        border-radius: 0.7rem;
+        border-top-left-radius: 0.7rem;
+        border-top-right-radius: 0.7rem;
         padding: 0.3rem 0.5rem;
     }
 
