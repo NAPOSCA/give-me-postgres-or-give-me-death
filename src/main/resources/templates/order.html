@@ -36,12 +36,12 @@
 				<th>Product</th>
 				<th>Quantity</th>
 			</tr>
-			<tr th:each="lineItem : ${lineItems}">
+			<tr th:each="lineItem : ${cart.getLineItems()}">
 				<td th:text="${lineItem.product.category.name}"/>
 				<td th:text="${lineItem.product.name}"/>
 				<td>Included</td>
 			</tr>
-			<tr th:each="countedLineItem : ${countedLineItems}">
+			<tr th:each="countedLineItem : ${cart.getCountedLineItems()}">
 				<td th:text="${countedLineItem.product.category.name}"/>
 				<td th:text="${countedLineItem.product.name}"/>
 				<td th:text="${countedLineItem.quantity}"/>
