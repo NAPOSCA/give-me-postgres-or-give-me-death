@@ -1,2 +1,49 @@
 @media screen and (max-width: 795px) {
+    .aside-main {
+        width: auto;
+        margin: 0 1rem;
+    }
+}
+
+@media screen and (max-width: 565px) {
+    nav ul li {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    img.logo {
+        max-height: 20vw;
+    }
+
+    p.address {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .aside-main {
+        grid-template-columns: 1fr;
+    }
+
+    aside {
+        border-top-right-radius: var(--border-radius);
+        border-bottom-left-radius: initial;
+        display: flex;
+        align-items: flex-end;
+    }
+
+    main {
+        border-top-right-radius: initial;
+        border-bottom-left-radius: var(--border-radius);
+    }
+}
+
+@media screen and (max-width: 433px) {
+    :root {
+        --border-radius: 0.7rem;
+    }
+}
+
+@media screen and (max-width: 393px) {
+    
 }
