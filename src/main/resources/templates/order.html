@@ -29,7 +29,23 @@
 			<span th:text="*{schoolAgeChildren}"/>
 		</p>
 	</div>
-	<div class="product-info">
+	<div class="contact-info" th:object="${user}">
+		<h2>Contact Info</h2>
+		<p>
+			<span>Primary phone number: </span>
+			<span th:text="*{primaryPhoneNumber}"/>
+		</p>
+		<p>
+			<span>Secondary phone number: </span>
+			<span th:text="*{secondaryPhoneNumber}"/>
+		</p>
+		<p>
+			<span>Email: </span>
+			<span th:text="*{primaryEmail}"/>
+		</p>
+	</div>
+	<div class="cart">
+		<h2>Cart</h2>
 		<table border="1">
 			<tr>
 				<th>Category</th>
