@@ -44,6 +44,7 @@ ext {
 }
 
 dependencies {
+	compile group: "com.twilio.sdk", name: "twilio", version: "7.33.1"
 	compile group: 'net.minidev', name: 'json-smart', version: '2.3'
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-mail')
