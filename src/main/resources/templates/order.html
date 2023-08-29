@@ -29,19 +29,35 @@
 			<span th:text="*{schoolAgeChildren}"/>
 		</p>
 	</div>
-	<div class="product-info">
+	<div class="contact-info" th:object="${user}">
+		<h2>Contact Info</h2>
+		<p>
+			<span>Primary phone number: </span>
+			<span th:text="*{primaryPhoneNumber}"/>
+		</p>
+		<p>
+			<span>Secondary phone number: </span>
+			<span th:text="*{secondaryPhoneNumber}"/>
+		</p>
+		<p>
+			<span>Email: </span>
+			<span th:text="*{primaryEmail}"/>
+		</p>
+	</div>
+	<div class="cart">
+		<h2>Cart</h2>
 		<table border="1">
 			<tr>
 				<th>Category</th>
 				<th>Product</th>
 				<th>Quantity</th>
 			</tr>
-			<tr th:each="lineItem : ${lineItems}">
+			<tr th:each="lineItem : ${cart.getLineItems()}">
 				<td th:text="${lineItem.product.category.name}"/>
 				<td th:text="${lineItem.product.name}"/>
 				<td>Included</td>
 			</tr>
-			<tr th:each="countedLineItem : ${countedLineItems}">
+			<tr th:each="countedLineItem : ${cart.getCountedLineItems()}">
 				<td th:text="${countedLineItem.product.category.name}"/>
 				<td th:text="${countedLineItem.product.name}"/>
 				<td th:text="${countedLineItem.quantity}"/>
