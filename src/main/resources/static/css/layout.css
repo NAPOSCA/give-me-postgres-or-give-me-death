@@ -7,12 +7,12 @@ div.container {
 	overflow-y: hidden; 
 }
 
-div.aside-main {
+.aside-main {
 	display: grid;
 	grid-template-columns: 613fr 1390fr;
 }
 
-div.aside-main {
+.aside-main {
 	margin: 0rem auto;
 	width: 49.7rem;
 }
@@ -72,7 +72,6 @@ img.logo {
 
 a.button {
 	display: block;
-	margin-top: 1rem;
 	text-align: center;
 }
 
